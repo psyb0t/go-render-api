@@ -66,6 +66,34 @@ func main() {
 
 Render authenticates with a bearer token. Create an API key under Account Settings in the Render Dashboard and send it as `Authorization: Bearer <key>`. The `RequestEditorFn` above adds the header to every request. Pass a different one per call through the trailing `reqEditors` argument if you need to.
 
+## Agent integrations
+
+The [skill](.agents/skills/go-render-api) teaches a coding agent how to use go-render-api when it writes Go. It works in any agent that reads `.agents/skills/`, and installs natively in the clients below.
+
+### Claude Code
+
+```bash
+claude plugin marketplace add psyb0t/agents
+claude plugin install go-render-api@psyb0t
+```
+
+### Codex
+
+```bash
+codex plugin marketplace add psyb0t/agents
+codex plugin add go-render-api@psyb0t
+```
+
+Codex also picks the skill up with no install in any checkout of this repo.
+
+### OpenClaw
+
+The skill is published to ClawHub on every release:
+
+```bash
+openclaw skills install @psyb0t/go-render-api
+```
+
 ## Regenerating
 
 Render's spec is not committed. `make generate` downloads the current OpenAPI document into the gitignored `api/` directory and regenerates the client:

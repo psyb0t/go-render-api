@@ -1,0 +1,11 @@
+{
+  "name": "go-render-api",
+  "version": "0.1.1",
+  "description": "Unofficial Go client for the Render public REST API, generated with oapi-codegen, with one typed method per endpoint.",
+  "author": { "name": "psyb0t", "url": "https://github.com/psyb0t" },
+  "homepage": "https://github.com/psyb0t/go-render-api",
+  "repository": "https://github.com/psyb0t/go-render-api",
+  "license": "MIT",
+  "keywords": ["render", "paas", "deploy", "api-client", "openapi", "go-library"],
+  "skills": "./skills/"
+}
