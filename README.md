@@ -29,6 +29,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -56,11 +57,15 @@ func main() {
 		panic(err)
 	}
 
-	_ = res.JSON200
+	for _, item := range *res.JSON200 {
+		fmt.Println(item.Service.Name)
+	}
 }
 ```
 
 `example_test.go` runs the same code against a local test server, so `make test` checks it.
+
+The full API is in the [Go reference](https://pkg.go.dev/github.com/psyb0t/go-render-api); from inside your module, `go doc github.com/psyb0t/go-render-api` prints the same.
 
 ## Auth
 

@@ -1,6 +1,7 @@
 ---
 name: go-render-api
-description: Unofficial Go client for the Render public REST API, generated with oapi-codegen. `render.NewClientWithResponses(baseURL, opts...)` from `github.com/psyb0t/go-render-api` returns a `*render.ClientWithResponses` with one typed `<Operation>WithResponse` method per endpoint (services, deploys, env vars, Postgres, Key Value, custom domains, jobs and more). Auth is a bearer API key set through `render.WithRequestEditorFn`; list endpoints page with cursors, and responses decode into `JSON200` and per-status error fields. Use when Go code needs to call the Render API or already imports go-render-api.
+description: Unofficial Go client for the Render public REST API, generated with oapi-codegen. Package render (github.com/psyb0t/go-render-api) has render.NewClientWithResponses, which returns a client with one typed method per endpoint (services, deploys, env vars, Postgres, Key Value, custom domains, jobs and more). Auth is a bearer API key set through render.WithRequestEditorFn, list endpoints page with cursors, and responses decode into JSON200 and per-status error fields. Use when Go code needs to call the Render API or already imports go-render-api.
+license: MIT
 homepage: https://github.com/psyb0t/go-render-api
 user-invocable: true
 metadata:
@@ -9,8 +10,6 @@ metadata:
     requires:
       bins:
         - go
-      env:
-        - RENDER_API_KEY
 permissions:
   filesystem: "Guides edits to the Go source of the current project. The library reads and writes no files."
   shell: "The Go toolchain (`go get`, `go build`, `go test`) to add and compile the dependency."
@@ -38,6 +37,20 @@ For install, client options, more operations, paging and response handling, see 
 
 - A one-off change in the Render Dashboard or with the Render CLI is enough.
 - The code is not Go.
+
+## Finding endpoints and types
+
+The examples below cover a few calls. Every operation in the spec has a generated method, and the spec's descriptions are on them as Go doc comments. Look names and fields up instead of guessing. After `go get github.com/psyb0t/go-render-api`, from inside your module:
+
+```bash
+go doc github.com/psyb0t/go-render-api ClientWithResponsesInterface  # every endpoint method
+go doc github.com/psyb0t/go-render-api ListServicesParams            # one method, params type or model
+go doc -all github.com/psyb0t/go-render-api                          # the whole package
+```
+
+The same documentation is at https://pkg.go.dev/github.com/psyb0t/go-render-api.
+
+Method names come from the spec's operation IDs. `<OperationId>WithResponse` takes the context, then the path parameters in order, then `*<OperationId>Params` when the operation has query or header parameters, then the request body when it has one. The `JSON200` field (or `JSON201` and so on, per declared status) holds the decoded body; it is nil for any other status. The package name is `render` while the module path ends in `go-render-api`, so import it as `render "github.com/psyb0t/go-render-api"`.
 
 ## Usage
 
