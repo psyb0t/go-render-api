@@ -2,6 +2,10 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.3, 2026-10-17
+
+- Documentation only. The README and `AGENTS.md` describe the daily regeneration workflow: what it checks, how it fixes failing checks, how it picks the next version and which paths a fix may not touch.
+
 ## v0.1.2, 2026-10-17
 
 - Regenerated `render` from Render's OpenAPI document, spec version 1.0.0.

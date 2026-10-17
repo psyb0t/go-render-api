@@ -108,6 +108,8 @@ make generate
 - `scripts/patch-spec.sh` makes the spec something oapi-codegen accepts. It inlines every `$ref` that points inside an operation or a schema property instead of at a whole component, and collapses `anyOf`/`oneOf` unions that have a single inline branch. The original references stay valid JSON Schema, oapi-codegen just can't follow them.
 - oapi-codegen runs with `config.yaml`.
 
+`.github/workflows/regen.yml` does the same every day in CI. When the new spec changes the client, it runs `make lint`, `make test` and `make sec`. If a check fails, Claude edits the code and the checks run again, up to three times, and a review step reads the result. A passing change is committed with a CHANGELOG entry and tagged as the next release: a patch version for fixes and additions, a minor version for breaking changes.
+
 ## Development
 
 Every command runs in the `Dockerfile.dev` image. The host needs only Docker and Make.
