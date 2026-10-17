@@ -18185,6 +18185,7 @@ type ClientInterface interface {
 	// ListBlueprintSyncs List Blueprint syncs
 	//
 	// List syncs for the Blueprint with the provided ID.
+	// Syncs that are planned but not yet approved (in the `created` state) are not included.
 	//
 	// Corresponds with GET /blueprints/{blueprintId}/syncs (the `ListBlueprintSyncs` operationId).
 	ListBlueprintSyncs(ctx context.Context, blueprintId string, params *ListBlueprintSyncsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -20783,6 +20784,7 @@ func (c *Client) UpdateBlueprint(ctx context.Context, blueprintId string, body U
 // ListBlueprintSyncs List Blueprint syncs
 //
 // List syncs for the Blueprint with the provided ID.
+// Syncs that are planned but not yet approved (in the `created` state) are not included.
 //
 // Corresponds with GET /blueprints/{blueprintId}/syncs (the `ListBlueprintSyncs` operationId).
 func (c *Client) ListBlueprintSyncs(ctx context.Context, blueprintId string, params *ListBlueprintSyncsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -40122,6 +40124,7 @@ type ClientWithResponsesInterface interface {
 	// ListBlueprintSyncsWithResponse List Blueprint syncs
 	//
 	// List syncs for the Blueprint with the provided ID.
+	// Syncs that are planned but not yet approved (in the `created` state) are not included.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -67251,6 +67254,7 @@ func (c *ClientWithResponses) UpdateBlueprintWithResponse(ctx context.Context, b
 // ListBlueprintSyncsWithResponse List Blueprint syncs
 //
 // List syncs for the Blueprint with the provided ID.
+// Syncs that are planned but not yet approved (in the `created` state) are not included.
 //
 // Returns a wrapper object for the known response body format(s).
 //

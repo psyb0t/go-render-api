@@ -2,6 +2,11 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.2, 2026-10-17
+
+- Regenerated `render` from Render's OpenAPI document, spec version 1.0.0.
+- `ListBlueprintSyncs` and `ListBlueprintSyncsWithResponse` doc comments now say that syncs in the `created` state, planned but not approved, are not included in the returned list.
+
 ## v0.1.1, 2026-10-16
 
 - Added the `go-render-api` agent skill. It installs with `claude plugin install go-render-api@psyb0t` in Claude Code, `codex plugin add go-render-api@psyb0t` in Codex and `openclaw skills install @psyb0t/go-render-api` from ClawHub.
