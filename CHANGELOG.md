@@ -2,6 +2,10 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.5, 2026-10-20
+
+- `CreateTaskJSONBody.IdempotencyKey` doc comment now says idempotency keys are scoped to a workflow, not to a single workflow version. No API or behavior change in the client.
+
 ## v0.1.4, 2026-10-17
 
 - Documentation only. The agent skill explains how to look up every endpoint, parameter and model with `go doc` or on pkg.go.dev, and declares its license.
