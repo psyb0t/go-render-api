@@ -2,6 +2,11 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.1.6, 2026-10-21
+
+- `ServicePATCH.BuildSourceId` doc comment now says the field cannot be combined with other `serviceDetails` fields except `startCommand`. It also says a native runtime needs a start command and a Docker or image runtime rejects one. No API or behavior change in the client.
+- The module now requires Go 1.26.10 in `go.mod` (was 1.26.9), which includes the fix for GO-2026-6809 in `crypto/x509` reported by govulncheck. The development image and the setup reference in the agent skill use the same version.
+
 ## v0.1.5, 2026-10-20
 
 - `CreateTaskJSONBody.IdempotencyKey` doc comment now says idempotency keys are scoped to a workflow, not to a single workflow version. No API or behavior change in the client.

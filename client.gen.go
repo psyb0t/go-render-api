@@ -9866,7 +9866,7 @@ type ServicePATCH struct {
 	BuildFilter       *BuildFilter                   `json:"buildFilter,omitempty"`
 	BuildId           *string                        `json:"buildId,omitempty"`
 
-	// BuildSourceId The ID of the Build Source to link this service to. Cannot be combined with other build-configuration changes.
+	// BuildSourceId The ID of the Build Source to link this service to. Cannot be combined with build-configuration changes or other `serviceDetails` fields, except `startCommand`. Linking to a Build Source with a native runtime requires a start command, either in this request or already set on the service. Linking to a Build Source with a Docker or image runtime rejects a start command.
 	BuildSourceId  *string                      `json:"buildSourceId,omitempty"`
 	Image          *Image                       `json:"image,omitempty"`
 	Name           *string                      `json:"name,omitempty"`
