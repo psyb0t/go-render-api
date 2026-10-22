@@ -10622,8 +10622,13 @@ type UpdateBlueprintJSONBody struct {
 	// AutoSync Configuration value that controls whether or not this blueprint will be re-synced on each git push to the configured branch.
 	// Even when true, autoSync will not apply when the blueprint has the Created status, which indicates its first sync has not yet been approved.
 	// Other conditions, such as a locked workspace, can also prevent automatic syncing even when this is true.
-	AutoSync *bool   `json:"autoSync,omitempty"`
-	Name     *string `json:"name,omitempty"`
+	AutoSync *bool `json:"autoSync,omitempty"`
+
+	// Branch The Git branch to read the Blueprint file from. Requires Blueprint onboarding early access.
+	// The branch must contain a Blueprint file at the configured path.
+	// Updating this field does not plan a sync.
+	Branch *string `json:"branch,omitempty"`
+	Name   *string `json:"name,omitempty"`
 
 	// Path Path to the Blueprint file in the repository
 	//
@@ -43502,12 +43507,14 @@ type UpdateBlueprintResponse struct {
 		// Status A Blueprint has status `created` until its first Sync is approved.
 		Status UpdateBlueprint200JSONResponseBodyStatus `json:"status"`
 	}
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *Error
 	// JSON401 the response for an HTTP 401 `application/json` response
 	JSON401 *N401Unauthorized
 	// JSON403 the response for an HTTP 403 `application/json` response
 	JSON403 *N403Forbidden
 	// JSON404 the response for an HTTP 404 `application/json` response
-	JSON404 *N404NotFound
+	JSON404 *Error
 	// JSON406 the response for an HTTP 406 `application/json` response
 	JSON406 *N406NotAcceptable
 	// JSON410 the response for an HTTP 410 `application/json` response
@@ -43547,6 +43554,11 @@ func (r UpdateBlueprintResponse) GetJSON200() *struct {
 	return r.JSON200
 }
 
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r UpdateBlueprintResponse) GetJSON400() *Error {
+	return r.JSON400
+}
+
 // GetJSON401 returns the response for an HTTP 401 `application/json` response
 func (r UpdateBlueprintResponse) GetJSON401() *N401Unauthorized {
 	return r.JSON401
@@ -43558,7 +43570,7 @@ func (r UpdateBlueprintResponse) GetJSON403() *N403Forbidden {
 }
 
 // GetJSON404 returns the response for an HTTP 404 `application/json` response
-func (r UpdateBlueprintResponse) GetJSON404() *N404NotFound {
+func (r UpdateBlueprintResponse) GetJSON404() *Error {
 	return r.JSON404
 }
 
@@ -72314,6 +72326,13 @@ func ParseUpdateBlueprintResponse(rsp *http.Response) (*UpdateBlueprintResponse,
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
 		var dest N401Unauthorized
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -72329,7 +72348,7 @@ func ParseUpdateBlueprintResponse(rsp *http.Response) (*UpdateBlueprintResponse,
 		response.JSON403 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest N404NotFound
+		var dest Error
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

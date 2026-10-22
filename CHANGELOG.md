@@ -2,6 +2,12 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.2.0, 2026-10-22
+
+- Added `UpdateBlueprintJSONBody.Branch` (and so `UpdateBlueprintJSONRequestBody.Branch`), a `*string` for the Git branch to read the Blueprint file from. It needs Blueprint onboarding early access, and updating it does not plan a sync.
+- Added `UpdateBlueprintResponse.JSON400` and `UpdateBlueprintResponse.GetJSON400`. `ParseUpdateBlueprintResponse` now decodes a 400 JSON response into `Error`.
+- Changed `UpdateBlueprintResponse.JSON404` and `GetJSON404` from `*N404NotFound` to `*Error`. `ParseUpdateBlueprintResponse` decodes a 404 response into `Error`. Code that uses the old type must change.
+
 ## v0.1.6, 2026-10-21
 
 - `ServicePATCH.BuildSourceId` doc comment now says the field cannot be combined with other `serviceDetails` fields except `startCommand`. It also says a native runtime needs a start command and a Docker or image runtime rejects one. No API or behavior change in the client.
