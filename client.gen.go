@@ -2241,90 +2241,90 @@ func (e ServiceEventWithCursorEventDetails11DeployStatus) Valid() bool {
 	}
 }
 
-// Defines values for ServiceEventWithCursorEventDetails22Status.
+// Defines values for ServiceEventWithCursorEventDetails23Status.
 const (
-	ServiceEventWithCursorEventDetails22StatusCanceled  ServiceEventWithCursorEventDetails22Status = "canceled"
-	ServiceEventWithCursorEventDetails22StatusFailed    ServiceEventWithCursorEventDetails22Status = "failed"
-	ServiceEventWithCursorEventDetails22StatusPending   ServiceEventWithCursorEventDetails22Status = "pending"
-	ServiceEventWithCursorEventDetails22StatusRunning   ServiceEventWithCursorEventDetails22Status = "running"
-	ServiceEventWithCursorEventDetails22StatusSucceeded ServiceEventWithCursorEventDetails22Status = "succeeded"
+	ServiceEventWithCursorEventDetails23StatusCanceled  ServiceEventWithCursorEventDetails23Status = "canceled"
+	ServiceEventWithCursorEventDetails23StatusFailed    ServiceEventWithCursorEventDetails23Status = "failed"
+	ServiceEventWithCursorEventDetails23StatusPending   ServiceEventWithCursorEventDetails23Status = "pending"
+	ServiceEventWithCursorEventDetails23StatusRunning   ServiceEventWithCursorEventDetails23Status = "running"
+	ServiceEventWithCursorEventDetails23StatusSucceeded ServiceEventWithCursorEventDetails23Status = "succeeded"
 )
 
-// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails22Status enum.
-func (e ServiceEventWithCursorEventDetails22Status) Valid() bool {
+// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails23Status enum.
+func (e ServiceEventWithCursorEventDetails23Status) Valid() bool {
 	switch e {
-	case ServiceEventWithCursorEventDetails22StatusCanceled:
+	case ServiceEventWithCursorEventDetails23StatusCanceled:
 		return true
-	case ServiceEventWithCursorEventDetails22StatusFailed:
+	case ServiceEventWithCursorEventDetails23StatusFailed:
 		return true
-	case ServiceEventWithCursorEventDetails22StatusPending:
+	case ServiceEventWithCursorEventDetails23StatusPending:
 		return true
-	case ServiceEventWithCursorEventDetails22StatusRunning:
+	case ServiceEventWithCursorEventDetails23StatusRunning:
 		return true
-	case ServiceEventWithCursorEventDetails22StatusSucceeded:
+	case ServiceEventWithCursorEventDetails23StatusSucceeded:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for ServiceEventWithCursorEventDetails29PreDeployStatus.
+// Defines values for ServiceEventWithCursorEventDetails30PreDeployStatus.
 const (
-	ServiceEventWithCursorEventDetails29PreDeployStatusCanceled  ServiceEventWithCursorEventDetails29PreDeployStatus = "canceled"
-	ServiceEventWithCursorEventDetails29PreDeployStatusFailed    ServiceEventWithCursorEventDetails29PreDeployStatus = "failed"
-	ServiceEventWithCursorEventDetails29PreDeployStatusSucceeded ServiceEventWithCursorEventDetails29PreDeployStatus = "succeeded"
+	ServiceEventWithCursorEventDetails30PreDeployStatusCanceled  ServiceEventWithCursorEventDetails30PreDeployStatus = "canceled"
+	ServiceEventWithCursorEventDetails30PreDeployStatusFailed    ServiceEventWithCursorEventDetails30PreDeployStatus = "failed"
+	ServiceEventWithCursorEventDetails30PreDeployStatusSucceeded ServiceEventWithCursorEventDetails30PreDeployStatus = "succeeded"
 )
 
-// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails29PreDeployStatus enum.
-func (e ServiceEventWithCursorEventDetails29PreDeployStatus) Valid() bool {
+// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails30PreDeployStatus enum.
+func (e ServiceEventWithCursorEventDetails30PreDeployStatus) Valid() bool {
 	switch e {
-	case ServiceEventWithCursorEventDetails29PreDeployStatusCanceled:
+	case ServiceEventWithCursorEventDetails30PreDeployStatusCanceled:
 		return true
-	case ServiceEventWithCursorEventDetails29PreDeployStatusFailed:
+	case ServiceEventWithCursorEventDetails30PreDeployStatusFailed:
 		return true
-	case ServiceEventWithCursorEventDetails29PreDeployStatusSucceeded:
+	case ServiceEventWithCursorEventDetails30PreDeployStatusSucceeded:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for ServiceEventWithCursorEventDetails44FromTrigger.
+// Defines values for ServiceEventWithCursorEventDetails45FromTrigger.
 const (
-	ServiceEventWithCursorEventDetails44FromTriggerChecksPass ServiceEventWithCursorEventDetails44FromTrigger = "checksPass"
-	ServiceEventWithCursorEventDetails44FromTriggerCommit     ServiceEventWithCursorEventDetails44FromTrigger = "commit"
-	ServiceEventWithCursorEventDetails44FromTriggerOff        ServiceEventWithCursorEventDetails44FromTrigger = "off"
+	ServiceEventWithCursorEventDetails45FromTriggerChecksPass ServiceEventWithCursorEventDetails45FromTrigger = "checksPass"
+	ServiceEventWithCursorEventDetails45FromTriggerCommit     ServiceEventWithCursorEventDetails45FromTrigger = "commit"
+	ServiceEventWithCursorEventDetails45FromTriggerOff        ServiceEventWithCursorEventDetails45FromTrigger = "off"
 )
 
-// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails44FromTrigger enum.
-func (e ServiceEventWithCursorEventDetails44FromTrigger) Valid() bool {
+// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails45FromTrigger enum.
+func (e ServiceEventWithCursorEventDetails45FromTrigger) Valid() bool {
 	switch e {
-	case ServiceEventWithCursorEventDetails44FromTriggerChecksPass:
+	case ServiceEventWithCursorEventDetails45FromTriggerChecksPass:
 		return true
-	case ServiceEventWithCursorEventDetails44FromTriggerCommit:
+	case ServiceEventWithCursorEventDetails45FromTriggerCommit:
 		return true
-	case ServiceEventWithCursorEventDetails44FromTriggerOff:
+	case ServiceEventWithCursorEventDetails45FromTriggerOff:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for ServiceEventWithCursorEventDetails45NewTrigger.
+// Defines values for ServiceEventWithCursorEventDetails46NewTrigger.
 const (
-	ServiceEventWithCursorEventDetails45NewTriggerChecksPass ServiceEventWithCursorEventDetails45NewTrigger = "checksPass"
-	ServiceEventWithCursorEventDetails45NewTriggerCommit     ServiceEventWithCursorEventDetails45NewTrigger = "commit"
-	ServiceEventWithCursorEventDetails45NewTriggerOff        ServiceEventWithCursorEventDetails45NewTrigger = "off"
+	ServiceEventWithCursorEventDetails46NewTriggerChecksPass ServiceEventWithCursorEventDetails46NewTrigger = "checksPass"
+	ServiceEventWithCursorEventDetails46NewTriggerCommit     ServiceEventWithCursorEventDetails46NewTrigger = "commit"
+	ServiceEventWithCursorEventDetails46NewTriggerOff        ServiceEventWithCursorEventDetails46NewTrigger = "off"
 )
 
-// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails45NewTrigger enum.
-func (e ServiceEventWithCursorEventDetails45NewTrigger) Valid() bool {
+// Valid indicates whether the value is a known member of the ServiceEventWithCursorEventDetails46NewTrigger enum.
+func (e ServiceEventWithCursorEventDetails46NewTrigger) Valid() bool {
 	switch e {
-	case ServiceEventWithCursorEventDetails45NewTriggerChecksPass:
+	case ServiceEventWithCursorEventDetails46NewTriggerChecksPass:
 		return true
-	case ServiceEventWithCursorEventDetails45NewTriggerCommit:
+	case ServiceEventWithCursorEventDetails46NewTriggerCommit:
 		return true
-	case ServiceEventWithCursorEventDetails45NewTriggerOff:
+	case ServiceEventWithCursorEventDetails46NewTriggerOff:
 		return true
 	default:
 		return false
@@ -2350,6 +2350,7 @@ const (
 	ServiceEventWithCursorEventTypeDeployStarted               ServiceEventWithCursorEventType = "deploy_started"
 	ServiceEventWithCursorEventTypeDiskCreated                 ServiceEventWithCursorEventType = "disk_created"
 	ServiceEventWithCursorEventTypeDiskDeleted                 ServiceEventWithCursorEventType = "disk_deleted"
+	ServiceEventWithCursorEventTypeDiskSnapshotRestored        ServiceEventWithCursorEventType = "disk_snapshot_restored"
 	ServiceEventWithCursorEventTypeDiskUpdated                 ServiceEventWithCursorEventType = "disk_updated"
 	ServiceEventWithCursorEventTypeImagePullFailed             ServiceEventWithCursorEventType = "image_pull_failed"
 	ServiceEventWithCursorEventTypeInitialDeployHookEnded      ServiceEventWithCursorEventType = "initial_deploy_hook_ended"
@@ -2414,6 +2415,8 @@ func (e ServiceEventWithCursorEventType) Valid() bool {
 	case ServiceEventWithCursorEventTypeDiskCreated:
 		return true
 	case ServiceEventWithCursorEventTypeDiskDeleted:
+		return true
+	case ServiceEventWithCursorEventTypeDiskSnapshotRestored:
 		return true
 	case ServiceEventWithCursorEventTypeDiskUpdated:
 		return true
@@ -2794,6 +2797,7 @@ const (
 	WebhookEventWithCursorWebhookEventEventTypeDeployStarted                         WebhookEventWithCursorWebhookEventEventType = "deploy_started"
 	WebhookEventWithCursorWebhookEventEventTypeDiskCreated                           WebhookEventWithCursorWebhookEventEventType = "disk_created"
 	WebhookEventWithCursorWebhookEventEventTypeDiskDeleted                           WebhookEventWithCursorWebhookEventEventType = "disk_deleted"
+	WebhookEventWithCursorWebhookEventEventTypeDiskSnapshotRestored                  WebhookEventWithCursorWebhookEventEventType = "disk_snapshot_restored"
 	WebhookEventWithCursorWebhookEventEventTypeDiskUpdated                           WebhookEventWithCursorWebhookEventEventType = "disk_updated"
 	WebhookEventWithCursorWebhookEventEventTypeEdgeCacheDisabled                     WebhookEventWithCursorWebhookEventEventType = "edge_cache_disabled"
 	WebhookEventWithCursorWebhookEventEventTypeEdgeCacheEnabled                      WebhookEventWithCursorWebhookEventEventType = "edge_cache_enabled"
@@ -2882,6 +2886,8 @@ func (e WebhookEventWithCursorWebhookEventEventType) Valid() bool {
 	case WebhookEventWithCursorWebhookEventEventTypeDiskCreated:
 		return true
 	case WebhookEventWithCursorWebhookEventEventTypeDiskDeleted:
+		return true
+	case WebhookEventWithCursorWebhookEventEventTypeDiskSnapshotRestored:
 		return true
 	case WebhookEventWithCursorWebhookEventEventTypeDiskUpdated:
 		return true
@@ -3007,6 +3013,7 @@ const (
 	WebhookWithCursorWebhookEventFilterDeployStarted                         WebhookWithCursorWebhookEventFilter = "deploy_started"
 	WebhookWithCursorWebhookEventFilterDiskCreated                           WebhookWithCursorWebhookEventFilter = "disk_created"
 	WebhookWithCursorWebhookEventFilterDiskDeleted                           WebhookWithCursorWebhookEventFilter = "disk_deleted"
+	WebhookWithCursorWebhookEventFilterDiskSnapshotRestored                  WebhookWithCursorWebhookEventFilter = "disk_snapshot_restored"
 	WebhookWithCursorWebhookEventFilterDiskUpdated                           WebhookWithCursorWebhookEventFilter = "disk_updated"
 	WebhookWithCursorWebhookEventFilterEdgeCacheDisabled                     WebhookWithCursorWebhookEventFilter = "edge_cache_disabled"
 	WebhookWithCursorWebhookEventFilterEdgeCacheEnabled                      WebhookWithCursorWebhookEventFilter = "edge_cache_enabled"
@@ -3095,6 +3102,8 @@ func (e WebhookWithCursorWebhookEventFilter) Valid() bool {
 	case WebhookWithCursorWebhookEventFilterDiskCreated:
 		return true
 	case WebhookWithCursorWebhookEventFilterDiskDeleted:
+		return true
+	case WebhookWithCursorWebhookEventFilterDiskSnapshotRestored:
 		return true
 	case WebhookWithCursorWebhookEventFilterDiskUpdated:
 		return true
@@ -3325,6 +3334,7 @@ const (
 	EventTypeParamDeployStarted               EventTypeParam = "deploy_started"
 	EventTypeParamDiskCreated                 EventTypeParam = "disk_created"
 	EventTypeParamDiskDeleted                 EventTypeParam = "disk_deleted"
+	EventTypeParamDiskSnapshotRestored        EventTypeParam = "disk_snapshot_restored"
 	EventTypeParamDiskUpdated                 EventTypeParam = "disk_updated"
 	EventTypeParamImagePullFailed             EventTypeParam = "image_pull_failed"
 	EventTypeParamInitialDeployHookEnded      EventTypeParam = "initial_deploy_hook_ended"
@@ -3389,6 +3399,8 @@ func (e EventTypeParam) Valid() bool {
 	case EventTypeParamDiskCreated:
 		return true
 	case EventTypeParamDiskDeleted:
+		return true
+	case EventTypeParamDiskSnapshotRestored:
 		return true
 	case EventTypeParamDiskUpdated:
 		return true
@@ -4218,90 +4230,90 @@ func (e RetrieveEvent200JSONResponseBodyDetails011DeployStatus) Valid() bool {
 	}
 }
 
-// Defines values for RetrieveEvent200JSONResponseBodyDetails022Status.
+// Defines values for RetrieveEvent200JSONResponseBodyDetails023Status.
 const (
-	RetrieveEvent200JSONResponseBodyDetails022StatusCanceled  RetrieveEvent200JSONResponseBodyDetails022Status = "canceled"
-	RetrieveEvent200JSONResponseBodyDetails022StatusFailed    RetrieveEvent200JSONResponseBodyDetails022Status = "failed"
-	RetrieveEvent200JSONResponseBodyDetails022StatusPending   RetrieveEvent200JSONResponseBodyDetails022Status = "pending"
-	RetrieveEvent200JSONResponseBodyDetails022StatusRunning   RetrieveEvent200JSONResponseBodyDetails022Status = "running"
-	RetrieveEvent200JSONResponseBodyDetails022StatusSucceeded RetrieveEvent200JSONResponseBodyDetails022Status = "succeeded"
+	RetrieveEvent200JSONResponseBodyDetails023StatusCanceled  RetrieveEvent200JSONResponseBodyDetails023Status = "canceled"
+	RetrieveEvent200JSONResponseBodyDetails023StatusFailed    RetrieveEvent200JSONResponseBodyDetails023Status = "failed"
+	RetrieveEvent200JSONResponseBodyDetails023StatusPending   RetrieveEvent200JSONResponseBodyDetails023Status = "pending"
+	RetrieveEvent200JSONResponseBodyDetails023StatusRunning   RetrieveEvent200JSONResponseBodyDetails023Status = "running"
+	RetrieveEvent200JSONResponseBodyDetails023StatusSucceeded RetrieveEvent200JSONResponseBodyDetails023Status = "succeeded"
 )
 
-// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails022Status enum.
-func (e RetrieveEvent200JSONResponseBodyDetails022Status) Valid() bool {
+// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails023Status enum.
+func (e RetrieveEvent200JSONResponseBodyDetails023Status) Valid() bool {
 	switch e {
-	case RetrieveEvent200JSONResponseBodyDetails022StatusCanceled:
+	case RetrieveEvent200JSONResponseBodyDetails023StatusCanceled:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails022StatusFailed:
+	case RetrieveEvent200JSONResponseBodyDetails023StatusFailed:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails022StatusPending:
+	case RetrieveEvent200JSONResponseBodyDetails023StatusPending:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails022StatusRunning:
+	case RetrieveEvent200JSONResponseBodyDetails023StatusRunning:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails022StatusSucceeded:
+	case RetrieveEvent200JSONResponseBodyDetails023StatusSucceeded:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus.
+// Defines values for RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus.
 const (
-	RetrieveEvent200JSONResponseBodyDetails029PreDeployStatusCanceled  RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus = "canceled"
-	RetrieveEvent200JSONResponseBodyDetails029PreDeployStatusFailed    RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus = "failed"
-	RetrieveEvent200JSONResponseBodyDetails029PreDeployStatusSucceeded RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus = "succeeded"
+	RetrieveEvent200JSONResponseBodyDetails030PreDeployStatusCanceled  RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus = "canceled"
+	RetrieveEvent200JSONResponseBodyDetails030PreDeployStatusFailed    RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus = "failed"
+	RetrieveEvent200JSONResponseBodyDetails030PreDeployStatusSucceeded RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus = "succeeded"
 )
 
-// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus enum.
-func (e RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus) Valid() bool {
+// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus enum.
+func (e RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus) Valid() bool {
 	switch e {
-	case RetrieveEvent200JSONResponseBodyDetails029PreDeployStatusCanceled:
+	case RetrieveEvent200JSONResponseBodyDetails030PreDeployStatusCanceled:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails029PreDeployStatusFailed:
+	case RetrieveEvent200JSONResponseBodyDetails030PreDeployStatusFailed:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails029PreDeployStatusSucceeded:
+	case RetrieveEvent200JSONResponseBodyDetails030PreDeployStatusSucceeded:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for RetrieveEvent200JSONResponseBodyDetails044FromTrigger.
+// Defines values for RetrieveEvent200JSONResponseBodyDetails045FromTrigger.
 const (
-	RetrieveEvent200JSONResponseBodyDetails044FromTriggerChecksPass RetrieveEvent200JSONResponseBodyDetails044FromTrigger = "checksPass"
-	RetrieveEvent200JSONResponseBodyDetails044FromTriggerCommit     RetrieveEvent200JSONResponseBodyDetails044FromTrigger = "commit"
-	RetrieveEvent200JSONResponseBodyDetails044FromTriggerOff        RetrieveEvent200JSONResponseBodyDetails044FromTrigger = "off"
+	RetrieveEvent200JSONResponseBodyDetails045FromTriggerChecksPass RetrieveEvent200JSONResponseBodyDetails045FromTrigger = "checksPass"
+	RetrieveEvent200JSONResponseBodyDetails045FromTriggerCommit     RetrieveEvent200JSONResponseBodyDetails045FromTrigger = "commit"
+	RetrieveEvent200JSONResponseBodyDetails045FromTriggerOff        RetrieveEvent200JSONResponseBodyDetails045FromTrigger = "off"
 )
 
-// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails044FromTrigger enum.
-func (e RetrieveEvent200JSONResponseBodyDetails044FromTrigger) Valid() bool {
+// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails045FromTrigger enum.
+func (e RetrieveEvent200JSONResponseBodyDetails045FromTrigger) Valid() bool {
 	switch e {
-	case RetrieveEvent200JSONResponseBodyDetails044FromTriggerChecksPass:
+	case RetrieveEvent200JSONResponseBodyDetails045FromTriggerChecksPass:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails044FromTriggerCommit:
+	case RetrieveEvent200JSONResponseBodyDetails045FromTriggerCommit:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails044FromTriggerOff:
+	case RetrieveEvent200JSONResponseBodyDetails045FromTriggerOff:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for RetrieveEvent200JSONResponseBodyDetails045NewTrigger.
+// Defines values for RetrieveEvent200JSONResponseBodyDetails046NewTrigger.
 const (
-	RetrieveEvent200JSONResponseBodyDetails045NewTriggerChecksPass RetrieveEvent200JSONResponseBodyDetails045NewTrigger = "checksPass"
-	RetrieveEvent200JSONResponseBodyDetails045NewTriggerCommit     RetrieveEvent200JSONResponseBodyDetails045NewTrigger = "commit"
-	RetrieveEvent200JSONResponseBodyDetails045NewTriggerOff        RetrieveEvent200JSONResponseBodyDetails045NewTrigger = "off"
+	RetrieveEvent200JSONResponseBodyDetails046NewTriggerChecksPass RetrieveEvent200JSONResponseBodyDetails046NewTrigger = "checksPass"
+	RetrieveEvent200JSONResponseBodyDetails046NewTriggerCommit     RetrieveEvent200JSONResponseBodyDetails046NewTrigger = "commit"
+	RetrieveEvent200JSONResponseBodyDetails046NewTriggerOff        RetrieveEvent200JSONResponseBodyDetails046NewTrigger = "off"
 )
 
-// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails045NewTrigger enum.
-func (e RetrieveEvent200JSONResponseBodyDetails045NewTrigger) Valid() bool {
+// Valid indicates whether the value is a known member of the RetrieveEvent200JSONResponseBodyDetails046NewTrigger enum.
+func (e RetrieveEvent200JSONResponseBodyDetails046NewTrigger) Valid() bool {
 	switch e {
-	case RetrieveEvent200JSONResponseBodyDetails045NewTriggerChecksPass:
+	case RetrieveEvent200JSONResponseBodyDetails046NewTriggerChecksPass:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails045NewTriggerCommit:
+	case RetrieveEvent200JSONResponseBodyDetails046NewTriggerCommit:
 		return true
-	case RetrieveEvent200JSONResponseBodyDetails045NewTriggerOff:
+	case RetrieveEvent200JSONResponseBodyDetails046NewTriggerOff:
 		return true
 	default:
 		return false
@@ -4327,6 +4339,7 @@ const (
 	RetrieveEvent200JSONResponseBodyTypeDeployStarted                         RetrieveEvent200JSONResponseBodyType = "deploy_started"
 	RetrieveEvent200JSONResponseBodyTypeDiskCreated                           RetrieveEvent200JSONResponseBodyType = "disk_created"
 	RetrieveEvent200JSONResponseBodyTypeDiskDeleted                           RetrieveEvent200JSONResponseBodyType = "disk_deleted"
+	RetrieveEvent200JSONResponseBodyTypeDiskSnapshotRestored                  RetrieveEvent200JSONResponseBodyType = "disk_snapshot_restored"
 	RetrieveEvent200JSONResponseBodyTypeDiskUpdated                           RetrieveEvent200JSONResponseBodyType = "disk_updated"
 	RetrieveEvent200JSONResponseBodyTypeEdgeCacheDisabled                     RetrieveEvent200JSONResponseBodyType = "edge_cache_disabled"
 	RetrieveEvent200JSONResponseBodyTypeEdgeCacheEnabled                      RetrieveEvent200JSONResponseBodyType = "edge_cache_enabled"
@@ -4415,6 +4428,8 @@ func (e RetrieveEvent200JSONResponseBodyType) Valid() bool {
 	case RetrieveEvent200JSONResponseBodyTypeDiskCreated:
 		return true
 	case RetrieveEvent200JSONResponseBodyTypeDiskDeleted:
+		return true
+	case RetrieveEvent200JSONResponseBodyTypeDiskSnapshotRestored:
 		return true
 	case RetrieveEvent200JSONResponseBodyTypeDiskUpdated:
 		return true
@@ -5494,6 +5509,7 @@ const (
 	ListEventsParamsTypeDeployStarted               ListEventsParamsType = "deploy_started"
 	ListEventsParamsTypeDiskCreated                 ListEventsParamsType = "disk_created"
 	ListEventsParamsTypeDiskDeleted                 ListEventsParamsType = "disk_deleted"
+	ListEventsParamsTypeDiskSnapshotRestored        ListEventsParamsType = "disk_snapshot_restored"
 	ListEventsParamsTypeDiskUpdated                 ListEventsParamsType = "disk_updated"
 	ListEventsParamsTypeImagePullFailed             ListEventsParamsType = "image_pull_failed"
 	ListEventsParamsTypeInitialDeployHookEnded      ListEventsParamsType = "initial_deploy_hook_ended"
@@ -5558,6 +5574,8 @@ func (e ListEventsParamsType) Valid() bool {
 	case ListEventsParamsTypeDiskCreated:
 		return true
 	case ListEventsParamsTypeDiskDeleted:
+		return true
+	case ListEventsParamsTypeDiskSnapshotRestored:
 		return true
 	case ListEventsParamsTypeDiskUpdated:
 		return true
@@ -5908,6 +5926,7 @@ const (
 	CreateWebhookJSONBodyEventFilterDeployStarted                         CreateWebhookJSONBodyEventFilter = "deploy_started"
 	CreateWebhookJSONBodyEventFilterDiskCreated                           CreateWebhookJSONBodyEventFilter = "disk_created"
 	CreateWebhookJSONBodyEventFilterDiskDeleted                           CreateWebhookJSONBodyEventFilter = "disk_deleted"
+	CreateWebhookJSONBodyEventFilterDiskSnapshotRestored                  CreateWebhookJSONBodyEventFilter = "disk_snapshot_restored"
 	CreateWebhookJSONBodyEventFilterDiskUpdated                           CreateWebhookJSONBodyEventFilter = "disk_updated"
 	CreateWebhookJSONBodyEventFilterEdgeCacheDisabled                     CreateWebhookJSONBodyEventFilter = "edge_cache_disabled"
 	CreateWebhookJSONBodyEventFilterEdgeCacheEnabled                      CreateWebhookJSONBodyEventFilter = "edge_cache_enabled"
@@ -5996,6 +6015,8 @@ func (e CreateWebhookJSONBodyEventFilter) Valid() bool {
 	case CreateWebhookJSONBodyEventFilterDiskCreated:
 		return true
 	case CreateWebhookJSONBodyEventFilterDiskDeleted:
+		return true
+	case CreateWebhookJSONBodyEventFilterDiskSnapshotRestored:
 		return true
 	case CreateWebhookJSONBodyEventFilterDiskUpdated:
 		return true
@@ -6121,6 +6142,7 @@ const (
 	CreateWebhook201JSONResponseBodyEventFilterDeployStarted                         CreateWebhook201JSONResponseBodyEventFilter = "deploy_started"
 	CreateWebhook201JSONResponseBodyEventFilterDiskCreated                           CreateWebhook201JSONResponseBodyEventFilter = "disk_created"
 	CreateWebhook201JSONResponseBodyEventFilterDiskDeleted                           CreateWebhook201JSONResponseBodyEventFilter = "disk_deleted"
+	CreateWebhook201JSONResponseBodyEventFilterDiskSnapshotRestored                  CreateWebhook201JSONResponseBodyEventFilter = "disk_snapshot_restored"
 	CreateWebhook201JSONResponseBodyEventFilterDiskUpdated                           CreateWebhook201JSONResponseBodyEventFilter = "disk_updated"
 	CreateWebhook201JSONResponseBodyEventFilterEdgeCacheDisabled                     CreateWebhook201JSONResponseBodyEventFilter = "edge_cache_disabled"
 	CreateWebhook201JSONResponseBodyEventFilterEdgeCacheEnabled                      CreateWebhook201JSONResponseBodyEventFilter = "edge_cache_enabled"
@@ -6209,6 +6231,8 @@ func (e CreateWebhook201JSONResponseBodyEventFilter) Valid() bool {
 	case CreateWebhook201JSONResponseBodyEventFilterDiskCreated:
 		return true
 	case CreateWebhook201JSONResponseBodyEventFilterDiskDeleted:
+		return true
+	case CreateWebhook201JSONResponseBodyEventFilterDiskSnapshotRestored:
 		return true
 	case CreateWebhook201JSONResponseBodyEventFilterDiskUpdated:
 		return true
@@ -6334,6 +6358,7 @@ const (
 	RetrieveWebhook200JSONResponseBodyEventFilterDeployStarted                         RetrieveWebhook200JSONResponseBodyEventFilter = "deploy_started"
 	RetrieveWebhook200JSONResponseBodyEventFilterDiskCreated                           RetrieveWebhook200JSONResponseBodyEventFilter = "disk_created"
 	RetrieveWebhook200JSONResponseBodyEventFilterDiskDeleted                           RetrieveWebhook200JSONResponseBodyEventFilter = "disk_deleted"
+	RetrieveWebhook200JSONResponseBodyEventFilterDiskSnapshotRestored                  RetrieveWebhook200JSONResponseBodyEventFilter = "disk_snapshot_restored"
 	RetrieveWebhook200JSONResponseBodyEventFilterDiskUpdated                           RetrieveWebhook200JSONResponseBodyEventFilter = "disk_updated"
 	RetrieveWebhook200JSONResponseBodyEventFilterEdgeCacheDisabled                     RetrieveWebhook200JSONResponseBodyEventFilter = "edge_cache_disabled"
 	RetrieveWebhook200JSONResponseBodyEventFilterEdgeCacheEnabled                      RetrieveWebhook200JSONResponseBodyEventFilter = "edge_cache_enabled"
@@ -6422,6 +6447,8 @@ func (e RetrieveWebhook200JSONResponseBodyEventFilter) Valid() bool {
 	case RetrieveWebhook200JSONResponseBodyEventFilterDiskCreated:
 		return true
 	case RetrieveWebhook200JSONResponseBodyEventFilterDiskDeleted:
+		return true
+	case RetrieveWebhook200JSONResponseBodyEventFilterDiskSnapshotRestored:
 		return true
 	case RetrieveWebhook200JSONResponseBodyEventFilterDiskUpdated:
 		return true
@@ -6547,6 +6574,7 @@ const (
 	UpdateWebhookJSONBodyEventFilterDeployStarted                         UpdateWebhookJSONBodyEventFilter = "deploy_started"
 	UpdateWebhookJSONBodyEventFilterDiskCreated                           UpdateWebhookJSONBodyEventFilter = "disk_created"
 	UpdateWebhookJSONBodyEventFilterDiskDeleted                           UpdateWebhookJSONBodyEventFilter = "disk_deleted"
+	UpdateWebhookJSONBodyEventFilterDiskSnapshotRestored                  UpdateWebhookJSONBodyEventFilter = "disk_snapshot_restored"
 	UpdateWebhookJSONBodyEventFilterDiskUpdated                           UpdateWebhookJSONBodyEventFilter = "disk_updated"
 	UpdateWebhookJSONBodyEventFilterEdgeCacheDisabled                     UpdateWebhookJSONBodyEventFilter = "edge_cache_disabled"
 	UpdateWebhookJSONBodyEventFilterEdgeCacheEnabled                      UpdateWebhookJSONBodyEventFilter = "edge_cache_enabled"
@@ -6635,6 +6663,8 @@ func (e UpdateWebhookJSONBodyEventFilter) Valid() bool {
 	case UpdateWebhookJSONBodyEventFilterDiskCreated:
 		return true
 	case UpdateWebhookJSONBodyEventFilterDiskDeleted:
+		return true
+	case UpdateWebhookJSONBodyEventFilterDiskSnapshotRestored:
 		return true
 	case UpdateWebhookJSONBodyEventFilterDiskUpdated:
 		return true
@@ -6760,6 +6790,7 @@ const (
 	UpdateWebhook200JSONResponseBodyEventFilterDeployStarted                         UpdateWebhook200JSONResponseBodyEventFilter = "deploy_started"
 	UpdateWebhook200JSONResponseBodyEventFilterDiskCreated                           UpdateWebhook200JSONResponseBodyEventFilter = "disk_created"
 	UpdateWebhook200JSONResponseBodyEventFilterDiskDeleted                           UpdateWebhook200JSONResponseBodyEventFilter = "disk_deleted"
+	UpdateWebhook200JSONResponseBodyEventFilterDiskSnapshotRestored                  UpdateWebhook200JSONResponseBodyEventFilter = "disk_snapshot_restored"
 	UpdateWebhook200JSONResponseBodyEventFilterDiskUpdated                           UpdateWebhook200JSONResponseBodyEventFilter = "disk_updated"
 	UpdateWebhook200JSONResponseBodyEventFilterEdgeCacheDisabled                     UpdateWebhook200JSONResponseBodyEventFilter = "edge_cache_disabled"
 	UpdateWebhook200JSONResponseBodyEventFilterEdgeCacheEnabled                      UpdateWebhook200JSONResponseBodyEventFilter = "edge_cache_enabled"
@@ -6848,6 +6879,8 @@ func (e UpdateWebhook200JSONResponseBodyEventFilter) Valid() bool {
 	case UpdateWebhook200JSONResponseBodyEventFilterDiskCreated:
 		return true
 	case UpdateWebhook200JSONResponseBodyEventFilterDiskDeleted:
+		return true
+	case UpdateWebhook200JSONResponseBodyEventFilterDiskSnapshotRestored:
 		return true
 	case UpdateWebhook200JSONResponseBodyEventFilterDiskUpdated:
 		return true
@@ -9500,11 +9533,14 @@ type ServiceEventWithCursorEventDetails15 struct {
 // ServiceEventWithCursorEventDetails16 defines model for ServiceEventWithCursor.Event.Details.16.
 type ServiceEventWithCursorEventDetails16 struct {
 	// DiskId Example: dsk-cph1rs3idesc73a2b2mg
-	DiskId           string  `json:"diskId"`
-	DiskName         string  `json:"diskName"`
-	MountPath        string  `json:"mountPath"`
-	ThresholdPercent float64 `json:"thresholdPercent"`
-	UsagePercent     float64 `json:"usagePercent"`
+	DiskId string `json:"diskId"`
+
+	// InstanceId The instance whose disk was restored, when the restore named one. A service instance ID, or the service ID for an older single disk.
+	InstanceId *string `json:"instanceId,omitempty"`
+
+	// SnapshotCreatedAt When the restored snapshot was taken
+	SnapshotCreatedAt *time.Time `json:"snapshotCreatedAt,omitempty"`
+	TriggeredByUser   *string    `json:"triggeredByUser"`
 }
 
 // ServiceEventWithCursorEventDetails17 defines model for ServiceEventWithCursor.Event.Details.17.
@@ -9519,13 +9555,18 @@ type ServiceEventWithCursorEventDetails17 struct {
 
 // ServiceEventWithCursorEventDetails18 defines model for ServiceEventWithCursor.Event.Details.18.
 type ServiceEventWithCursorEventDetails18 struct {
-	ImageURL string `json:"imageURL"`
-	Message  string `json:"message"`
+	// DiskId Example: dsk-cph1rs3idesc73a2b2mg
+	DiskId           string  `json:"diskId"`
+	DiskName         string  `json:"diskName"`
+	MountPath        string  `json:"mountPath"`
+	ThresholdPercent float64 `json:"thresholdPercent"`
+	UsagePercent     float64 `json:"usagePercent"`
 }
 
 // ServiceEventWithCursorEventDetails19 defines model for ServiceEventWithCursor.Event.Details.19.
 type ServiceEventWithCursorEventDetails19 struct {
-	DeployId string `json:"deployId"`
+	ImageURL string `json:"imageURL"`
+	Message  string `json:"message"`
 }
 
 // ServiceEventWithCursorEventDetails20 defines model for ServiceEventWithCursor.Event.Details.20.
@@ -9535,12 +9576,17 @@ type ServiceEventWithCursorEventDetails20 struct {
 
 // ServiceEventWithCursorEventDetails21 defines model for ServiceEventWithCursor.Event.Details.21.
 type ServiceEventWithCursorEventDetails21 struct {
-	FromInstances int `json:"fromInstances"`
-	ToInstances   int `json:"toInstances"`
+	DeployId string `json:"deployId"`
 }
 
 // ServiceEventWithCursorEventDetails22 defines model for ServiceEventWithCursor.Event.Details.22.
 type ServiceEventWithCursorEventDetails22 struct {
+	FromInstances int `json:"fromInstances"`
+	ToInstances   int `json:"toInstances"`
+}
+
+// ServiceEventWithCursorEventDetails23 defines model for ServiceEventWithCursor.Event.Details.23.
+type ServiceEventWithCursorEventDetails23 struct {
 	// JobId Example: job-cph1rs3idesc73a2b2mg
 	JobId  string `json:"jobId"`
 	Reason *struct {
@@ -9560,28 +9606,28 @@ type ServiceEventWithCursorEventDetails22 struct {
 		TimedOutSeconds *int64  `json:"timedOutSeconds,omitempty"`
 		Unhealthy       *string `json:"unhealthy,omitempty"`
 	} `json:"reason,omitempty"`
-	Status ServiceEventWithCursorEventDetails22Status `json:"status"`
+	Status ServiceEventWithCursorEventDetails23Status `json:"status"`
 }
 
-// ServiceEventWithCursorEventDetails22Status defines model for ServiceEventWithCursor.Event.Details.22.Status.
-type ServiceEventWithCursorEventDetails22Status string
-
-// ServiceEventWithCursorEventDetails23 defines model for ServiceEventWithCursor.Event.Details.23.
-type ServiceEventWithCursorEventDetails23 struct {
-	Enabled bool `json:"enabled"`
-}
+// ServiceEventWithCursorEventDetails23Status defines model for ServiceEventWithCursor.Event.Details.23.Status.
+type ServiceEventWithCursorEventDetails23Status string
 
 // ServiceEventWithCursorEventDetails24 defines model for ServiceEventWithCursor.Event.Details.24.
 type ServiceEventWithCursorEventDetails24 struct {
+	Enabled bool `json:"enabled"`
+}
+
+// ServiceEventWithCursorEventDetails25 defines model for ServiceEventWithCursor.Event.Details.25.
+type ServiceEventWithCursorEventDetails25 struct {
 	FromURI string `json:"fromURI"`
 	ToURI   string `json:"toURI"`
 }
 
-// ServiceEventWithCursorEventDetails25 defines model for ServiceEventWithCursor.Event.Details.25.
-type ServiceEventWithCursorEventDetails25 = map[string]interface{}
-
 // ServiceEventWithCursorEventDetails26 defines model for ServiceEventWithCursor.Event.Details.26.
-type ServiceEventWithCursorEventDetails26 struct {
+type ServiceEventWithCursorEventDetails26 = map[string]interface{}
+
+// ServiceEventWithCursorEventDetails27 defines model for ServiceEventWithCursor.Event.Details.27.
+type ServiceEventWithCursorEventDetails27 struct {
 	Trigger struct {
 		// Manual Maintenance was triggered manually
 		Manual bool `json:"manual"`
@@ -9597,8 +9643,8 @@ type ServiceEventWithCursorEventDetails26 struct {
 	} `json:"trigger"`
 }
 
-// ServiceEventWithCursorEventDetails27 defines model for ServiceEventWithCursor.Event.Details.27.
-type ServiceEventWithCursorEventDetails27 struct {
+// ServiceEventWithCursorEventDetails28 defines model for ServiceEventWithCursor.Event.Details.28.
+type ServiceEventWithCursorEventDetails28 struct {
 	BuildId string `json:"buildId"`
 	Trigger struct {
 		// ClearCache Whether the cache was cleared for the deploy
@@ -9636,17 +9682,17 @@ type ServiceEventWithCursorEventDetails27 struct {
 	} `json:"trigger"`
 }
 
-// ServiceEventWithCursorEventDetails28 defines model for ServiceEventWithCursor.Event.Details.28.
-type ServiceEventWithCursorEventDetails28 struct {
+// ServiceEventWithCursorEventDetails29 defines model for ServiceEventWithCursor.Event.Details.29.
+type ServiceEventWithCursorEventDetails29 struct {
 	From string `json:"from"`
 	To   string `json:"to"`
 }
 
-// ServiceEventWithCursorEventDetails29 defines model for ServiceEventWithCursor.Event.Details.29.
-type ServiceEventWithCursorEventDetails29 struct {
+// ServiceEventWithCursorEventDetails30 defines model for ServiceEventWithCursor.Event.Details.30.
+type ServiceEventWithCursorEventDetails30 struct {
 	DeployCommandExecutionId string                                              `json:"deployCommandExecutionId"`
 	DeployId                 string                                              `json:"deployId"`
-	PreDeployStatus          ServiceEventWithCursorEventDetails29PreDeployStatus `json:"preDeployStatus"`
+	PreDeployStatus          ServiceEventWithCursorEventDetails30PreDeployStatus `json:"preDeployStatus"`
 	Reason                   struct {
 		BuildFailed *struct {
 			Id string `json:"id"`
@@ -9679,20 +9725,20 @@ type ServiceEventWithCursorEventDetails29 struct {
 	Status int `json:"status"`
 }
 
-// ServiceEventWithCursorEventDetails29PreDeployStatus defines model for ServiceEventWithCursor.Event.Details.29.PreDeployStatus.
-type ServiceEventWithCursorEventDetails29PreDeployStatus string
+// ServiceEventWithCursorEventDetails30PreDeployStatus defines model for ServiceEventWithCursor.Event.Details.30.PreDeployStatus.
+type ServiceEventWithCursorEventDetails30PreDeployStatus string
 
-// ServiceEventWithCursorEventDetails30 defines model for ServiceEventWithCursor.Event.Details.30.
-type ServiceEventWithCursorEventDetails30 struct {
+// ServiceEventWithCursorEventDetails31 defines model for ServiceEventWithCursor.Event.Details.31.
+type ServiceEventWithCursorEventDetails31 struct {
 	DeployCommandExecutionId string `json:"deployCommandExecutionId"`
 	DeployId                 string `json:"deployId"`
 }
 
-// ServiceEventWithCursorEventDetails31 defines model for ServiceEventWithCursor.Event.Details.31.
-type ServiceEventWithCursorEventDetails31 = map[string]interface{}
-
 // ServiceEventWithCursorEventDetails32 defines model for ServiceEventWithCursor.Event.Details.32.
-type ServiceEventWithCursorEventDetails32 struct {
+type ServiceEventWithCursorEventDetails32 = map[string]interface{}
+
+// ServiceEventWithCursorEventDetails33 defines model for ServiceEventWithCursor.Event.Details.33.
+type ServiceEventWithCursorEventDetails33 struct {
 	// InstanceID Example: srv-d0cjkelq67qs70c2pugg-sbpkm
 	InstanceID *string `json:"instanceID,omitempty"`
 	Reason     *struct {
@@ -9714,22 +9760,22 @@ type ServiceEventWithCursorEventDetails32 struct {
 	} `json:"reason,omitempty"`
 }
 
-// ServiceEventWithCursorEventDetails33 defines model for ServiceEventWithCursor.Event.Details.33.
-type ServiceEventWithCursorEventDetails33 = map[string]interface{}
-
 // ServiceEventWithCursorEventDetails34 defines model for ServiceEventWithCursor.Event.Details.34.
-type ServiceEventWithCursorEventDetails34 struct {
-	TriggeredByUser *string `json:"triggeredByUser"`
-}
+type ServiceEventWithCursorEventDetails34 = map[string]interface{}
 
 // ServiceEventWithCursorEventDetails35 defines model for ServiceEventWithCursor.Event.Details.35.
-type ServiceEventWithCursorEventDetails35 = map[string]interface{}
+type ServiceEventWithCursorEventDetails35 struct {
+	TriggeredByUser *string `json:"triggeredByUser"`
+}
 
 // ServiceEventWithCursorEventDetails36 defines model for ServiceEventWithCursor.Event.Details.36.
 type ServiceEventWithCursorEventDetails36 = map[string]interface{}
 
 // ServiceEventWithCursorEventDetails37 defines model for ServiceEventWithCursor.Event.Details.37.
-type ServiceEventWithCursorEventDetails37 struct {
+type ServiceEventWithCursorEventDetails37 = map[string]interface{}
+
+// ServiceEventWithCursorEventDetails38 defines model for ServiceEventWithCursor.Event.Details.38.
+type ServiceEventWithCursorEventDetails38 struct {
 	Actor string `json:"actor"`
 
 	// SuspendedByUser User who triggered the action
@@ -9739,8 +9785,8 @@ type ServiceEventWithCursorEventDetails37 struct {
 	} `json:"suspendedByUser,omitempty"`
 }
 
-// ServiceEventWithCursorEventDetails38 defines model for ServiceEventWithCursor.Event.Details.38.
-type ServiceEventWithCursorEventDetails38 struct {
+// ServiceEventWithCursorEventDetails39 defines model for ServiceEventWithCursor.Event.Details.39.
+type ServiceEventWithCursorEventDetails39 struct {
 	Actor string `json:"actor"`
 
 	// ResumedByUser User who triggered the action
@@ -9750,29 +9796,12 @@ type ServiceEventWithCursorEventDetails38 struct {
 	} `json:"resumedByUser,omitempty"`
 }
 
-// ServiceEventWithCursorEventDetails39 defines model for ServiceEventWithCursor.Event.Details.39.
-type ServiceEventWithCursorEventDetails39 = map[string]interface{}
-
 // ServiceEventWithCursorEventDetails40 defines model for ServiceEventWithCursor.Event.Details.40.
-type ServiceEventWithCursorEventDetails40 struct {
-	Trigger string `json:"trigger"`
-}
+type ServiceEventWithCursorEventDetails40 = map[string]interface{}
 
 // ServiceEventWithCursorEventDetails41 defines model for ServiceEventWithCursor.Event.Details.41.
 type ServiceEventWithCursorEventDetails41 struct {
-	Trigger struct {
-		// Manual Edge Cache change was triggered manually from the dashboard
-		Manual bool `json:"manual"`
-
-		// System Edge Cache Change was triggered by Render
-		System bool `json:"system"`
-
-		// User User who triggered the action
-		User *struct {
-			Email string `json:"email"`
-			Id    string `json:"id"`
-		} `json:"user,omitempty"`
-	} `json:"trigger"`
+	Trigger string `json:"trigger"`
 }
 
 // ServiceEventWithCursorEventDetails42 defines model for ServiceEventWithCursor.Event.Details.42.
@@ -9811,24 +9840,41 @@ type ServiceEventWithCursorEventDetails43 struct {
 
 // ServiceEventWithCursorEventDetails44 defines model for ServiceEventWithCursor.Event.Details.44.
 type ServiceEventWithCursorEventDetails44 struct {
+	Trigger struct {
+		// Manual Edge Cache change was triggered manually from the dashboard
+		Manual bool `json:"manual"`
+
+		// System Edge Cache Change was triggered by Render
+		System bool `json:"system"`
+
+		// User User who triggered the action
+		User *struct {
+			Email string `json:"email"`
+			Id    string `json:"id"`
+		} `json:"user,omitempty"`
+	} `json:"trigger"`
+}
+
+// ServiceEventWithCursorEventDetails45 defines model for ServiceEventWithCursor.Event.Details.45.
+type ServiceEventWithCursorEventDetails45 struct {
 	// FromTrigger The auto-deploy trigger value immediately before it was disabled
-	FromTrigger *ServiceEventWithCursorEventDetails44FromTrigger `json:"fromTrigger,omitempty"`
+	FromTrigger *ServiceEventWithCursorEventDetails45FromTrigger `json:"fromTrigger,omitempty"`
 
 	// Reason Why auto-deploy was disabled (manual_deploy, rollback, or setting_change)
 	Reason string `json:"reason"`
 }
 
-// ServiceEventWithCursorEventDetails44FromTrigger The auto-deploy trigger value immediately before it was disabled
-type ServiceEventWithCursorEventDetails44FromTrigger string
+// ServiceEventWithCursorEventDetails45FromTrigger The auto-deploy trigger value immediately before it was disabled
+type ServiceEventWithCursorEventDetails45FromTrigger string
 
-// ServiceEventWithCursorEventDetails45 defines model for ServiceEventWithCursor.Event.Details.45.
-type ServiceEventWithCursorEventDetails45 struct {
+// ServiceEventWithCursorEventDetails46 defines model for ServiceEventWithCursor.Event.Details.46.
+type ServiceEventWithCursorEventDetails46 struct {
 	// NewTrigger The auto-deploy trigger value after it was re-enabled
-	NewTrigger *ServiceEventWithCursorEventDetails45NewTrigger `json:"newTrigger,omitempty"`
+	NewTrigger *ServiceEventWithCursorEventDetails46NewTrigger `json:"newTrigger,omitempty"`
 }
 
-// ServiceEventWithCursorEventDetails45NewTrigger The auto-deploy trigger value after it was re-enabled
-type ServiceEventWithCursorEventDetails45NewTrigger string
+// ServiceEventWithCursorEventDetails46NewTrigger The auto-deploy trigger value after it was re-enabled
+type ServiceEventWithCursorEventDetails46NewTrigger string
 
 // ServiceEventWithCursor_Event_Details defines model for ServiceEventWithCursor.Event.Details.
 type ServiceEventWithCursor_Event_Details struct {
@@ -11348,11 +11394,14 @@ type RetrieveEvent200JSONResponseBodyDetails015 struct {
 // RetrieveEvent200JSONResponseBodyDetails016 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails016 struct {
 	// DiskId Example: dsk-cph1rs3idesc73a2b2mg
-	DiskId           string  `json:"diskId"`
-	DiskName         string  `json:"diskName"`
-	MountPath        string  `json:"mountPath"`
-	ThresholdPercent float64 `json:"thresholdPercent"`
-	UsagePercent     float64 `json:"usagePercent"`
+	DiskId string `json:"diskId"`
+
+	// InstanceId The instance whose disk was restored, when the restore named one. A service instance ID, or the service ID for an older single disk.
+	InstanceId *string `json:"instanceId,omitempty"`
+
+	// SnapshotCreatedAt When the restored snapshot was taken
+	SnapshotCreatedAt *time.Time `json:"snapshotCreatedAt,omitempty"`
+	TriggeredByUser   *string    `json:"triggeredByUser"`
 }
 
 // RetrieveEvent200JSONResponseBodyDetails017 defines parameters for RetrieveEvent.
@@ -11367,13 +11416,18 @@ type RetrieveEvent200JSONResponseBodyDetails017 struct {
 
 // RetrieveEvent200JSONResponseBodyDetails018 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails018 struct {
-	ImageURL string `json:"imageURL"`
-	Message  string `json:"message"`
+	// DiskId Example: dsk-cph1rs3idesc73a2b2mg
+	DiskId           string  `json:"diskId"`
+	DiskName         string  `json:"diskName"`
+	MountPath        string  `json:"mountPath"`
+	ThresholdPercent float64 `json:"thresholdPercent"`
+	UsagePercent     float64 `json:"usagePercent"`
 }
 
 // RetrieveEvent200JSONResponseBodyDetails019 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails019 struct {
-	DeployId string `json:"deployId"`
+	ImageURL string `json:"imageURL"`
+	Message  string `json:"message"`
 }
 
 // RetrieveEvent200JSONResponseBodyDetails020 defines parameters for RetrieveEvent.
@@ -11383,12 +11437,17 @@ type RetrieveEvent200JSONResponseBodyDetails020 struct {
 
 // RetrieveEvent200JSONResponseBodyDetails021 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails021 struct {
-	FromInstances int `json:"fromInstances"`
-	ToInstances   int `json:"toInstances"`
+	DeployId string `json:"deployId"`
 }
 
 // RetrieveEvent200JSONResponseBodyDetails022 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails022 struct {
+	FromInstances int `json:"fromInstances"`
+	ToInstances   int `json:"toInstances"`
+}
+
+// RetrieveEvent200JSONResponseBodyDetails023 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails023 struct {
 	// JobId Example: job-cph1rs3idesc73a2b2mg
 	JobId  string `json:"jobId"`
 	Reason *struct {
@@ -11408,28 +11467,28 @@ type RetrieveEvent200JSONResponseBodyDetails022 struct {
 		TimedOutSeconds *int64  `json:"timedOutSeconds,omitempty"`
 		Unhealthy       *string `json:"unhealthy,omitempty"`
 	} `json:"reason,omitempty"`
-	Status RetrieveEvent200JSONResponseBodyDetails022Status `json:"status"`
+	Status RetrieveEvent200JSONResponseBodyDetails023Status `json:"status"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails022Status defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails022Status string
-
-// RetrieveEvent200JSONResponseBodyDetails023 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails023 struct {
-	Enabled bool `json:"enabled"`
-}
+// RetrieveEvent200JSONResponseBodyDetails023Status defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails023Status string
 
 // RetrieveEvent200JSONResponseBodyDetails024 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails024 struct {
+	Enabled bool `json:"enabled"`
+}
+
+// RetrieveEvent200JSONResponseBodyDetails025 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails025 struct {
 	FromURI string `json:"fromURI"`
 	ToURI   string `json:"toURI"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails025 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails025 = map[string]interface{}
-
 // RetrieveEvent200JSONResponseBodyDetails026 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails026 struct {
+type RetrieveEvent200JSONResponseBodyDetails026 = map[string]interface{}
+
+// RetrieveEvent200JSONResponseBodyDetails027 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails027 struct {
 	Trigger struct {
 		// Manual Maintenance was triggered manually
 		Manual bool `json:"manual"`
@@ -11445,8 +11504,8 @@ type RetrieveEvent200JSONResponseBodyDetails026 struct {
 	} `json:"trigger"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails027 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails027 struct {
+// RetrieveEvent200JSONResponseBodyDetails028 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails028 struct {
 	BuildId string `json:"buildId"`
 	Trigger struct {
 		// ClearCache Whether the cache was cleared for the deploy
@@ -11484,17 +11543,17 @@ type RetrieveEvent200JSONResponseBodyDetails027 struct {
 	} `json:"trigger"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails028 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails028 struct {
+// RetrieveEvent200JSONResponseBodyDetails029 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails029 struct {
 	From string `json:"from"`
 	To   string `json:"to"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails029 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails029 struct {
+// RetrieveEvent200JSONResponseBodyDetails030 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails030 struct {
 	DeployCommandExecutionId string                                                    `json:"deployCommandExecutionId"`
 	DeployId                 string                                                    `json:"deployId"`
-	PreDeployStatus          RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus `json:"preDeployStatus"`
+	PreDeployStatus          RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus `json:"preDeployStatus"`
 	Reason                   struct {
 		BuildFailed *struct {
 			Id string `json:"id"`
@@ -11527,20 +11586,20 @@ type RetrieveEvent200JSONResponseBodyDetails029 struct {
 	Status int `json:"status"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails029PreDeployStatus string
+// RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails030PreDeployStatus string
 
-// RetrieveEvent200JSONResponseBodyDetails030 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails030 struct {
+// RetrieveEvent200JSONResponseBodyDetails031 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails031 struct {
 	DeployCommandExecutionId string `json:"deployCommandExecutionId"`
 	DeployId                 string `json:"deployId"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails031 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails031 = map[string]interface{}
-
 // RetrieveEvent200JSONResponseBodyDetails032 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails032 struct {
+type RetrieveEvent200JSONResponseBodyDetails032 = map[string]interface{}
+
+// RetrieveEvent200JSONResponseBodyDetails033 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails033 struct {
 	// InstanceID Example: srv-d0cjkelq67qs70c2pugg-sbpkm
 	InstanceID *string `json:"instanceID,omitempty"`
 	Reason     *struct {
@@ -11562,22 +11621,22 @@ type RetrieveEvent200JSONResponseBodyDetails032 struct {
 	} `json:"reason,omitempty"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails033 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails033 = map[string]interface{}
-
 // RetrieveEvent200JSONResponseBodyDetails034 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails034 struct {
-	TriggeredByUser *string `json:"triggeredByUser"`
-}
+type RetrieveEvent200JSONResponseBodyDetails034 = map[string]interface{}
 
 // RetrieveEvent200JSONResponseBodyDetails035 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails035 = map[string]interface{}
+type RetrieveEvent200JSONResponseBodyDetails035 struct {
+	TriggeredByUser *string `json:"triggeredByUser"`
+}
 
 // RetrieveEvent200JSONResponseBodyDetails036 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails036 = map[string]interface{}
 
 // RetrieveEvent200JSONResponseBodyDetails037 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails037 struct {
+type RetrieveEvent200JSONResponseBodyDetails037 = map[string]interface{}
+
+// RetrieveEvent200JSONResponseBodyDetails038 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails038 struct {
 	Actor string `json:"actor"`
 
 	// SuspendedByUser User who triggered the action
@@ -11587,8 +11646,8 @@ type RetrieveEvent200JSONResponseBodyDetails037 struct {
 	} `json:"suspendedByUser,omitempty"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails038 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails038 struct {
+// RetrieveEvent200JSONResponseBodyDetails039 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails039 struct {
 	Actor string `json:"actor"`
 
 	// ResumedByUser User who triggered the action
@@ -11598,29 +11657,12 @@ type RetrieveEvent200JSONResponseBodyDetails038 struct {
 	} `json:"resumedByUser,omitempty"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails039 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails039 = map[string]interface{}
-
 // RetrieveEvent200JSONResponseBodyDetails040 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails040 struct {
-	Trigger string `json:"trigger"`
-}
+type RetrieveEvent200JSONResponseBodyDetails040 = map[string]interface{}
 
 // RetrieveEvent200JSONResponseBodyDetails041 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails041 struct {
-	Trigger struct {
-		// Manual Edge Cache change was triggered manually from the dashboard
-		Manual bool `json:"manual"`
-
-		// System Edge Cache Change was triggered by Render
-		System bool `json:"system"`
-
-		// User User who triggered the action
-		User *struct {
-			Email string `json:"email"`
-			Id    string `json:"id"`
-		} `json:"user,omitempty"`
-	} `json:"trigger"`
+	Trigger string `json:"trigger"`
 }
 
 // RetrieveEvent200JSONResponseBodyDetails042 defines parameters for RetrieveEvent.
@@ -11659,24 +11701,41 @@ type RetrieveEvent200JSONResponseBodyDetails043 struct {
 
 // RetrieveEvent200JSONResponseBodyDetails044 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails044 struct {
+	Trigger struct {
+		// Manual Edge Cache change was triggered manually from the dashboard
+		Manual bool `json:"manual"`
+
+		// System Edge Cache Change was triggered by Render
+		System bool `json:"system"`
+
+		// User User who triggered the action
+		User *struct {
+			Email string `json:"email"`
+			Id    string `json:"id"`
+		} `json:"user,omitempty"`
+	} `json:"trigger"`
+}
+
+// RetrieveEvent200JSONResponseBodyDetails045 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails045 struct {
 	// FromTrigger The auto-deploy trigger value immediately before it was disabled
-	FromTrigger *RetrieveEvent200JSONResponseBodyDetails044FromTrigger `json:"fromTrigger,omitempty"`
+	FromTrigger *RetrieveEvent200JSONResponseBodyDetails045FromTrigger `json:"fromTrigger,omitempty"`
 
 	// Reason Why auto-deploy was disabled (manual_deploy, rollback, or setting_change)
 	Reason string `json:"reason"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails044FromTrigger defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails044FromTrigger string
+// RetrieveEvent200JSONResponseBodyDetails045FromTrigger defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails045FromTrigger string
 
-// RetrieveEvent200JSONResponseBodyDetails045 defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails045 struct {
+// RetrieveEvent200JSONResponseBodyDetails046 defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails046 struct {
 	// NewTrigger The auto-deploy trigger value after it was re-enabled
-	NewTrigger *RetrieveEvent200JSONResponseBodyDetails045NewTrigger `json:"newTrigger,omitempty"`
+	NewTrigger *RetrieveEvent200JSONResponseBodyDetails046NewTrigger `json:"newTrigger,omitempty"`
 }
 
-// RetrieveEvent200JSONResponseBodyDetails045NewTrigger defines parameters for RetrieveEvent.
-type RetrieveEvent200JSONResponseBodyDetails045NewTrigger string
+// RetrieveEvent200JSONResponseBodyDetails046NewTrigger defines parameters for RetrieveEvent.
+type RetrieveEvent200JSONResponseBodyDetails046NewTrigger string
 
 // RetrieveEvent200JSONResponseBodyDetails1 defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyDetails1 struct {
@@ -15425,6 +15484,32 @@ func (t *ServiceEventWithCursor_Event_Details) MergeServiceEventWithCursorEventD
 	return err
 }
 
+// AsServiceEventWithCursorEventDetails46 returns the union data inside the ServiceEventWithCursor_Event_Details as a ServiceEventWithCursorEventDetails46
+func (t ServiceEventWithCursor_Event_Details) AsServiceEventWithCursorEventDetails46() (ServiceEventWithCursorEventDetails46, error) {
+	var body ServiceEventWithCursorEventDetails46
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServiceEventWithCursorEventDetails46 overwrites any union data inside the ServiceEventWithCursor_Event_Details as the provided ServiceEventWithCursorEventDetails46
+func (t *ServiceEventWithCursor_Event_Details) FromServiceEventWithCursorEventDetails46(v ServiceEventWithCursorEventDetails46) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServiceEventWithCursorEventDetails46 performs a merge with any union data inside the ServiceEventWithCursor_Event_Details, using the provided ServiceEventWithCursorEventDetails46
+func (t *ServiceEventWithCursor_Event_Details) MergeServiceEventWithCursorEventDetails46(v ServiceEventWithCursorEventDetails46) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t ServiceEventWithCursor_Event_Details) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
@@ -17087,6 +17172,32 @@ func (t *RetrieveEvent200JSONResponseBodyDetails0) FromRetrieveEvent200JSONRespo
 
 // MergeRetrieveEvent200JSONResponseBodyDetails045 performs a merge with any union data inside the RetrieveEvent200JSONResponseBodyDetails0, using the provided RetrieveEvent200JSONResponseBodyDetails045
 func (t *RetrieveEvent200JSONResponseBodyDetails0) MergeRetrieveEvent200JSONResponseBodyDetails045(v RetrieveEvent200JSONResponseBodyDetails045) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsRetrieveEvent200JSONResponseBodyDetails046 returns the union data inside the RetrieveEvent200JSONResponseBodyDetails0 as a RetrieveEvent200JSONResponseBodyDetails046
+func (t RetrieveEvent200JSONResponseBodyDetails0) AsRetrieveEvent200JSONResponseBodyDetails046() (RetrieveEvent200JSONResponseBodyDetails046, error) {
+	var body RetrieveEvent200JSONResponseBodyDetails046
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromRetrieveEvent200JSONResponseBodyDetails046 overwrites any union data inside the RetrieveEvent200JSONResponseBodyDetails0 as the provided RetrieveEvent200JSONResponseBodyDetails046
+func (t *RetrieveEvent200JSONResponseBodyDetails0) FromRetrieveEvent200JSONResponseBodyDetails046(v RetrieveEvent200JSONResponseBodyDetails046) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeRetrieveEvent200JSONResponseBodyDetails046 performs a merge with any union data inside the RetrieveEvent200JSONResponseBodyDetails0, using the provided RetrieveEvent200JSONResponseBodyDetails046
+func (t *RetrieveEvent200JSONResponseBodyDetails0) MergeRetrieveEvent200JSONResponseBodyDetails046(v RetrieveEvent200JSONResponseBodyDetails046) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err

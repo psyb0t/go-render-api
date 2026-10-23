@@ -2,6 +2,14 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.3.0, 2026-10-23
+
+- Added the `DiskSnapshotRestored` event type: `EventTypeParamDiskSnapshotRestored`, `ListEventsParamsTypeDiskSnapshotRestored`, `CreateWebhookJSONBodyEventFilterDiskSnapshotRestored` and `CreateWebhook201JSONResponseBodyEventFilterDiskSnapshotRestored`.
+- Added a new event details variant with `FromServiceEventWithCursorEventDetails46`, `MergeServiceEventWithCursorEventDetails46` and the matching `FromRetrieveEvent200JSONResponseBodyDetails046`, `MergeRetrieveEvent200JSONResponseBodyDetails046` and `AsRetrieveEvent200JSONResponseBodyDetails046`.
+- The new variant is inserted in the middle of the numbered event details types, so the generator renumbers the types after it. `ServiceEventWithCursorEventDetails22` to `46` and `RetrieveEvent200JSONResponseBodyDetails022` to `046` now name different shapes than in v0.2.0. For example `...Details22Status` is now `...Details23Status`, and `...Details29PreDeployStatus` is now `...Details30PreDeployStatus`. Code that names these types or calls their `From` and `As` methods must change.
+- Some numbered types switched between a struct and `map[string]interface{}`, for example `ServiceEventWithCursorEventDetails25` and `26`. The `Trigger` field of `...Details27` and `...Details41` changed type, and `...Details41.Trigger` is now a `string`.
+- Added fields `InstanceId`, `SnapshotCreatedAt` and `TriggeredByUser` on the disk snapshot event details type, and `DiskId` on the disk event details type.
+
 ## v0.2.0, 2026-10-22
 
 - Added `UpdateBlueprintJSONBody.Branch` (and so `UpdateBlueprintJSONRequestBody.Branch`), a `*string` for the Git branch to read the Blueprint file from. It needs Blueprint onboarding early access, and updating it does not plan a sync.
