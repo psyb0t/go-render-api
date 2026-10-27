@@ -52,7 +52,7 @@ const (
 	AuditLogEventChangeTeamMemberRoleEvent          AuditLogEvent = "ChangeTeamMemberRoleEvent"
 	AuditLogEventChangeWorkspaceDeployHandlingEvent AuditLogEvent = "ChangeWorkspaceDeployHandlingEvent"
 	AuditLogEventChangeWorkspacePrivacyEvent        AuditLogEvent = "ChangeWorkspacePrivacyEvent"
-	AuditLogEventCreateArtifactSourceEvent          AuditLogEvent = "CreateArtifactSourceEvent"
+	AuditLogEventCreateBuildSourceEvent             AuditLogEvent = "CreateBuildSourceEvent"
 	AuditLogEventCreateCronJobEvent                 AuditLogEvent = "CreateCronJobEvent"
 	AuditLogEventCreateEnvVarsEvent                 AuditLogEvent = "CreateEnvVarsEvent"
 	AuditLogEventCreateEnvironmentEvent             AuditLogEvent = "CreateEnvironmentEvent"
@@ -153,7 +153,7 @@ func (e AuditLogEvent) Valid() bool {
 		return true
 	case AuditLogEventChangeWorkspacePrivacyEvent:
 		return true
-	case AuditLogEventCreateArtifactSourceEvent:
+	case AuditLogEventCreateBuildSourceEvent:
 		return true
 	case AuditLogEventCreateCronJobEvent:
 		return true
@@ -7830,7 +7830,9 @@ type DedicatedIPStatus string
 
 // Deploy defines model for deploy.
 type Deploy struct {
-	Commit *struct {
+	// BuildId The ID of the build this deploy shipped. Only present for deploys of a build from a Build Source.
+	BuildId *string `json:"buildId,omitempty"`
+	Commit  *struct {
 		CreatedAt *time.Time `json:"createdAt,omitempty"`
 		Id        *string    `json:"id,omitempty"`
 		Message   *string    `json:"message,omitempty"`
@@ -9910,7 +9912,6 @@ type ServicePATCH struct {
 	AutoDeployTrigger *ServicePATCHAutoDeployTrigger `json:"autoDeployTrigger,omitempty"`
 	Branch            *string                        `json:"branch,omitempty"`
 	BuildFilter       *BuildFilter                   `json:"buildFilter,omitempty"`
-	BuildId           *string                        `json:"buildId,omitempty"`
 
 	// BuildSourceId The ID of the Build Source to link this service to. Cannot be combined with build-configuration changes or other `serviceDetails` fields, except `startCommand`. Linking to a Build Source with a native runtime requires a start command, either in this request or already set on the service. Linking to a Build Source with a Docker or image runtime rejects a start command.
 	BuildSourceId  *string                      `json:"buildSourceId,omitempty"`

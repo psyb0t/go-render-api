@@ -2,6 +2,12 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.4.0, 2026-10-27
+
+- Removed the `AuditLogEventCreateArtifactSourceEvent` constant and added `AuditLogEventCreateBuildSourceEvent` (`"CreateBuildSourceEvent"`). `AuditLogEvent.Valid` accepts the new value and rejects `"CreateArtifactSourceEvent"`. Code that names the old constant must change.
+- Removed `ServicePATCH.BuildId`. Code that sets it must change. Use `ServicePATCH.BuildSourceId` to link a service to a Build Source.
+- Added `Deploy.BuildId`, a `*string` with the ID of the build a deploy shipped. It is only set for deploys of a build from a Build Source.
+
 ## v0.3.0, 2026-10-23
 
 - Added the `DiskSnapshotRestored` event type: `EventTypeParamDiskSnapshotRestored`, `ListEventsParamsTypeDiskSnapshotRestored`, `CreateWebhookJSONBodyEventFilterDiskSnapshotRestored` and `CreateWebhook201JSONResponseBodyEventFilterDiskSnapshotRestored`.
