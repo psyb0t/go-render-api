@@ -2,6 +2,10 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.4.3, 2026-10-28
+
+- Added the `AuditLogEventDeleteBuildSourceEvent` constant (`"DeleteBuildSourceEvent"`). `AuditLogEvent.Valid` now accepts the new value.
+
 ## v0.4.2, 2026-10-28
 
 - Updated Semgrep in the development image to 1.182.1 and refreshed its locked dependencies. certifi 2026.10.23 drops the emSign root CAs whose intermediate keys were compromised (GHSA-6q48-6c7w-9gw2).

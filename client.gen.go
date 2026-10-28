@@ -68,6 +68,7 @@ const (
 	AuditLogEventCreateServerEvent                  AuditLogEvent = "CreateServerEvent"
 	AuditLogEventCreateWebhookEvent                 AuditLogEvent = "CreateWebhookEvent"
 	AuditLogEventCreateWorkspaceEvent               AuditLogEvent = "CreateWorkspaceEvent"
+	AuditLogEventDeleteBuildSourceEvent             AuditLogEvent = "DeleteBuildSourceEvent"
 	AuditLogEventDeleteCronJobEvent                 AuditLogEvent = "DeleteCronJobEvent"
 	AuditLogEventDeleteEnvGroupEvent                AuditLogEvent = "DeleteEnvGroupEvent"
 	AuditLogEventDeleteEnvVarsEvent                 AuditLogEvent = "DeleteEnvVarsEvent"
@@ -184,6 +185,8 @@ func (e AuditLogEvent) Valid() bool {
 	case AuditLogEventCreateWebhookEvent:
 		return true
 	case AuditLogEventCreateWorkspaceEvent:
+		return true
+	case AuditLogEventDeleteBuildSourceEvent:
 		return true
 	case AuditLogEventDeleteCronJobEvent:
 		return true
