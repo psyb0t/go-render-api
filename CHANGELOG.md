@@ -2,6 +2,10 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.4.4, 2026-10-29
+
+- Added the `AuditLogEventLinkBuildSourceEnvGroupEvent` constant (`"LinkBuildSourceEnvGroupEvent"`) and the `AuditLogEventUnlinkBuildSourceEnvGroupEvent` constant (`"UnlinkBuildSourceEnvGroupEvent"`). `AuditLogEvent.Valid` now accepts both values.
+
 ## v0.4.3, 2026-10-28
 
 - Added the `AuditLogEventDeleteBuildSourceEvent` constant (`"DeleteBuildSourceEvent"`). `AuditLogEvent.Valid` now accepts the new value.
