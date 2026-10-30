@@ -2,6 +2,12 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.4.5, 2026-10-30
+
+- Doc comments only. `BackgroundWorkerDetailsPOST.BuildSourceId`, `CronJobDetailsPOST.BuildSourceId`, `PrivateServiceDetailsPOST.BuildSourceId`, `WebServiceDetailsPOST.BuildSourceId` and `ServicePATCH.BuildSourceId` now say a git-backed Build Source must be in the same region as the service. Otherwise the API rejects the request with 400 and `code: build_source_region_mismatch`.
+- `Service.BuildSourceId` has a doc comment with the same region requirement.
+- The `CreateService` and `UpdateService` client methods (`CreateServiceWithBody`, `CreateServiceWithBodyWithResponse`, `UpdateServiceWithBody`, `UpdateServiceWithBodyWithResponse` and their JSON variants) document the 400 `build_source_region_mismatch` error. No API or behavior change in the client.
+
 ## v0.4.4, 2026-10-29
 
 - Added the `AuditLogEventLinkBuildSourceEnvGroupEvent` constant (`"LinkBuildSourceEnvGroupEvent"`) and the `AuditLogEventUnlinkBuildSourceEnvGroupEvent` constant (`"UnlinkBuildSourceEnvGroupEvent"`). `AuditLogEvent.Valid` now accepts both values.

@@ -7577,7 +7577,7 @@ type BackgroundWorkerDetailsPOST struct {
 		Min int `json:"min"`
 	} `json:"autoscaling,omitempty"`
 
-	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set.
+	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`.
 	BuildSourceId *string      `json:"buildSourceId,omitempty"`
 	Disk          *ServiceDisk `json:"disk,omitempty"`
 
@@ -7699,7 +7699,7 @@ type CronJobDetailsPATCH struct {
 
 // CronJobDetailsPOST defines model for cronJobDetailsPOST.
 type CronJobDetailsPOST struct {
-	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set.
+	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`.
 	BuildSourceId *string `json:"buildSourceId,omitempty"`
 
 	// Env This field has been deprecated, runtime should be used in its place.
@@ -8763,7 +8763,7 @@ type PrivateServiceDetailsPOST struct {
 		Min int `json:"min"`
 	} `json:"autoscaling,omitempty"`
 
-	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set.
+	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`.
 	BuildSourceId *string      `json:"buildSourceId,omitempty"`
 	Disk          *ServiceDisk `json:"disk,omitempty"`
 
@@ -9153,8 +9153,10 @@ type Service struct {
 	AutoDeployTrigger *ServiceAutoDeployTrigger `json:"autoDeployTrigger,omitempty"`
 	Branch            *string                   `json:"branch,omitempty"`
 	BuildFilter       *BuildFilter              `json:"buildFilter,omitempty"`
-	BuildSourceId     *string                   `json:"buildSourceId,omitempty"`
-	CreatedAt         time.Time                 `json:"createdAt"`
+
+	// BuildSourceId The ID of the Build Source the service builds and deploys from, if any. A git-backed Build Source must be in the same region as the service.
+	BuildSourceId *string   `json:"buildSourceId,omitempty"`
+	CreatedAt     time.Time `json:"createdAt"`
 
 	// DashboardUrl The URL to view the service in the Render Dashboard
 	DashboardUrl       string                     `json:"dashboardUrl"`
@@ -9922,7 +9924,7 @@ type ServicePATCH struct {
 	Branch            *string                        `json:"branch,omitempty"`
 	BuildFilter       *BuildFilter                   `json:"buildFilter,omitempty"`
 
-	// BuildSourceId The ID of the Build Source to link this service to. Cannot be combined with build-configuration changes or other `serviceDetails` fields, except `startCommand`. Linking to a Build Source with a native runtime requires a start command, either in this request or already set on the service. Linking to a Build Source with a Docker or image runtime rejects a start command.
+	// BuildSourceId The ID of the Build Source to link this service to. Cannot be combined with build-configuration changes or other `serviceDetails` fields, except `startCommand`. Linking to a Build Source with a native runtime requires a start command, either in this request or already set on the service. Linking to a Build Source with a Docker or image runtime rejects a start command. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`.
 	BuildSourceId  *string                      `json:"buildSourceId,omitempty"`
 	Image          *Image                       `json:"image,omitempty"`
 	Name           *string                      `json:"name,omitempty"`
@@ -10327,7 +10329,7 @@ type WebServiceDetailsPOST struct {
 		Min int `json:"min"`
 	} `json:"autoscaling,omitempty"`
 
-	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set.
+	// BuildSourceId The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. A git-backed Build Source must be in the same region as the service; otherwise the request is rejected with 400 and `code: build_source_region_mismatch`.
 	BuildSourceId *string      `json:"buildSourceId,omitempty"`
 	Disk          *ServiceDisk `json:"disk,omitempty"`
 
@@ -19959,6 +19961,9 @@ type ClientInterface interface {
 	//
 	// Creates a new Render service in the specified workspace with the specified configuration.
 	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
+	//
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /services (the `CreateService` operationId).
@@ -19967,6 +19972,9 @@ type ClientInterface interface {
 	// CreateService Create service
 	//
 	// Creates a new Render service in the specified workspace with the specified configuration.
+	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -19991,6 +19999,9 @@ type ClientInterface interface {
 	//
 	// Update the service with the provided ID.
 	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
+	//
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PATCH /services/{serviceId} (the `UpdateService` operationId).
@@ -19999,6 +20010,9 @@ type ClientInterface interface {
 	// UpdateService Update service
 	//
 	// Update the service with the provided ID.
+	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -24448,6 +24462,9 @@ func (c *Client) ListServices(ctx context.Context, params *ListServicesParams, r
 //
 // Creates a new Render service in the specified workspace with the specified configuration.
 //
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
+//
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /services (the `CreateService` operationId).
@@ -24466,6 +24483,9 @@ func (c *Client) CreateServiceWithBody(ctx context.Context, contentType string, 
 // CreateService Create service
 //
 // Creates a new Render service in the specified workspace with the specified configuration.
+//
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -24520,6 +24540,9 @@ func (c *Client) RetrieveService(ctx context.Context, serviceId ServiceIdParam, 
 //
 // Update the service with the provided ID.
 //
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
+//
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PATCH /services/{serviceId} (the `UpdateService` operationId).
@@ -24538,6 +24561,9 @@ func (c *Client) UpdateServiceWithBody(ctx context.Context, serviceId ServiceIdP
 // UpdateService Update service
 //
 // Update the service with the provided ID.
+//
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -42130,6 +42156,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Creates a new Render service in the specified workspace with the specified configuration.
 	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
+	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /services (the `CreateService` operationId).
@@ -42138,6 +42167,9 @@ type ClientWithResponsesInterface interface {
 	// CreateServiceWithResponse Create service
 	//
 	// Creates a new Render service in the specified workspace with the specified configuration.
+	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -42166,6 +42198,9 @@ type ClientWithResponsesInterface interface {
 	//
 	// Update the service with the provided ID.
 	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
+	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PATCH /services/{serviceId} (the `UpdateService` operationId).
@@ -42174,6 +42209,9 @@ type ClientWithResponsesInterface interface {
 	// UpdateServiceWithResponse Update service
 	//
 	// Update the service with the provided ID.
+	//
+	// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+	// Build Source in a different region than the service.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -70405,6 +70443,9 @@ func (c *ClientWithResponses) ListServicesWithResponse(ctx context.Context, para
 //
 // Creates a new Render service in the specified workspace with the specified configuration.
 //
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
+//
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /services (the `CreateService` operationId).
@@ -70419,6 +70460,9 @@ func (c *ClientWithResponses) CreateServiceWithBodyWithResponse(ctx context.Cont
 // CreateServiceWithResponse Create service
 //
 // Creates a new Render service in the specified workspace with the specified configuration.
+//
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -70465,6 +70509,9 @@ func (c *ClientWithResponses) RetrieveServiceWithResponse(ctx context.Context, s
 //
 // Update the service with the provided ID.
 //
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
+//
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PATCH /services/{serviceId} (the `UpdateService` operationId).
@@ -70479,6 +70526,9 @@ func (c *ClientWithResponses) UpdateServiceWithBodyWithResponse(ctx context.Cont
 // UpdateServiceWithResponse Update service
 //
 // Update the service with the provided ID.
+//
+// 400 with `code: build_source_region_mismatch` if `buildSourceId` names a git-backed
+// Build Source in a different region than the service.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
