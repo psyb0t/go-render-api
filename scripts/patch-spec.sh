@@ -11,6 +11,8 @@
 # 2. Collapses an anyOf or oneOf with a single inline branch into that branch.
 #    oapi-codegen turns such a union into a wrapper whose accessors name a
 #    branch type (N0) it never declares, so the package does not compile.
+# 3. Drops x-go-type: SandboxPlan. The spec points it at a type that no
+#    component declares, so the generated package references an undefined name.
 set -euo pipefail
 trap 'on_error "$?" "$LINENO"' ERR
 
@@ -72,6 +74,22 @@ walk(
 )
 '
 
+readonly DROP_GO_TYPE_FILTER='
+walk(
+  if type == "object" and .["x-go-type"]? == "SandboxPlan" then del(.["x-go-type"])
+  else . end
+)
+'
+
+drop_undeclared_go_types() {
+	local tmp="$1"
+
+	jq "$DROP_GO_TYPE_FILTER" "$SPEC_FILE" >"$tmp"
+	chmod 0644 "$tmp"
+	mv -- "$tmp" "$SPEC_FILE"
+	log INFO "dropped undeclared x-go-type"
+}
+
 collapse_single_unions() {
 	local tmp="$1"
 
@@ -114,6 +132,7 @@ main() {
 	fi
 
 	collapse_single_unions "$tmp"
+	drop_undeclared_go_types "$tmp"
 }
 
 main "$@"

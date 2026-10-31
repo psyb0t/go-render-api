@@ -2,6 +2,16 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.5.0, 2026-10-31
+
+- Added sandbox support. New client methods: `ListSandboxes`, `CreateSandbox`, `RetrieveSandbox`, `TerminateSandbox`, `ConnectSandboxRun`, `ConnectSandboxFiles`, `ListSandboxExecutions` and `RetrieveSandboxExecution`, each with `WithResponse` variants and `WithBody` variants where the request has a body.
+- Added sandbox group methods: `ListSandboxGroups`, `CreateSandboxGroup`, `RetrieveSandboxGroup` and `UpdateSandboxGroup`.
+- Added sandbox snapshot methods: `ListSandboxSnapshots`, `CreateSandboxSnapshot`, `RetrieveSandboxSnapshot` and `DeleteSandboxSnapshot`. All are on `ClientInterface` and `Client`.
+- Added the matching request, response, parameter and enum types, for example `ConnectSandboxRunParams`, `ConnectSandboxFilesResponse` and `CreateSandbox201JSONResponseBodyStatus`.
+- Added the `AuditLogEventUpdateBuildSourceEvent` constant.
+- Blueprint responses now include `OwnerId`. This changes the inline struct types of `BlueprintWithCursor.Blueprint`, `RetrieveBlueprintResponse.JSON200` and `UpdateBlueprintResponse.JSON200`, and the return types of `RetrieveBlueprintResponse.GetJSON200` and `UpdateBlueprintResponse.GetJSON200`. Code that names these struct types must change.
+- `scripts/patch-spec.sh` now drops `x-go-type: SandboxPlan` from the spec. No component declares that type, so the generated package did not compile. The sandbox plan fields are generated as union types such as `CreateSandbox201JSONResponseBody_Plan`.
+
 ## v0.4.5, 2026-10-30
 
 - Doc comments only. `BackgroundWorkerDetailsPOST.BuildSourceId`, `CronJobDetailsPOST.BuildSourceId`, `PrivateServiceDetailsPOST.BuildSourceId`, `WebServiceDetailsPOST.BuildSourceId` and `ServicePATCH.BuildSourceId` now say a git-backed Build Source must be in the same region as the service. Otherwise the API rejects the request with 400 and `code: build_source_region_mismatch`.
