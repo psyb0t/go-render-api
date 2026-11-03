@@ -2,6 +2,15 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.5.1, 2026-11-03
+
+- Added flow support. New client methods: `ListFlows`, `GetFlow`, `StartFlowRun`, `ListFlowRuns`, `GetFlowRun`, `CancelFlowRun`, `ListFlowRunSteps` and `GetFlowRunStep`, each with a `WithResponse` variant. `StartFlowRun` also has `StartFlowRunWithBody` and `StartFlowRunWithBodyWithResponse`.
+- Added the matching request builders (`NewListFlowsRequest`, `NewStartFlowRunRequest` and the others), parsers (`ParseListFlowsResponse`, `ParseStartFlowRunResponse` and the others) and response types (`ListFlowsResponse`, `GetFlowRunResponse`, `StartFlowRunResponse` and the others), each with a 429 headers type.
+- Added the parameter and body types `ListFlowsParams`, `ListFlowRunsParams`, `ListFlowRunStepsParams`, `GetFlowRunStepParams`, `StartFlowRunJSONBody` and `StartFlowRunJSONRequestBody`.
+- Added the models `FlowWithCursor` and `FlowRunWithCursor`, plus enum types and constants for flow run status such as `FlowRunWithCursorFlowRunStatus` and `ListFlowRunsParamsStatus`, flow run step type and status, and flow run error codes.
+- Added the `AuditLogEventUpdateServiceBuildSourceEvent` constant.
+- The eight flow methods are added to `ClientInterface` and `ClientWithResponsesInterface`. Code that implements these interfaces, such as a mock, must add them.
+
 ## v0.5.0, 2026-10-31
 
 - Added sandbox support. New client methods: `ListSandboxes`, `CreateSandbox`, `RetrieveSandbox`, `TerminateSandbox`, `ConnectSandboxRun`, `ConnectSandboxFiles`, `ListSandboxExecutions` and `RetrieveSandboxExecution`, each with `WithResponse` variants and `WithBody` variants where the request has a body.

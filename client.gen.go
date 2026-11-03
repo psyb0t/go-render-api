@@ -118,6 +118,7 @@ const (
 	AuditLogEventUpdateOrgPaymentMethodEvent        AuditLogEvent = "UpdateOrgPaymentMethodEvent"
 	AuditLogEventUpdateOtelIntegrationEvent         AuditLogEvent = "UpdateOtelIntegrationEvent"
 	AuditLogEventUpdateSSOConnectionEvent           AuditLogEvent = "UpdateSSOConnectionEvent"
+	AuditLogEventUpdateServiceBuildSourceEvent      AuditLogEvent = "UpdateServiceBuildSourceEvent"
 	AuditLogEventUpdateServiceNameEvent             AuditLogEvent = "UpdateServiceNameEvent"
 	AuditLogEventUpdateWebhookEvent                 AuditLogEvent = "UpdateWebhookEvent"
 	AuditLogEventUpdateWorkspacePaymentMethodEvent  AuditLogEvent = "UpdateWorkspacePaymentMethodEvent"
@@ -288,6 +289,8 @@ func (e AuditLogEvent) Valid() bool {
 	case AuditLogEventUpdateOtelIntegrationEvent:
 		return true
 	case AuditLogEventUpdateSSOConnectionEvent:
+		return true
+	case AuditLogEventUpdateServiceBuildSourceEvent:
 		return true
 	case AuditLogEventUpdateServiceNameEvent:
 		return true
@@ -708,6 +711,36 @@ func (e ExecutionWithCursorExecutionType) Valid() bool {
 	case ExecutionWithCursorExecutionTypeFiles:
 		return true
 	case ExecutionWithCursorExecutionTypeRuns:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for FlowRunWithCursorFlowRunStatus.
+const (
+	FlowRunWithCursorFlowRunStatusFlowRunStatusCanceled  FlowRunWithCursorFlowRunStatus = "canceled"
+	FlowRunWithCursorFlowRunStatusFlowRunStatusFailed    FlowRunWithCursorFlowRunStatus = "failed"
+	FlowRunWithCursorFlowRunStatusFlowRunStatusPaused    FlowRunWithCursorFlowRunStatus = "paused"
+	FlowRunWithCursorFlowRunStatusFlowRunStatusPending   FlowRunWithCursorFlowRunStatus = "pending"
+	FlowRunWithCursorFlowRunStatusFlowRunStatusRunning   FlowRunWithCursorFlowRunStatus = "running"
+	FlowRunWithCursorFlowRunStatusFlowRunStatusSucceeded FlowRunWithCursorFlowRunStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the FlowRunWithCursorFlowRunStatus enum.
+func (e FlowRunWithCursorFlowRunStatus) Valid() bool {
+	switch e {
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusCanceled:
+		return true
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusFailed:
+		return true
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusPaused:
+		return true
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusPending:
+		return true
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusRunning:
+		return true
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusSucceeded:
 		return true
 	default:
 		return false
@@ -4779,6 +4812,255 @@ func (e RetrieveEvent200JSONResponseBodyType) Valid() bool {
 	case RetrieveEvent200JSONResponseBodyTypeZeroDowntimeRedeployEnded:
 		return true
 	case RetrieveEvent200JSONResponseBodyTypeZeroDowntimeRedeployStarted:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListFlowRunsParamsStatus.
+const (
+	ListFlowRunsParamsStatusFlowRunStatusCanceled  ListFlowRunsParamsStatus = "canceled"
+	ListFlowRunsParamsStatusFlowRunStatusFailed    ListFlowRunsParamsStatus = "failed"
+	ListFlowRunsParamsStatusFlowRunStatusPaused    ListFlowRunsParamsStatus = "paused"
+	ListFlowRunsParamsStatusFlowRunStatusPending   ListFlowRunsParamsStatus = "pending"
+	ListFlowRunsParamsStatusFlowRunStatusRunning   ListFlowRunsParamsStatus = "running"
+	ListFlowRunsParamsStatusFlowRunStatusSucceeded ListFlowRunsParamsStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the ListFlowRunsParamsStatus enum.
+func (e ListFlowRunsParamsStatus) Valid() bool {
+	switch e {
+	case ListFlowRunsParamsStatusFlowRunStatusCanceled:
+		return true
+	case ListFlowRunsParamsStatusFlowRunStatusFailed:
+		return true
+	case ListFlowRunsParamsStatusFlowRunStatusPaused:
+		return true
+	case ListFlowRunsParamsStatusFlowRunStatusPending:
+		return true
+	case ListFlowRunsParamsStatusFlowRunStatusRunning:
+		return true
+	case ListFlowRunsParamsStatusFlowRunStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StartFlowRun202JSONResponseBodyStatus.
+const (
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusCanceled  StartFlowRun202JSONResponseBodyStatus = "canceled"
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusFailed    StartFlowRun202JSONResponseBodyStatus = "failed"
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusPaused    StartFlowRun202JSONResponseBodyStatus = "paused"
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusPending   StartFlowRun202JSONResponseBodyStatus = "pending"
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusRunning   StartFlowRun202JSONResponseBodyStatus = "running"
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusSucceeded StartFlowRun202JSONResponseBodyStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the StartFlowRun202JSONResponseBodyStatus enum.
+func (e StartFlowRun202JSONResponseBodyStatus) Valid() bool {
+	switch e {
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusCanceled:
+		return true
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusFailed:
+		return true
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusPaused:
+		return true
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusPending:
+		return true
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusRunning:
+		return true
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetFlowRun200JSONResponseBodyAttemptsStatus.
+const (
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusCanceled  GetFlowRun200JSONResponseBodyAttemptsStatus = "canceled"
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusFailed    GetFlowRun200JSONResponseBodyAttemptsStatus = "failed"
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusPaused    GetFlowRun200JSONResponseBodyAttemptsStatus = "paused"
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusPending   GetFlowRun200JSONResponseBodyAttemptsStatus = "pending"
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusRunning   GetFlowRun200JSONResponseBodyAttemptsStatus = "running"
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSucceeded GetFlowRun200JSONResponseBodyAttemptsStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the GetFlowRun200JSONResponseBodyAttemptsStatus enum.
+func (e GetFlowRun200JSONResponseBodyAttemptsStatus) Valid() bool {
+	switch e {
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusCanceled:
+		return true
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusFailed:
+		return true
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusPaused:
+		return true
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusPending:
+		return true
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusRunning:
+		return true
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetFlowRun200JSONResponseBodyErrorDetailsCode.
+const (
+	GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowDeterminismError  GetFlowRun200JSONResponseBodyErrorDetailsCode = "flow_determinism_error"
+	GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowHistoryTooLarge   GetFlowRun200JSONResponseBodyErrorDetailsCode = "flow_history_too_large"
+	GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowPayloadTooLarge   GetFlowRun200JSONResponseBodyErrorDetailsCode = "flow_payload_too_large"
+	GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowStepLimitExceeded GetFlowRun200JSONResponseBodyErrorDetailsCode = "flow_step_limit_exceeded"
+)
+
+// Valid indicates whether the value is a known member of the GetFlowRun200JSONResponseBodyErrorDetailsCode enum.
+func (e GetFlowRun200JSONResponseBodyErrorDetailsCode) Valid() bool {
+	switch e {
+	case GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowDeterminismError:
+		return true
+	case GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowHistoryTooLarge:
+		return true
+	case GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowPayloadTooLarge:
+		return true
+	case GetFlowRun200JSONResponseBodyErrorDetailsCodeFlowStepLimitExceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetFlowRun200JSONResponseBodyErrorDetailsKind.
+const (
+	GetFlowRun200JSONResponseBodyErrorDetailsKindInputHash   GetFlowRun200JSONResponseBodyErrorDetailsKind = "input_hash"
+	GetFlowRun200JSONResponseBodyErrorDetailsKindType        GetFlowRun200JSONResponseBodyErrorDetailsKind = "type"
+	GetFlowRun200JSONResponseBodyErrorDetailsKindUnknownType GetFlowRun200JSONResponseBodyErrorDetailsKind = "unknown_type"
+)
+
+// Valid indicates whether the value is a known member of the GetFlowRun200JSONResponseBodyErrorDetailsKind enum.
+func (e GetFlowRun200JSONResponseBodyErrorDetailsKind) Valid() bool {
+	switch e {
+	case GetFlowRun200JSONResponseBodyErrorDetailsKindInputHash:
+		return true
+	case GetFlowRun200JSONResponseBodyErrorDetailsKindType:
+		return true
+	case GetFlowRun200JSONResponseBodyErrorDetailsKindUnknownType:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetFlowRun200JSONResponseBodyStatus.
+const (
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusCanceled  GetFlowRun200JSONResponseBodyStatus = "canceled"
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusFailed    GetFlowRun200JSONResponseBodyStatus = "failed"
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusPaused    GetFlowRun200JSONResponseBodyStatus = "paused"
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusPending   GetFlowRun200JSONResponseBodyStatus = "pending"
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusRunning   GetFlowRun200JSONResponseBodyStatus = "running"
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusSucceeded GetFlowRun200JSONResponseBodyStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the GetFlowRun200JSONResponseBodyStatus enum.
+func (e GetFlowRun200JSONResponseBodyStatus) Valid() bool {
+	switch e {
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusCanceled:
+		return true
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusFailed:
+		return true
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusPaused:
+		return true
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusPending:
+		return true
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusRunning:
+		return true
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListFlowRunSteps200JSONResponseBodyStepsStatus.
+const (
+	ListFlowRunSteps200JSONResponseBodyStepsStatusFlowRunStepStatusFailed    ListFlowRunSteps200JSONResponseBodyStepsStatus = "failed"
+	ListFlowRunSteps200JSONResponseBodyStepsStatusFlowRunStepStatusRunning   ListFlowRunSteps200JSONResponseBodyStepsStatus = "running"
+	ListFlowRunSteps200JSONResponseBodyStepsStatusFlowRunStepStatusSucceeded ListFlowRunSteps200JSONResponseBodyStepsStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the ListFlowRunSteps200JSONResponseBodyStepsStatus enum.
+func (e ListFlowRunSteps200JSONResponseBodyStepsStatus) Valid() bool {
+	switch e {
+	case ListFlowRunSteps200JSONResponseBodyStepsStatusFlowRunStepStatusFailed:
+		return true
+	case ListFlowRunSteps200JSONResponseBodyStepsStatusFlowRunStepStatusRunning:
+		return true
+	case ListFlowRunSteps200JSONResponseBodyStepsStatusFlowRunStepStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListFlowRunSteps200JSONResponseBodyStepsType.
+const (
+	ListFlowRunSteps200JSONResponseBodyStepsTypeFlowRunStepTypeDetached ListFlowRunSteps200JSONResponseBodyStepsType = "detached"
+	ListFlowRunSteps200JSONResponseBodyStepsTypeFlowRunStepTypeInline   ListFlowRunSteps200JSONResponseBodyStepsType = "inline"
+	ListFlowRunSteps200JSONResponseBodyStepsTypeFlowRunStepTypeSleep    ListFlowRunSteps200JSONResponseBodyStepsType = "sleep"
+)
+
+// Valid indicates whether the value is a known member of the ListFlowRunSteps200JSONResponseBodyStepsType enum.
+func (e ListFlowRunSteps200JSONResponseBodyStepsType) Valid() bool {
+	switch e {
+	case ListFlowRunSteps200JSONResponseBodyStepsTypeFlowRunStepTypeDetached:
+		return true
+	case ListFlowRunSteps200JSONResponseBodyStepsTypeFlowRunStepTypeInline:
+		return true
+	case ListFlowRunSteps200JSONResponseBodyStepsTypeFlowRunStepTypeSleep:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetFlowRunStep200JSONResponseBodyStatus.
+const (
+	GetFlowRunStep200JSONResponseBodyStatusFlowRunStepStatusFailed    GetFlowRunStep200JSONResponseBodyStatus = "failed"
+	GetFlowRunStep200JSONResponseBodyStatusFlowRunStepStatusRunning   GetFlowRunStep200JSONResponseBodyStatus = "running"
+	GetFlowRunStep200JSONResponseBodyStatusFlowRunStepStatusSucceeded GetFlowRunStep200JSONResponseBodyStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the GetFlowRunStep200JSONResponseBodyStatus enum.
+func (e GetFlowRunStep200JSONResponseBodyStatus) Valid() bool {
+	switch e {
+	case GetFlowRunStep200JSONResponseBodyStatusFlowRunStepStatusFailed:
+		return true
+	case GetFlowRunStep200JSONResponseBodyStatusFlowRunStepStatusRunning:
+		return true
+	case GetFlowRunStep200JSONResponseBodyStatusFlowRunStepStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetFlowRunStep200JSONResponseBodyType.
+const (
+	GetFlowRunStep200JSONResponseBodyTypeFlowRunStepTypeDetached GetFlowRunStep200JSONResponseBodyType = "detached"
+	GetFlowRunStep200JSONResponseBodyTypeFlowRunStepTypeInline   GetFlowRunStep200JSONResponseBodyType = "inline"
+	GetFlowRunStep200JSONResponseBodyTypeFlowRunStepTypeSleep    GetFlowRunStep200JSONResponseBodyType = "sleep"
+)
+
+// Valid indicates whether the value is a known member of the GetFlowRunStep200JSONResponseBodyType enum.
+func (e GetFlowRunStep200JSONResponseBodyType) Valid() bool {
+	switch e {
+	case GetFlowRunStep200JSONResponseBodyTypeFlowRunStepTypeDetached:
+		return true
+	case GetFlowRunStep200JSONResponseBodyTypeFlowRunStepTypeInline:
+		return true
+	case GetFlowRunStep200JSONResponseBodyTypeFlowRunStepTypeSleep:
 		return true
 	default:
 		return false
@@ -8985,6 +9267,41 @@ type ExecutionWithCursorExecutionOperation string
 // ExecutionWithCursorExecutionType defines model for ExecutionWithCursor.Execution.Type.
 type ExecutionWithCursorExecutionType string
 
+// FlowRunWithCursor defines model for flowRunWithCursor.
+type FlowRunWithCursor struct {
+	Cursor  Cursor `json:"cursor"`
+	FlowRun struct {
+		CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+		// FlowId Example: flw-d0hp8fs9c44c73a6f1qg
+		FlowId string `json:"flowId"`
+
+		// Id Example: frn-d0hp8fs9c44c73a6f1qg
+		Id        string     `json:"id"`
+		StartedAt *time.Time `json:"startedAt,omitempty"`
+
+		// Status The status of a flow run.
+		Status FlowRunWithCursorFlowRunStatus `json:"status"`
+	} `json:"flowRun"`
+}
+
+// FlowRunWithCursorFlowRunStatus The status of a flow run.
+type FlowRunWithCursorFlowRunStatus string
+
+// FlowWithCursor defines model for flowWithCursor.
+type FlowWithCursor struct {
+	Cursor Cursor `json:"cursor"`
+	Flow   struct {
+		CreatedAt time.Time `json:"createdAt"`
+
+		// Id Example: flw-d0hp8fs9c44c73a6f1qg
+		Id                string  `json:"id"`
+		Name              string  `json:"name"`
+		WorkflowId        *string `json:"workflowId,omitempty"`
+		WorkflowVersionId *string `json:"workflowVersionId,omitempty"`
+	} `json:"flow"`
+}
+
 // Header defines model for header.
 type Header struct {
 	Id    string `json:"id"`
@@ -12968,6 +13285,137 @@ type RetrieveEvent200JSONResponseBody_Details struct {
 // RetrieveEvent200JSONResponseBodyType defines parameters for RetrieveEvent.
 type RetrieveEvent200JSONResponseBodyType string
 
+// ListFlowRunsParams defines parameters for ListFlowRuns.
+type ListFlowRunsParams struct {
+	// Cursor The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
+	Cursor *CursorParam `form:"cursor,omitempty" json:"cursor,omitempty"`
+
+	// Limit The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
+	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// FlowSlug An array of flow slugs in the format workflow-slug/flow-name. An optional version can be appended (workflow-slug/flow-name:version). If no version is provided, the latest version is used.
+	FlowSlug *[]string `form:"flowSlug,omitempty" json:"flowSlug,omitempty"`
+
+	// FlowId An array of flow IDs
+	FlowId *[]string `form:"flowId,omitempty" json:"flowId,omitempty"`
+
+	// Status An array of flow run statuses to filter on
+	Status *[]ListFlowRunsParamsStatus `form:"status,omitempty" json:"status,omitempty"`
+
+	// OwnerId The ID of the workspaces to return resources for
+	OwnerId *OwnerIdParam `form:"ownerId,omitempty" json:"ownerId,omitempty"`
+
+	// WorkflowVersionId An array of workflow version IDs
+	WorkflowVersionId *[]string `form:"workflowVersionId,omitempty" json:"workflowVersionId,omitempty"`
+
+	// WorkflowId An array of workflow IDs
+	WorkflowId *[]string `form:"workflowId,omitempty" json:"workflowId,omitempty"`
+}
+
+// ListFlowRunsParamsStatus defines parameters for ListFlowRuns.
+type ListFlowRunsParamsStatus string
+
+// StartFlowRunJSONBody defines parameters for StartFlowRun.
+type StartFlowRunJSONBody struct {
+	// Flow A flow slug in the format workflow-slug/flow-name. An optional version can be appended (workflow-slug/flow-name:version). If no version is provided, the latest version is used. Cannot be blank.
+	//
+	// Example: my-workflow-slug/my-flow
+	Flow string `json:"flow"`
+
+	// IdempotencyKey A client-generated key that makes starting a task run safe to retry. Repeating a request with the same key within 24 hours returns the task run that the first request started instead of starting another one; the repeated request's input is ignored. Keys are scoped to a workflow. Omit the key to always start a new run.
+	//
+	// Example: 6b2f1f7a-6a0e-4f6f-9d1a-2b1d0d5f6c11
+	IdempotencyKey *string `json:"idempotencyKey,omitempty"`
+
+	// Input Input data for a flow. Can be either an array (for positional arguments) or an object (for named parameters).
+	Input StartFlowRunJSONBody_Input `json:"input"`
+}
+
+// StartFlowRunJSONBodyInput0 defines parameters for StartFlowRun.
+type StartFlowRunJSONBodyInput0 = []interface{}
+
+// StartFlowRunJSONBodyInput1 defines parameters for StartFlowRun.
+type StartFlowRunJSONBodyInput1 map[string]interface{}
+
+// StartFlowRunJSONBody_Input defines parameters for StartFlowRun.
+type StartFlowRunJSONBody_Input struct {
+	union json.RawMessage
+}
+
+// StartFlowRun202JSONResponseBodyStatus defines parameters for StartFlowRun.
+type StartFlowRun202JSONResponseBodyStatus string
+
+// GetFlowRun200JSONResponseBodyAttemptsStatus defines parameters for GetFlowRun.
+type GetFlowRun200JSONResponseBodyAttemptsStatus string
+
+// GetFlowRun200JSONResponseBodyErrorDetailsCode defines parameters for GetFlowRun.
+type GetFlowRun200JSONResponseBodyErrorDetailsCode string
+
+// GetFlowRun200JSONResponseBodyErrorDetailsKind defines parameters for GetFlowRun.
+type GetFlowRun200JSONResponseBodyErrorDetailsKind string
+
+// GetFlowRun200JSONResponseBodyInput0 defines parameters for GetFlowRun.
+type GetFlowRun200JSONResponseBodyInput0 = []interface{}
+
+// GetFlowRun200JSONResponseBodyInput1 defines parameters for GetFlowRun.
+type GetFlowRun200JSONResponseBodyInput1 map[string]interface{}
+
+// GetFlowRun200JSONResponseBody_Input defines parameters for GetFlowRun.
+type GetFlowRun200JSONResponseBody_Input struct {
+	union json.RawMessage
+}
+
+// GetFlowRun200JSONResponseBodyStatus defines parameters for GetFlowRun.
+type GetFlowRun200JSONResponseBodyStatus string
+
+// ListFlowRunStepsParams defines parameters for ListFlowRunSteps.
+type ListFlowRunStepsParams struct {
+	// Cursor The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
+	Cursor *CursorParam `form:"cursor,omitempty" json:"cursor,omitempty"`
+
+	// Limit The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
+	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListFlowRunSteps200JSONResponseBodyStepsStatus defines parameters for ListFlowRunSteps.
+type ListFlowRunSteps200JSONResponseBodyStepsStatus string
+
+// ListFlowRunSteps200JSONResponseBodyStepsType defines parameters for ListFlowRunSteps.
+type ListFlowRunSteps200JSONResponseBodyStepsType string
+
+// GetFlowRunStepParams defines parameters for GetFlowRunStep.
+type GetFlowRunStepParams struct {
+	// StepKey The SDK's key for the step, as `stepKey` reports it in the step listing. Steps that share a sequence number are told apart by it. Omit it for a step the SDK recorded without one.
+	StepKey *string `form:"stepKey,omitempty" json:"stepKey,omitempty"`
+}
+
+// GetFlowRunStep200JSONResponseBodyStatus defines parameters for GetFlowRunStep.
+type GetFlowRunStep200JSONResponseBodyStatus string
+
+// GetFlowRunStep200JSONResponseBodyType defines parameters for GetFlowRunStep.
+type GetFlowRunStep200JSONResponseBodyType string
+
+// ListFlowsParams defines parameters for ListFlows.
+type ListFlowsParams struct {
+	// Cursor The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
+	Cursor *CursorParam `form:"cursor,omitempty" json:"cursor,omitempty"`
+
+	// Limit The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
+	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// OwnerId The ID of the workspaces to return resources for
+	OwnerId *OwnerIdParam `form:"ownerId,omitempty" json:"ownerId,omitempty"`
+
+	// FlowSlug An array of flow slugs in the format workflow-slug/flow-name. An optional version can be appended (workflow-slug/flow-name:version). If no version is provided, the latest version is used.
+	FlowSlug *[]string `form:"flowSlug,omitempty" json:"flowSlug,omitempty"`
+
+	// WorkflowVersionId An array of workflow version IDs
+	WorkflowVersionId *[]string `form:"workflowVersionId,omitempty" json:"workflowVersionId,omitempty"`
+
+	// WorkflowId An array of workflow IDs
+	WorkflowId *[]string `form:"workflowId,omitempty" json:"workflowId,omitempty"`
+}
+
 // ListKeyValueParams defines parameters for ListKeyValue.
 type ListKeyValueParams struct {
 	// Name Filter by name
@@ -14318,7 +14766,7 @@ type ConnectSandboxFilesParams struct {
 	// determined from the sandbox ID, and this parameter is ignored when supplied.
 	OwnerId *string `form:"ownerId,omitempty" json:"ownerId,omitempty"`
 
-	// Path Path in the sandbox this token authorizes. A relative path resolves within the sandbox's home directory ("." is the home directory itself); an absolute path addresses the sandbox filesystem root. For an archive upload, the extraction root; for a download, the file or directory to fetch.
+	// Path Path in the sandbox this token authorizes. A relative path resolves within the sandbox's working directory, which is the image's WORKDIR or, when the image sets none, the home directory ("." is the working directory itself); an absolute path addresses the sandbox filesystem root. For an archive upload, the extraction root; for a download, the file or directory to fetch.
 	Path string `form:"path" json:"path"`
 }
 
@@ -15134,6 +15582,9 @@ type UpdateEnvironmentJSONRequestBody = EnvironmentPATCHInput
 
 // AddResourcesToEnvironmentJSONRequestBody defines body for AddResourcesToEnvironment for application/json ContentType.
 type AddResourcesToEnvironmentJSONRequestBody = EnvironmentResourcesPOSTInput
+
+// StartFlowRunJSONRequestBody defines body for StartFlowRun for application/json ContentType.
+type StartFlowRunJSONRequestBody StartFlowRunJSONBody
 
 // CreateKeyValueJSONRequestBody defines body for CreateKeyValue for application/json ContentType.
 type CreateKeyValueJSONRequestBody = KeyValuePOSTInput
@@ -19493,6 +19944,130 @@ func (t *RetrieveEvent200JSONResponseBody_Details) UnmarshalJSON(b []byte) error
 	return err
 }
 
+// AsStartFlowRunJSONBodyInput0 returns the union data inside the StartFlowRunJSONBody_Input as a StartFlowRunJSONBodyInput0
+func (t StartFlowRunJSONBody_Input) AsStartFlowRunJSONBodyInput0() (StartFlowRunJSONBodyInput0, error) {
+	var body StartFlowRunJSONBodyInput0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStartFlowRunJSONBodyInput0 overwrites any union data inside the StartFlowRunJSONBody_Input as the provided StartFlowRunJSONBodyInput0
+func (t *StartFlowRunJSONBody_Input) FromStartFlowRunJSONBodyInput0(v StartFlowRunJSONBodyInput0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStartFlowRunJSONBodyInput0 performs a merge with any union data inside the StartFlowRunJSONBody_Input, using the provided StartFlowRunJSONBodyInput0
+func (t *StartFlowRunJSONBody_Input) MergeStartFlowRunJSONBodyInput0(v StartFlowRunJSONBodyInput0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStartFlowRunJSONBodyInput1 returns the union data inside the StartFlowRunJSONBody_Input as a StartFlowRunJSONBodyInput1
+func (t StartFlowRunJSONBody_Input) AsStartFlowRunJSONBodyInput1() (StartFlowRunJSONBodyInput1, error) {
+	var body StartFlowRunJSONBodyInput1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStartFlowRunJSONBodyInput1 overwrites any union data inside the StartFlowRunJSONBody_Input as the provided StartFlowRunJSONBodyInput1
+func (t *StartFlowRunJSONBody_Input) FromStartFlowRunJSONBodyInput1(v StartFlowRunJSONBodyInput1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStartFlowRunJSONBodyInput1 performs a merge with any union data inside the StartFlowRunJSONBody_Input, using the provided StartFlowRunJSONBodyInput1
+func (t *StartFlowRunJSONBody_Input) MergeStartFlowRunJSONBodyInput1(v StartFlowRunJSONBodyInput1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StartFlowRunJSONBody_Input) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StartFlowRunJSONBody_Input) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsGetFlowRun200JSONResponseBodyInput0 returns the union data inside the GetFlowRun200JSONResponseBody_Input as a GetFlowRun200JSONResponseBodyInput0
+func (t GetFlowRun200JSONResponseBody_Input) AsGetFlowRun200JSONResponseBodyInput0() (GetFlowRun200JSONResponseBodyInput0, error) {
+	var body GetFlowRun200JSONResponseBodyInput0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromGetFlowRun200JSONResponseBodyInput0 overwrites any union data inside the GetFlowRun200JSONResponseBody_Input as the provided GetFlowRun200JSONResponseBodyInput0
+func (t *GetFlowRun200JSONResponseBody_Input) FromGetFlowRun200JSONResponseBodyInput0(v GetFlowRun200JSONResponseBodyInput0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeGetFlowRun200JSONResponseBodyInput0 performs a merge with any union data inside the GetFlowRun200JSONResponseBody_Input, using the provided GetFlowRun200JSONResponseBodyInput0
+func (t *GetFlowRun200JSONResponseBody_Input) MergeGetFlowRun200JSONResponseBodyInput0(v GetFlowRun200JSONResponseBodyInput0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsGetFlowRun200JSONResponseBodyInput1 returns the union data inside the GetFlowRun200JSONResponseBody_Input as a GetFlowRun200JSONResponseBodyInput1
+func (t GetFlowRun200JSONResponseBody_Input) AsGetFlowRun200JSONResponseBodyInput1() (GetFlowRun200JSONResponseBodyInput1, error) {
+	var body GetFlowRun200JSONResponseBodyInput1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromGetFlowRun200JSONResponseBodyInput1 overwrites any union data inside the GetFlowRun200JSONResponseBody_Input as the provided GetFlowRun200JSONResponseBodyInput1
+func (t *GetFlowRun200JSONResponseBody_Input) FromGetFlowRun200JSONResponseBodyInput1(v GetFlowRun200JSONResponseBodyInput1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeGetFlowRun200JSONResponseBodyInput1 performs a merge with any union data inside the GetFlowRun200JSONResponseBody_Input, using the provided GetFlowRun200JSONResponseBodyInput1
+func (t *GetFlowRun200JSONResponseBody_Input) MergeGetFlowRun200JSONResponseBodyInput1(v GetFlowRun200JSONResponseBodyInput1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t GetFlowRun200JSONResponseBody_Input) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *GetFlowRun200JSONResponseBody_Input) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsRetrieveSandboxSnapshot200JSONResponseBodyPlan0 returns the union data inside the RetrieveSandboxSnapshot200JSONResponseBody_Plan as a RetrieveSandboxSnapshot200JSONResponseBodyPlan0
 func (t RetrieveSandboxSnapshot200JSONResponseBody_Plan) AsRetrieveSandboxSnapshot200JSONResponseBodyPlan0() (RetrieveSandboxSnapshot200JSONResponseBodyPlan0, error) {
 	var body RetrieveSandboxSnapshot200JSONResponseBodyPlan0
@@ -20879,6 +21454,73 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /events/{eventId} (the `RetrieveEvent` operationId).
 	RetrieveEvent(ctx context.Context, eventId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListFlowRuns List flow runs
+	//
+	// List flow runs that match the provided filters. If no filters are provided, all flow runs accessible by the authenticated user are returned.
+	//
+	// Corresponds with GET /flow-runs (the `ListFlowRuns` operationId).
+	ListFlowRuns(ctx context.Context, params *ListFlowRunsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StartFlowRunWithBody Start flow run
+	//
+	// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+	StartFlowRunWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StartFlowRun Start flow run
+	//
+	// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+	StartFlowRun(ctx context.Context, body StartFlowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CancelFlowRun Cancel flow run
+	//
+	// Cancel a running flow run with the provided ID.
+	//
+	// Corresponds with DELETE /flow-runs/{flowRunId} (the `CancelFlowRun` operationId).
+	CancelFlowRun(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetFlowRun Retrieve flow run
+	//
+	// Retrieve the flow run with the provided ID, including its input and results.
+	//
+	// Corresponds with GET /flow-runs/{flowRunId} (the `GetFlowRun` operationId).
+	GetFlowRun(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListFlowRunSteps List flow run steps
+	//
+	// List the steps a flow run has recorded, in the order the flow started them. A page can hold fewer than `limit` steps and still have more after it, so page until `hasMore` is false.
+	//
+	// Corresponds with GET /flow-runs/{flowRunId}/steps (the `ListFlowRunSteps` operationId).
+	ListFlowRunSteps(ctx context.Context, flowRunId string, params *ListFlowRunStepsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetFlowRunStep Retrieve flow run step
+	//
+	// Retrieve a single step of a flow run, including its input, result and error. A sequence number can cover more than one step, so pass the `stepKey` the step listing reported to address one of those.
+	//
+	// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq} (the `GetFlowRunStep` operationId).
+	GetFlowRunStep(ctx context.Context, flowRunId string, stepSeq int, params *GetFlowRunStepParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListFlows List flows
+	//
+	// List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned.
+	//
+	// Corresponds with GET /flows (the `ListFlows` operationId).
+	ListFlows(ctx context.Context, params *ListFlowsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetFlow Retrieve flow
+	//
+	// Retrieve the workflow flow with the provided ID.
+	//
+	// Corresponds with GET /flows/{flowId} (the `GetFlow` operationId).
+	GetFlow(ctx context.Context, flowId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListKeyValue List Key Value instances
 	//
@@ -24492,6 +25134,163 @@ func (c *Client) AddResourcesToEnvironment(ctx context.Context, environmentId st
 // Corresponds with GET /events/{eventId} (the `RetrieveEvent` operationId).
 func (c *Client) RetrieveEvent(ctx context.Context, eventId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewRetrieveEventRequest(c.Server, eventId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// ListFlowRuns List flow runs
+//
+// List flow runs that match the provided filters. If no filters are provided, all flow runs accessible by the authenticated user are returned.
+//
+// Corresponds with GET /flow-runs (the `ListFlowRuns` operationId).
+func (c *Client) ListFlowRuns(ctx context.Context, params *ListFlowRunsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListFlowRunsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StartFlowRunWithBody Start flow run
+//
+// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+func (c *Client) StartFlowRunWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStartFlowRunRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// StartFlowRun Start flow run
+//
+// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+func (c *Client) StartFlowRun(ctx context.Context, body StartFlowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStartFlowRunRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CancelFlowRun Cancel flow run
+//
+// Cancel a running flow run with the provided ID.
+//
+// Corresponds with DELETE /flow-runs/{flowRunId} (the `CancelFlowRun` operationId).
+func (c *Client) CancelFlowRun(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCancelFlowRunRequest(c.Server, flowRunId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetFlowRun Retrieve flow run
+//
+// Retrieve the flow run with the provided ID, including its input and results.
+//
+// Corresponds with GET /flow-runs/{flowRunId} (the `GetFlowRun` operationId).
+func (c *Client) GetFlowRun(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFlowRunRequest(c.Server, flowRunId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// ListFlowRunSteps List flow run steps
+//
+// List the steps a flow run has recorded, in the order the flow started them. A page can hold fewer than `limit` steps and still have more after it, so page until `hasMore` is false.
+//
+// Corresponds with GET /flow-runs/{flowRunId}/steps (the `ListFlowRunSteps` operationId).
+func (c *Client) ListFlowRunSteps(ctx context.Context, flowRunId string, params *ListFlowRunStepsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListFlowRunStepsRequest(c.Server, flowRunId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetFlowRunStep Retrieve flow run step
+//
+// Retrieve a single step of a flow run, including its input, result and error. A sequence number can cover more than one step, so pass the `stepKey` the step listing reported to address one of those.
+//
+// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq} (the `GetFlowRunStep` operationId).
+func (c *Client) GetFlowRunStep(ctx context.Context, flowRunId string, stepSeq int, params *GetFlowRunStepParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFlowRunStepRequest(c.Server, flowRunId, stepSeq, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// ListFlows List flows
+//
+// List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned.
+//
+// Corresponds with GET /flows (the `ListFlows` operationId).
+func (c *Client) ListFlows(ctx context.Context, params *ListFlowsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListFlowsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetFlow Retrieve flow
+//
+// Retrieve the workflow flow with the provided ID.
+//
+// Corresponds with GET /flows/{flowId} (the `GetFlow` operationId).
+func (c *Client) GetFlow(ctx context.Context, flowId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFlowRequest(c.Server, flowId)
 	if err != nil {
 		return nil, err
 	}
@@ -32006,6 +32805,541 @@ func NewRetrieveEventRequest(server string, eventId string) (*http.Request, erro
 	}
 
 	operationPath := fmt.Sprintf("/events/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListFlowRunsRequest constructs an http.Request for the ListFlowRuns method
+func NewListFlowRunsRequest(server string, params *ListFlowRunsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flow-runs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Cursor != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "cursor", *params.Cursor, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.FlowSlug != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "flowSlug", *params.FlowSlug, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.FlowId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "flowId", *params.FlowId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Status != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "status", *params.Status, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.OwnerId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", false, "ownerId", *params.OwnerId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.WorkflowVersionId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workflowVersionId", *params.WorkflowVersionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.WorkflowId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workflowId", *params.WorkflowId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewStartFlowRunRequest calls the generic StartFlowRun builder with application/json body
+func NewStartFlowRunRequest(server string, body StartFlowRunJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStartFlowRunRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewStartFlowRunRequestWithBody constructs an http.Request for the StartFlowRun method, with any body, and a specified content type
+func NewStartFlowRunRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flow-runs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCancelFlowRunRequest constructs an http.Request for the CancelFlowRun method
+func NewCancelFlowRunRequest(server string, flowRunId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowRunId", flowRunId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flow-runs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetFlowRunRequest constructs an http.Request for the GetFlowRun method
+func NewGetFlowRunRequest(server string, flowRunId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowRunId", flowRunId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flow-runs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListFlowRunStepsRequest constructs an http.Request for the ListFlowRunSteps method
+func NewListFlowRunStepsRequest(server string, flowRunId string, params *ListFlowRunStepsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowRunId", flowRunId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flow-runs/%s/steps", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Cursor != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "cursor", *params.Cursor, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetFlowRunStepRequest constructs an http.Request for the GetFlowRunStep method
+func NewGetFlowRunStepRequest(server string, flowRunId string, stepSeq int, params *GetFlowRunStepParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowRunId", flowRunId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "stepSeq", stepSeq, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "integer", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flow-runs/%s/steps/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.StepKey != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "stepKey", *params.StepKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListFlowsRequest constructs an http.Request for the ListFlows method
+func NewListFlowsRequest(server string, params *ListFlowsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flows")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Cursor != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "cursor", *params.Cursor, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.OwnerId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", false, "ownerId", *params.OwnerId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.FlowSlug != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "flowSlug", *params.FlowSlug, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.WorkflowVersionId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workflowVersionId", *params.WorkflowVersionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.WorkflowId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workflowId", *params.WorkflowId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetFlowRequest constructs an http.Request for the GetFlow method
+func NewGetFlowRequest(server string, flowId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowId", flowId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flows/%s", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -44739,6 +46073,87 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /events/{eventId} (the `RetrieveEvent` operationId).
 	RetrieveEventWithResponse(ctx context.Context, eventId string, reqEditors ...RequestEditorFn) (*RetrieveEventResponse, error)
 
+	// ListFlowRunsWithResponse List flow runs
+	//
+	// List flow runs that match the provided filters. If no filters are provided, all flow runs accessible by the authenticated user are returned.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /flow-runs (the `ListFlowRuns` operationId).
+	ListFlowRunsWithResponse(ctx context.Context, params *ListFlowRunsParams, reqEditors ...RequestEditorFn) (*ListFlowRunsResponse, error)
+
+	// StartFlowRunWithBodyWithResponse Start flow run
+	//
+	// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+	StartFlowRunWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StartFlowRunResponse, error)
+
+	// StartFlowRunWithResponse Start flow run
+	//
+	// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+	StartFlowRunWithResponse(ctx context.Context, body StartFlowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*StartFlowRunResponse, error)
+
+	// CancelFlowRunWithResponse Cancel flow run
+	//
+	// Cancel a running flow run with the provided ID.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /flow-runs/{flowRunId} (the `CancelFlowRun` operationId).
+	CancelFlowRunWithResponse(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*CancelFlowRunResponse, error)
+
+	// GetFlowRunWithResponse Retrieve flow run
+	//
+	// Retrieve the flow run with the provided ID, including its input and results.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /flow-runs/{flowRunId} (the `GetFlowRun` operationId).
+	GetFlowRunWithResponse(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*GetFlowRunResponse, error)
+
+	// ListFlowRunStepsWithResponse List flow run steps
+	//
+	// List the steps a flow run has recorded, in the order the flow started them. A page can hold fewer than `limit` steps and still have more after it, so page until `hasMore` is false.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /flow-runs/{flowRunId}/steps (the `ListFlowRunSteps` operationId).
+	ListFlowRunStepsWithResponse(ctx context.Context, flowRunId string, params *ListFlowRunStepsParams, reqEditors ...RequestEditorFn) (*ListFlowRunStepsResponse, error)
+
+	// GetFlowRunStepWithResponse Retrieve flow run step
+	//
+	// Retrieve a single step of a flow run, including its input, result and error. A sequence number can cover more than one step, so pass the `stepKey` the step listing reported to address one of those.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq} (the `GetFlowRunStep` operationId).
+	GetFlowRunStepWithResponse(ctx context.Context, flowRunId string, stepSeq int, params *GetFlowRunStepParams, reqEditors ...RequestEditorFn) (*GetFlowRunStepResponse, error)
+
+	// ListFlowsWithResponse List flows
+	//
+	// List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /flows (the `ListFlows` operationId).
+	ListFlowsWithResponse(ctx context.Context, params *ListFlowsParams, reqEditors ...RequestEditorFn) (*ListFlowsResponse, error)
+
+	// GetFlowWithResponse Retrieve flow
+	//
+	// Retrieve the workflow flow with the provided ID.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /flows/{flowId} (the `GetFlow` operationId).
+	GetFlowWithResponse(ctx context.Context, flowId string, reqEditors ...RequestEditorFn) (*GetFlowResponse, error)
+
 	// ListKeyValueWithResponse List Key Value instances
 	//
 	// List Key Value instances matching the provided filters. If no filters are provided, all Key Value instances are returned.
@@ -53959,6 +55374,1052 @@ func (r RetrieveEventResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r RetrieveEventResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// ListFlowRunsResponse429Headers the declared response headers of an HTTP 429 response for ListFlowRuns
+type ListFlowRunsResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type ListFlowRunsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]FlowRunWithCursor
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *ListFlowRunsResponse429Headers
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r ListFlowRunsResponse) GetJSON200() *[]FlowRunWithCursor {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r ListFlowRunsResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r ListFlowRunsResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r ListFlowRunsResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r ListFlowRunsResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r ListFlowRunsResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r ListFlowRunsResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r ListFlowRunsResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r ListFlowRunsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r ListFlowRunsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListFlowRunsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r ListFlowRunsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// StartFlowRunResponse429Headers the declared response headers of an HTTP 429 response for StartFlowRun
+type StartFlowRunResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type StartFlowRunResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON202 the response for an HTTP 202 `application/json` response
+	JSON202 *struct {
+		CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+		// FlowId Example: flw-d0hp8fs9c44c73a6f1qg
+		FlowId string `json:"flowId"`
+
+		// Id Example: frn-d0hp8fs9c44c73a6f1qg
+		Id        string     `json:"id"`
+		StartedAt *time.Time `json:"startedAt,omitempty"`
+
+		// Status The status of a flow run.
+		Status StartFlowRun202JSONResponseBodyStatus `json:"status"`
+	}
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *StartFlowRunResponse429Headers
+}
+
+// GetJSON202 returns the response for an HTTP 202 `application/json` response
+func (r StartFlowRunResponse) GetJSON202() *struct {
+	CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+	// FlowId Example: flw-d0hp8fs9c44c73a6f1qg
+	FlowId string `json:"flowId"`
+
+	// Id Example: frn-d0hp8fs9c44c73a6f1qg
+	Id        string     `json:"id"`
+	StartedAt *time.Time `json:"startedAt,omitempty"`
+
+	// Status The status of a flow run.
+	Status StartFlowRun202JSONResponseBodyStatus `json:"status"`
+} {
+	return r.JSON202
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r StartFlowRunResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r StartFlowRunResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r StartFlowRunResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r StartFlowRunResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r StartFlowRunResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r StartFlowRunResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r StartFlowRunResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r StartFlowRunResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r StartFlowRunResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StartFlowRunResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StartFlowRunResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// CancelFlowRunResponse429Headers the declared response headers of an HTTP 429 response for CancelFlowRun
+type CancelFlowRunResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type CancelFlowRunResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *CancelFlowRunResponse429Headers
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CancelFlowRunResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CancelFlowRunResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CancelFlowRunResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CancelFlowRunResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CancelFlowRunResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CancelFlowRunResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r CancelFlowRunResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r CancelFlowRunResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CancelFlowRunResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CancelFlowRunResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CancelFlowRunResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// GetFlowRunResponse429Headers the declared response headers of an HTTP 429 response for GetFlowRun
+type GetFlowRunResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type GetFlowRunResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Attempts The flow run's attempts. A flow run gets a new attempt when it resumes after its process is interrupted; it replays completed steps instead of rerunning them.
+		Attempts []struct {
+			// Attempt The 0-indexed attempt number.
+			Attempt     int        `json:"attempt"`
+			CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+			// Error Error message if the attempt failed.
+			Error     *string    `json:"error,omitempty"`
+			StartedAt *time.Time `json:"startedAt,omitempty"`
+
+			// Status The status of a flow run.
+			Status GetFlowRun200JSONResponseBodyAttemptsStatus `json:"status"`
+		} `json:"attempts"`
+		CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+		// Error Error message if the flow run failed.
+		Error        *string `json:"error,omitempty"`
+		ErrorDetails *struct {
+			Actual      *string                                        `json:"actual,omitempty"`
+			Code        GetFlowRun200JSONResponseBodyErrorDetailsCode  `json:"code"`
+			Expected    *string                                        `json:"expected,omitempty"`
+			FlowAttempt *int                                           `json:"flowAttempt,omitempty"`
+			Kind        *GetFlowRun200JSONResponseBodyErrorDetailsKind `json:"kind,omitempty"`
+			Limit       *int64                                         `json:"limit,omitempty"`
+			Message     string                                         `json:"message"`
+			Seq         *int                                           `json:"seq,omitempty"`
+			SubKey      *string                                        `json:"subKey,omitempty"`
+			Value       *int64                                         `json:"value,omitempty"`
+		} `json:"errorDetails,omitempty"`
+
+		// FlowId Example: flw-d0hp8fs9c44c73a6f1qg
+		FlowId string `json:"flowId"`
+
+		// Id Example: frn-d0hp8fs9c44c73a6f1qg
+		Id string `json:"id"`
+
+		// Input Input data for a flow. Can be either an array (for positional arguments) or an object (for named parameters).
+		Input     GetFlowRun200JSONResponseBody_Input `json:"input"`
+		Results   []interface{}                       `json:"results"`
+		StartedAt *time.Time                          `json:"startedAt,omitempty"`
+
+		// Status The status of a flow run.
+		Status GetFlowRun200JSONResponseBodyStatus `json:"status"`
+	}
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *GetFlowRunResponse429Headers
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetFlowRunResponse) GetJSON200() *struct {
+	// Attempts The flow run's attempts. A flow run gets a new attempt when it resumes after its process is interrupted; it replays completed steps instead of rerunning them.
+	Attempts []struct {
+		// Attempt The 0-indexed attempt number.
+		Attempt     int        `json:"attempt"`
+		CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+		// Error Error message if the attempt failed.
+		Error     *string    `json:"error,omitempty"`
+		StartedAt *time.Time `json:"startedAt,omitempty"`
+
+		// Status The status of a flow run.
+		Status GetFlowRun200JSONResponseBodyAttemptsStatus `json:"status"`
+	} `json:"attempts"`
+	CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+	// Error Error message if the flow run failed.
+	Error        *string `json:"error,omitempty"`
+	ErrorDetails *struct {
+		Actual      *string                                        `json:"actual,omitempty"`
+		Code        GetFlowRun200JSONResponseBodyErrorDetailsCode  `json:"code"`
+		Expected    *string                                        `json:"expected,omitempty"`
+		FlowAttempt *int                                           `json:"flowAttempt,omitempty"`
+		Kind        *GetFlowRun200JSONResponseBodyErrorDetailsKind `json:"kind,omitempty"`
+		Limit       *int64                                         `json:"limit,omitempty"`
+		Message     string                                         `json:"message"`
+		Seq         *int                                           `json:"seq,omitempty"`
+		SubKey      *string                                        `json:"subKey,omitempty"`
+		Value       *int64                                         `json:"value,omitempty"`
+	} `json:"errorDetails,omitempty"`
+
+	// FlowId Example: flw-d0hp8fs9c44c73a6f1qg
+	FlowId string `json:"flowId"`
+
+	// Id Example: frn-d0hp8fs9c44c73a6f1qg
+	Id string `json:"id"`
+
+	// Input Input data for a flow. Can be either an array (for positional arguments) or an object (for named parameters).
+	Input     GetFlowRun200JSONResponseBody_Input `json:"input"`
+	Results   []interface{}                       `json:"results"`
+	StartedAt *time.Time                          `json:"startedAt,omitempty"`
+
+	// Status The status of a flow run.
+	Status GetFlowRun200JSONResponseBodyStatus `json:"status"`
+} {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GetFlowRunResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GetFlowRunResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GetFlowRunResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetFlowRunResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GetFlowRunResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GetFlowRunResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetFlowRunResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r GetFlowRunResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFlowRunResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFlowRunResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetFlowRunResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// ListFlowRunStepsResponse429Headers the declared response headers of an HTTP 429 response for ListFlowRunSteps
+type ListFlowRunStepsResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type ListFlowRunStepsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Cursor Pass as the `cursor` query parameter to fetch the next page. Absent on the last page.
+		Cursor *string `json:"cursor,omitempty"`
+
+		// HasMore Whether another page of steps follows this one.
+		HasMore bool `json:"hasMore"`
+		Steps   []struct {
+			// ChildTaskRunId For detached steps, the ID of the task run the step started.
+			//
+			// Example: trn-d0hp8fs9c44c73a6f1qg
+			ChildTaskRunId *string    `json:"childTaskRunId,omitempty"`
+			CompletedAt    *time.Time `json:"completedAt,omitempty"`
+
+			// Name For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps.
+			Name *string `json:"name,omitempty"`
+
+			// Seq The step's position in the flow run. Steps are numbered densely in the order the flow started them.
+			Seq       int       `json:"seq"`
+			StartedAt time.Time `json:"startedAt"`
+
+			// Status `running` until the step records an outcome, then `succeeded` or `failed`.
+			Status ListFlowRunSteps200JSONResponseBodyStepsStatus `json:"status"`
+
+			// StepKey The SDK's key for the step.
+			StepKey string `json:"stepKey"`
+
+			// Type The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep.
+			Type ListFlowRunSteps200JSONResponseBodyStepsType `json:"type"`
+
+			// WakeAt For sleep steps, when the sleep ends.
+			WakeAt *time.Time `json:"wakeAt,omitempty"`
+		} `json:"steps"`
+	}
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *ListFlowRunStepsResponse429Headers
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON200() *struct {
+	// Cursor Pass as the `cursor` query parameter to fetch the next page. Absent on the last page.
+	Cursor *string `json:"cursor,omitempty"`
+
+	// HasMore Whether another page of steps follows this one.
+	HasMore bool `json:"hasMore"`
+	Steps   []struct {
+		// ChildTaskRunId For detached steps, the ID of the task run the step started.
+		//
+		// Example: trn-d0hp8fs9c44c73a6f1qg
+		ChildTaskRunId *string    `json:"childTaskRunId,omitempty"`
+		CompletedAt    *time.Time `json:"completedAt,omitempty"`
+
+		// Name For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps.
+		Name *string `json:"name,omitempty"`
+
+		// Seq The step's position in the flow run. Steps are numbered densely in the order the flow started them.
+		Seq       int       `json:"seq"`
+		StartedAt time.Time `json:"startedAt"`
+
+		// Status `running` until the step records an outcome, then `succeeded` or `failed`.
+		Status ListFlowRunSteps200JSONResponseBodyStepsStatus `json:"status"`
+
+		// StepKey The SDK's key for the step.
+		StepKey string `json:"stepKey"`
+
+		// Type The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep.
+		Type ListFlowRunSteps200JSONResponseBodyStepsType `json:"type"`
+
+		// WakeAt For sleep steps, when the sleep ends.
+		WakeAt *time.Time `json:"wakeAt,omitempty"`
+	} `json:"steps"`
+} {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r ListFlowRunStepsResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r ListFlowRunStepsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r ListFlowRunStepsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListFlowRunStepsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r ListFlowRunStepsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// GetFlowRunStepResponse429Headers the declared response headers of an HTTP 429 response for GetFlowRunStep
+type GetFlowRunStepResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type GetFlowRunStepResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// ChildTaskRunId For detached steps, the ID of the task run the step started.
+		//
+		// Example: trn-d0hp8fs9c44c73a6f1qg
+		ChildTaskRunId *string    `json:"childTaskRunId,omitempty"`
+		CompletedAt    *time.Time `json:"completedAt,omitempty"`
+
+		// Error Error message if the step failed.
+		Error *string `json:"error,omitempty"`
+
+		// Input The step's input. For detached steps, the input of the child task run.
+		Input interface{} `json:"input,omitempty"`
+
+		// Name For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps.
+		Name *string `json:"name,omitempty"`
+
+		// Result The step's result. Present only when the step succeeded; null when the step returned no value.
+		Result *json.RawMessage `json:"result,omitempty"`
+
+		// Seq The step's position in the flow run. Steps are numbered densely in the order the flow started them.
+		Seq       int       `json:"seq"`
+		StartedAt time.Time `json:"startedAt"`
+
+		// Status `running` until the step records an outcome, then `succeeded` or `failed`.
+		Status GetFlowRunStep200JSONResponseBodyStatus `json:"status"`
+
+		// StepKey The SDK's key for the step.
+		StepKey string `json:"stepKey"`
+
+		// Type The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep.
+		Type GetFlowRunStep200JSONResponseBodyType `json:"type"`
+
+		// WakeAt For sleep steps, when the sleep ends.
+		WakeAt *time.Time `json:"wakeAt,omitempty"`
+	}
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *GetFlowRunStepResponse429Headers
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON200() *struct {
+	// ChildTaskRunId For detached steps, the ID of the task run the step started.
+	//
+	// Example: trn-d0hp8fs9c44c73a6f1qg
+	ChildTaskRunId *string    `json:"childTaskRunId,omitempty"`
+	CompletedAt    *time.Time `json:"completedAt,omitempty"`
+
+	// Error Error message if the step failed.
+	Error *string `json:"error,omitempty"`
+
+	// Input The step's input. For detached steps, the input of the child task run.
+	Input interface{} `json:"input,omitempty"`
+
+	// Name For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps.
+	Name *string `json:"name,omitempty"`
+
+	// Result The step's result. Present only when the step succeeded; null when the step returned no value.
+	Result *json.RawMessage `json:"result,omitempty"`
+
+	// Seq The step's position in the flow run. Steps are numbered densely in the order the flow started them.
+	Seq       int       `json:"seq"`
+	StartedAt time.Time `json:"startedAt"`
+
+	// Status `running` until the step records an outcome, then `succeeded` or `failed`.
+	Status GetFlowRunStep200JSONResponseBodyStatus `json:"status"`
+
+	// StepKey The SDK's key for the step.
+	StepKey string `json:"stepKey"`
+
+	// Type The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep.
+	Type GetFlowRunStep200JSONResponseBodyType `json:"type"`
+
+	// WakeAt For sleep steps, when the sleep ends.
+	WakeAt *time.Time `json:"wakeAt,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetFlowRunStepResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r GetFlowRunStepResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFlowRunStepResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFlowRunStepResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetFlowRunStepResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// ListFlowsResponse429Headers the declared response headers of an HTTP 429 response for ListFlows
+type ListFlowsResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type ListFlowsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]FlowWithCursor
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *ListFlowsResponse429Headers
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r ListFlowsResponse) GetJSON200() *[]FlowWithCursor {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r ListFlowsResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r ListFlowsResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r ListFlowsResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r ListFlowsResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r ListFlowsResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r ListFlowsResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r ListFlowsResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r ListFlowsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r ListFlowsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListFlowsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r ListFlowsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// GetFlowResponse429Headers the declared response headers of an HTTP 429 response for GetFlow
+type GetFlowResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type GetFlowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		CreatedAt time.Time `json:"createdAt"`
+
+		// Id Example: flw-d0hp8fs9c44c73a6f1qg
+		Id                string  `json:"id"`
+		Name              string  `json:"name"`
+		WorkflowId        *string `json:"workflowId,omitempty"`
+		WorkflowVersionId *string `json:"workflowVersionId,omitempty"`
+	}
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *GetFlowResponse429Headers
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetFlowResponse) GetJSON200() *struct {
+	CreatedAt time.Time `json:"createdAt"`
+
+	// Id Example: flw-d0hp8fs9c44c73a6f1qg
+	Id                string  `json:"id"`
+	Name              string  `json:"name"`
+	WorkflowId        *string `json:"workflowId,omitempty"`
+	WorkflowVersionId *string `json:"workflowVersionId,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GetFlowResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GetFlowResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetFlowResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GetFlowResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GetFlowResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetFlowResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r GetFlowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFlowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFlowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetFlowResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -74951,6 +77412,141 @@ func (c *ClientWithResponses) RetrieveEventWithResponse(ctx context.Context, eve
 	return ParseRetrieveEventResponse(rsp)
 }
 
+// ListFlowRunsWithResponse List flow runs
+//
+// List flow runs that match the provided filters. If no filters are provided, all flow runs accessible by the authenticated user are returned.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /flow-runs (the `ListFlowRuns` operationId).
+func (c *ClientWithResponses) ListFlowRunsWithResponse(ctx context.Context, params *ListFlowRunsParams, reqEditors ...RequestEditorFn) (*ListFlowRunsResponse, error) {
+	rsp, err := c.ListFlowRuns(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListFlowRunsResponse(rsp)
+}
+
+// StartFlowRunWithBodyWithResponse Start flow run
+//
+// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+func (c *ClientWithResponses) StartFlowRunWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StartFlowRunResponse, error) {
+	rsp, err := c.StartFlowRunWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStartFlowRunResponse(rsp)
+}
+
+// StartFlowRunWithResponse Start flow run
+//
+// Starts a run of the workflow flow with the provided slug, passing the provided input data.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /flow-runs (the `StartFlowRun` operationId).
+func (c *ClientWithResponses) StartFlowRunWithResponse(ctx context.Context, body StartFlowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*StartFlowRunResponse, error) {
+	rsp, err := c.StartFlowRun(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStartFlowRunResponse(rsp)
+}
+
+// CancelFlowRunWithResponse Cancel flow run
+//
+// Cancel a running flow run with the provided ID.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /flow-runs/{flowRunId} (the `CancelFlowRun` operationId).
+func (c *ClientWithResponses) CancelFlowRunWithResponse(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*CancelFlowRunResponse, error) {
+	rsp, err := c.CancelFlowRun(ctx, flowRunId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCancelFlowRunResponse(rsp)
+}
+
+// GetFlowRunWithResponse Retrieve flow run
+//
+// Retrieve the flow run with the provided ID, including its input and results.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /flow-runs/{flowRunId} (the `GetFlowRun` operationId).
+func (c *ClientWithResponses) GetFlowRunWithResponse(ctx context.Context, flowRunId string, reqEditors ...RequestEditorFn) (*GetFlowRunResponse, error) {
+	rsp, err := c.GetFlowRun(ctx, flowRunId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFlowRunResponse(rsp)
+}
+
+// ListFlowRunStepsWithResponse List flow run steps
+//
+// List the steps a flow run has recorded, in the order the flow started them. A page can hold fewer than `limit` steps and still have more after it, so page until `hasMore` is false.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /flow-runs/{flowRunId}/steps (the `ListFlowRunSteps` operationId).
+func (c *ClientWithResponses) ListFlowRunStepsWithResponse(ctx context.Context, flowRunId string, params *ListFlowRunStepsParams, reqEditors ...RequestEditorFn) (*ListFlowRunStepsResponse, error) {
+	rsp, err := c.ListFlowRunSteps(ctx, flowRunId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListFlowRunStepsResponse(rsp)
+}
+
+// GetFlowRunStepWithResponse Retrieve flow run step
+//
+// Retrieve a single step of a flow run, including its input, result and error. A sequence number can cover more than one step, so pass the `stepKey` the step listing reported to address one of those.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq} (the `GetFlowRunStep` operationId).
+func (c *ClientWithResponses) GetFlowRunStepWithResponse(ctx context.Context, flowRunId string, stepSeq int, params *GetFlowRunStepParams, reqEditors ...RequestEditorFn) (*GetFlowRunStepResponse, error) {
+	rsp, err := c.GetFlowRunStep(ctx, flowRunId, stepSeq, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFlowRunStepResponse(rsp)
+}
+
+// ListFlowsWithResponse List flows
+//
+// List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /flows (the `ListFlows` operationId).
+func (c *ClientWithResponses) ListFlowsWithResponse(ctx context.Context, params *ListFlowsParams, reqEditors ...RequestEditorFn) (*ListFlowsResponse, error) {
+	rsp, err := c.ListFlows(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListFlowsResponse(rsp)
+}
+
+// GetFlowWithResponse Retrieve flow
+//
+// Retrieve the workflow flow with the provided ID.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /flows/{flowId} (the `GetFlow` operationId).
+func (c *ClientWithResponses) GetFlowWithResponse(ctx context.Context, flowId string, reqEditors ...RequestEditorFn) (*GetFlowResponse, error) {
+	rsp, err := c.GetFlow(ctx, flowId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFlowResponse(rsp)
+}
+
 // ListKeyValueWithResponse List Key Value instances
 //
 // List Key Value instances matching the provided filters. If no filters are provided, all Key Value instances are returned.
@@ -85697,6 +88293,997 @@ func ParseRetrieveEventResponse(rsp *http.Response) (*RetrieveEventResponse, err
 	switch {
 	case rsp.StatusCode == 429:
 		var headers RetrieveEventResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseListFlowRunsResponse parses an HTTP response from a ListFlowRunsWithResponse call
+func ParseListFlowRunsResponse(rsp *http.Response) (*ListFlowRunsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListFlowRunsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []FlowRunWithCursor
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers ListFlowRunsResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseStartFlowRunResponse parses an HTTP response from a StartFlowRunWithResponse call
+func ParseStartFlowRunResponse(rsp *http.Response) (*StartFlowRunResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StartFlowRunResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+			// FlowId Example: flw-d0hp8fs9c44c73a6f1qg
+			FlowId string `json:"flowId"`
+
+			// Id Example: frn-d0hp8fs9c44c73a6f1qg
+			Id        string     `json:"id"`
+			StartedAt *time.Time `json:"startedAt,omitempty"`
+
+			// Status The status of a flow run.
+			Status StartFlowRun202JSONResponseBodyStatus `json:"status"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers StartFlowRunResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseCancelFlowRunResponse parses an HTTP response from a CancelFlowRunWithResponse call
+func ParseCancelFlowRunResponse(rsp *http.Response) (*CancelFlowRunResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CancelFlowRunResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers CancelFlowRunResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseGetFlowRunResponse parses an HTTP response from a GetFlowRunWithResponse call
+func ParseGetFlowRunResponse(rsp *http.Response) (*GetFlowRunResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFlowRunResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Attempts The flow run's attempts. A flow run gets a new attempt when it resumes after its process is interrupted; it replays completed steps instead of rerunning them.
+			Attempts []struct {
+				// Attempt The 0-indexed attempt number.
+				Attempt     int        `json:"attempt"`
+				CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+				// Error Error message if the attempt failed.
+				Error     *string    `json:"error,omitempty"`
+				StartedAt *time.Time `json:"startedAt,omitempty"`
+
+				// Status The status of a flow run.
+				Status GetFlowRun200JSONResponseBodyAttemptsStatus `json:"status"`
+			} `json:"attempts"`
+			CompletedAt *time.Time `json:"completedAt,omitempty"`
+
+			// Error Error message if the flow run failed.
+			Error        *string `json:"error,omitempty"`
+			ErrorDetails *struct {
+				Actual      *string                                        `json:"actual,omitempty"`
+				Code        GetFlowRun200JSONResponseBodyErrorDetailsCode  `json:"code"`
+				Expected    *string                                        `json:"expected,omitempty"`
+				FlowAttempt *int                                           `json:"flowAttempt,omitempty"`
+				Kind        *GetFlowRun200JSONResponseBodyErrorDetailsKind `json:"kind,omitempty"`
+				Limit       *int64                                         `json:"limit,omitempty"`
+				Message     string                                         `json:"message"`
+				Seq         *int                                           `json:"seq,omitempty"`
+				SubKey      *string                                        `json:"subKey,omitempty"`
+				Value       *int64                                         `json:"value,omitempty"`
+			} `json:"errorDetails,omitempty"`
+
+			// FlowId Example: flw-d0hp8fs9c44c73a6f1qg
+			FlowId string `json:"flowId"`
+
+			// Id Example: frn-d0hp8fs9c44c73a6f1qg
+			Id string `json:"id"`
+
+			// Input Input data for a flow. Can be either an array (for positional arguments) or an object (for named parameters).
+			Input     GetFlowRun200JSONResponseBody_Input `json:"input"`
+			Results   []interface{}                       `json:"results"`
+			StartedAt *time.Time                          `json:"startedAt,omitempty"`
+
+			// Status The status of a flow run.
+			Status GetFlowRun200JSONResponseBodyStatus `json:"status"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers GetFlowRunResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseListFlowRunStepsResponse parses an HTTP response from a ListFlowRunStepsWithResponse call
+func ParseListFlowRunStepsResponse(rsp *http.Response) (*ListFlowRunStepsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListFlowRunStepsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Cursor Pass as the `cursor` query parameter to fetch the next page. Absent on the last page.
+			Cursor *string `json:"cursor,omitempty"`
+
+			// HasMore Whether another page of steps follows this one.
+			HasMore bool `json:"hasMore"`
+			Steps   []struct {
+				// ChildTaskRunId For detached steps, the ID of the task run the step started.
+				//
+				// Example: trn-d0hp8fs9c44c73a6f1qg
+				ChildTaskRunId *string    `json:"childTaskRunId,omitempty"`
+				CompletedAt    *time.Time `json:"completedAt,omitempty"`
+
+				// Name For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps.
+				Name *string `json:"name,omitempty"`
+
+				// Seq The step's position in the flow run. Steps are numbered densely in the order the flow started them.
+				Seq       int       `json:"seq"`
+				StartedAt time.Time `json:"startedAt"`
+
+				// Status `running` until the step records an outcome, then `succeeded` or `failed`.
+				Status ListFlowRunSteps200JSONResponseBodyStepsStatus `json:"status"`
+
+				// StepKey The SDK's key for the step.
+				StepKey string `json:"stepKey"`
+
+				// Type The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep.
+				Type ListFlowRunSteps200JSONResponseBodyStepsType `json:"type"`
+
+				// WakeAt For sleep steps, when the sleep ends.
+				WakeAt *time.Time `json:"wakeAt,omitempty"`
+			} `json:"steps"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers ListFlowRunStepsResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseGetFlowRunStepResponse parses an HTTP response from a GetFlowRunStepWithResponse call
+func ParseGetFlowRunStepResponse(rsp *http.Response) (*GetFlowRunStepResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFlowRunStepResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// ChildTaskRunId For detached steps, the ID of the task run the step started.
+			//
+			// Example: trn-d0hp8fs9c44c73a6f1qg
+			ChildTaskRunId *string    `json:"childTaskRunId,omitempty"`
+			CompletedAt    *time.Time `json:"completedAt,omitempty"`
+
+			// Error Error message if the step failed.
+			Error *string `json:"error,omitempty"`
+
+			// Input The step's input. For detached steps, the input of the child task run.
+			Input interface{} `json:"input,omitempty"`
+
+			// Name For inline steps, the function's name. For detached steps, the task's registered name. Omitted for sleep steps.
+			Name *string `json:"name,omitempty"`
+
+			// Result The step's result. Present only when the step succeeded; null when the step returned no value.
+			Result *json.RawMessage `json:"result,omitempty"`
+
+			// Seq The step's position in the flow run. Steps are numbered densely in the order the flow started them.
+			Seq       int       `json:"seq"`
+			StartedAt time.Time `json:"startedAt"`
+
+			// Status `running` until the step records an outcome, then `succeeded` or `failed`.
+			Status GetFlowRunStep200JSONResponseBodyStatus `json:"status"`
+
+			// StepKey The SDK's key for the step.
+			StepKey string `json:"stepKey"`
+
+			// Type The kind of step. `inline` runs a function inside the flow's process and retries in place. `detached` runs a registered task as its own task run. `sleep` is a durable sleep.
+			Type GetFlowRunStep200JSONResponseBodyType `json:"type"`
+
+			// WakeAt For sleep steps, when the sleep ends.
+			WakeAt *time.Time `json:"wakeAt,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers GetFlowRunStepResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseListFlowsResponse parses an HTTP response from a ListFlowsWithResponse call
+func ParseListFlowsResponse(rsp *http.Response) (*ListFlowsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListFlowsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []FlowWithCursor
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers ListFlowsResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseGetFlowResponse parses an HTTP response from a GetFlowWithResponse call
+func ParseGetFlowResponse(rsp *http.Response) (*GetFlowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFlowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			CreatedAt time.Time `json:"createdAt"`
+
+			// Id Example: flw-d0hp8fs9c44c73a6f1qg
+			Id                string  `json:"id"`
+			Name              string  `json:"name"`
+			WorkflowId        *string `json:"workflowId,omitempty"`
+			WorkflowVersionId *string `json:"workflowVersionId,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers GetFlowResponse429Headers
 		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
 			var value int
 			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
