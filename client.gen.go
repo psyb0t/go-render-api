@@ -22587,8 +22587,7 @@ type ClientInterface interface {
 	// accepts. The message lists the accepted plans.
 	//
 	// 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-	// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-	// workspaces.
+	// above 2592000 (30 days).
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -22618,8 +22617,7 @@ type ClientInterface interface {
 	// accepts. The message lists the accepted plans.
 	//
 	// 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-	// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-	// workspaces.
+	// above 2592000 (30 days).
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -27606,8 +27604,7 @@ func (c *Client) ListSandboxes(ctx context.Context, params *ListSandboxesParams,
 // accepts. The message lists the accepted plans.
 //
 // 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-// workspaces.
+// above 2592000 (30 days).
 //
 // Takes any type of body and a specified content type.
 //
@@ -27647,8 +27644,7 @@ func (c *Client) CreateSandboxWithBody(ctx context.Context, contentType string, 
 // accepts. The message lists the accepted plans.
 //
 // 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-// workspaces.
+// above 2592000 (30 days).
 //
 // Takes a body of the `application/json` content type.
 //
@@ -47385,8 +47381,7 @@ type ClientWithResponsesInterface interface {
 	// accepts. The message lists the accepted plans.
 	//
 	// 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-	// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-	// workspaces.
+	// above 2592000 (30 days).
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -47416,8 +47411,7 @@ type ClientWithResponsesInterface interface {
 	// accepts. The message lists the accepted plans.
 	//
 	// 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-	// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-	// workspaces.
+	// above 2592000 (30 days).
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -79526,8 +79520,7 @@ func (c *ClientWithResponses) ListSandboxesWithResponse(ctx context.Context, par
 // accepts. The message lists the accepted plans.
 //
 // 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-// workspaces.
+// above 2592000 (30 days).
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -79563,8 +79556,7 @@ func (c *ClientWithResponses) CreateSandboxWithBodyWithResponse(ctx context.Cont
 // accepts. The message lists the accepted plans.
 //
 // 400 with `code: invalid_timeout_seconds` if `timeoutSeconds` is below 0 or
-// above the plan's maximum: 2592000 (30 days), or 86400 (24 hours) on Hobby
-// workspaces.
+// above 2592000 (30 days).
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //

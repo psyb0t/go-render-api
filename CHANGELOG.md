@@ -2,6 +2,10 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.5.2, 2026-11-04
+
+- Doc comments only. The `CreateSandbox` and `CreateSandboxWithBody` comments, and their `WithResponse` variants on `ClientInterface`, `Client`, `ClientWithResponsesInterface` and `ClientWithResponses`, now say `timeoutSeconds` above 2592000 (30 days) gives a 400 with `code: invalid_timeout_seconds`. They no longer mention the 86400 second (24 hours) limit on Hobby workspaces. No API or behavior change in the client.
+
 ## v0.5.1, 2026-11-03
 
 - Added flow support. New client methods: `ListFlows`, `GetFlow`, `StartFlowRun`, `ListFlowRuns`, `GetFlowRun`, `CancelFlowRun`, `ListFlowRunSteps` and `GetFlowRunStep`, each with a `WithResponse` variant. `StartFlowRun` also has `StartFlowRunWithBody` and `StartFlowRunWithBodyWithResponse`.
