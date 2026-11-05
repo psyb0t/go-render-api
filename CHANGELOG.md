@@ -2,6 +2,12 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.6.0, 2026-11-05
+
+- Workflow responses now include `DefaultVersionId`, a `*string` with the ID of the workflow version that new task runs use. It is omitted until a version is registered.
+- This changes the inline struct types of `CreateWorkflowResponse.JSON201`, `GetWorkflowResponse.JSON200`, `UpdateWorkflowResponse.JSON200` and `WorkflowWithCursor.Workflow`, and the return types of `CreateWorkflowResponse.GetJSON201`, `GetWorkflowResponse.GetJSON200` and `UpdateWorkflowResponse.GetJSON200`. Code that names these struct types must change.
+- Doc comment only: the `CreateSandbox` `TimeoutSeconds` comment now says positive values must be at least 60.
+
 ## v0.5.2, 2026-11-04
 
 - Doc comments only. The `CreateSandbox` and `CreateSandboxWithBody` comments, and their `WithResponse` variants on `ClientInterface`, `Client`, `ClientWithResponsesInterface` and `ClientWithResponses`, now say `timeoutSeconds` above 2592000 (30 days) gives a 400 with `code: invalid_timeout_seconds`. They no longer mention the 86400 second (24 hours) limit on Hobby workspaces. No API or behavior change in the client.

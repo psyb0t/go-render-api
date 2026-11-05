@@ -11832,11 +11832,14 @@ type WorkflowWithCursor struct {
 			// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 			Runtime WorkflowWithCursorWorkflowBuildConfigRuntime `json:"runtime"`
 		} `json:"buildConfig"`
-		CreatedAt     time.Time `json:"createdAt"`
-		EnvironmentId *string   `json:"environmentId,omitempty"`
-		Id            string    `json:"id"`
-		Name          string    `json:"name"`
-		OwnerId       string    `json:"ownerId"`
+		CreatedAt time.Time `json:"createdAt"`
+
+		// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+		DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+		EnvironmentId    *string `json:"environmentId,omitempty"`
+		Id               string  `json:"id"`
+		Name             string  `json:"name"`
+		OwnerId          string  `json:"ownerId"`
 
 		// Region Defaults to "oregon"
 		Region WorkflowWithCursorWorkflowRegion `json:"region"`
@@ -14657,7 +14660,7 @@ type CreateSandboxJSONBody struct {
 	// `snapshotId`.
 	SnapshotName *string `json:"snapshotName,omitempty"`
 
-	// TimeoutSeconds Maximum sandbox lifetime in seconds. Sandbox is terminated when reached. Use 0 for no timeout.
+	// TimeoutSeconds Maximum sandbox lifetime in seconds. Sandbox is terminated when reached. Use 0 for no timeout. Positive values must be at least 60.
 	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
 }
 
@@ -75279,11 +75282,14 @@ type CreateWorkflowResponse struct {
 			// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 			Runtime CreateWorkflow201JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 		} `json:"buildConfig"`
-		CreatedAt     time.Time `json:"createdAt"`
-		EnvironmentId *string   `json:"environmentId,omitempty"`
-		Id            string    `json:"id"`
-		Name          string    `json:"name"`
-		OwnerId       string    `json:"ownerId"`
+		CreatedAt time.Time `json:"createdAt"`
+
+		// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+		DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+		EnvironmentId    *string `json:"environmentId,omitempty"`
+		Id               string  `json:"id"`
+		Name             string  `json:"name"`
+		OwnerId          string  `json:"ownerId"`
 
 		// Region Defaults to "oregon"
 		Region CreateWorkflow201JSONResponseBodyRegion `json:"region"`
@@ -75329,11 +75335,14 @@ func (r CreateWorkflowResponse) GetJSON201() *struct {
 		// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 		Runtime CreateWorkflow201JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 	} `json:"buildConfig"`
-	CreatedAt     time.Time `json:"createdAt"`
-	EnvironmentId *string   `json:"environmentId,omitempty"`
-	Id            string    `json:"id"`
-	Name          string    `json:"name"`
-	OwnerId       string    `json:"ownerId"`
+	CreatedAt time.Time `json:"createdAt"`
+
+	// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+	DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+	EnvironmentId    *string `json:"environmentId,omitempty"`
+	Id               string  `json:"id"`
+	Name             string  `json:"name"`
+	OwnerId          string  `json:"ownerId"`
 
 	// Region Defaults to "oregon"
 	Region CreateWorkflow201JSONResponseBodyRegion `json:"region"`
@@ -75522,11 +75531,14 @@ type GetWorkflowResponse struct {
 			// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 			Runtime GetWorkflow200JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 		} `json:"buildConfig"`
-		CreatedAt     time.Time `json:"createdAt"`
-		EnvironmentId *string   `json:"environmentId,omitempty"`
-		Id            string    `json:"id"`
-		Name          string    `json:"name"`
-		OwnerId       string    `json:"ownerId"`
+		CreatedAt time.Time `json:"createdAt"`
+
+		// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+		DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+		EnvironmentId    *string `json:"environmentId,omitempty"`
+		Id               string  `json:"id"`
+		Name             string  `json:"name"`
+		OwnerId          string  `json:"ownerId"`
 
 		// Region Defaults to "oregon"
 		Region GetWorkflow200JSONResponseBodyRegion `json:"region"`
@@ -75572,11 +75584,14 @@ func (r GetWorkflowResponse) GetJSON200() *struct {
 		// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 		Runtime GetWorkflow200JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 	} `json:"buildConfig"`
-	CreatedAt     time.Time `json:"createdAt"`
-	EnvironmentId *string   `json:"environmentId,omitempty"`
-	Id            string    `json:"id"`
-	Name          string    `json:"name"`
-	OwnerId       string    `json:"ownerId"`
+	CreatedAt time.Time `json:"createdAt"`
+
+	// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+	DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+	EnvironmentId    *string `json:"environmentId,omitempty"`
+	Id               string  `json:"id"`
+	Name             string  `json:"name"`
+	OwnerId          string  `json:"ownerId"`
 
 	// Region Defaults to "oregon"
 	Region GetWorkflow200JSONResponseBodyRegion `json:"region"`
@@ -75679,11 +75694,14 @@ type UpdateWorkflowResponse struct {
 			// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 			Runtime UpdateWorkflow200JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 		} `json:"buildConfig"`
-		CreatedAt     time.Time `json:"createdAt"`
-		EnvironmentId *string   `json:"environmentId,omitempty"`
-		Id            string    `json:"id"`
-		Name          string    `json:"name"`
-		OwnerId       string    `json:"ownerId"`
+		CreatedAt time.Time `json:"createdAt"`
+
+		// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+		DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+		EnvironmentId    *string `json:"environmentId,omitempty"`
+		Id               string  `json:"id"`
+		Name             string  `json:"name"`
+		OwnerId          string  `json:"ownerId"`
 
 		// Region Defaults to "oregon"
 		Region UpdateWorkflow200JSONResponseBodyRegion `json:"region"`
@@ -75729,11 +75747,14 @@ func (r UpdateWorkflowResponse) GetJSON200() *struct {
 		// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 		Runtime UpdateWorkflow200JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 	} `json:"buildConfig"`
-	CreatedAt     time.Time `json:"createdAt"`
-	EnvironmentId *string   `json:"environmentId,omitempty"`
-	Id            string    `json:"id"`
-	Name          string    `json:"name"`
-	OwnerId       string    `json:"ownerId"`
+	CreatedAt time.Time `json:"createdAt"`
+
+	// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+	DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+	EnvironmentId    *string `json:"environmentId,omitempty"`
+	Id               string  `json:"id"`
+	Name             string  `json:"name"`
+	OwnerId          string  `json:"ownerId"`
 
 	// Region Defaults to "oregon"
 	Region UpdateWorkflow200JSONResponseBodyRegion `json:"region"`
@@ -108246,11 +108267,14 @@ func ParseCreateWorkflowResponse(rsp *http.Response) (*CreateWorkflowResponse, e
 				// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 				Runtime CreateWorkflow201JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 			} `json:"buildConfig"`
-			CreatedAt     time.Time `json:"createdAt"`
-			EnvironmentId *string   `json:"environmentId,omitempty"`
-			Id            string    `json:"id"`
-			Name          string    `json:"name"`
-			OwnerId       string    `json:"ownerId"`
+			CreatedAt time.Time `json:"createdAt"`
+
+			// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+			DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+			EnvironmentId    *string `json:"environmentId,omitempty"`
+			Id               string  `json:"id"`
+			Name             string  `json:"name"`
+			OwnerId          string  `json:"ownerId"`
 
 			// Region Defaults to "oregon"
 			Region CreateWorkflow201JSONResponseBodyRegion `json:"region"`
@@ -108478,11 +108502,14 @@ func ParseGetWorkflowResponse(rsp *http.Response) (*GetWorkflowResponse, error) 
 				// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 				Runtime GetWorkflow200JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 			} `json:"buildConfig"`
-			CreatedAt     time.Time `json:"createdAt"`
-			EnvironmentId *string   `json:"environmentId,omitempty"`
-			Id            string    `json:"id"`
-			Name          string    `json:"name"`
-			OwnerId       string    `json:"ownerId"`
+			CreatedAt time.Time `json:"createdAt"`
+
+			// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+			DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+			EnvironmentId    *string `json:"environmentId,omitempty"`
+			Id               string  `json:"id"`
+			Name             string  `json:"name"`
+			OwnerId          string  `json:"ownerId"`
 
 			// Region Defaults to "oregon"
 			Region GetWorkflow200JSONResponseBodyRegion `json:"region"`
@@ -108612,11 +108639,14 @@ func ParseUpdateWorkflowResponse(rsp *http.Response) (*UpdateWorkflowResponse, e
 				// Runtime The runtime environment for the workflow (e.g., node, python, etc.).
 				Runtime UpdateWorkflow200JSONResponseBodyBuildConfigRuntime `json:"runtime"`
 			} `json:"buildConfig"`
-			CreatedAt     time.Time `json:"createdAt"`
-			EnvironmentId *string   `json:"environmentId,omitempty"`
-			Id            string    `json:"id"`
-			Name          string    `json:"name"`
-			OwnerId       string    `json:"ownerId"`
+			CreatedAt time.Time `json:"createdAt"`
+
+			// DefaultVersionId ID of the workflow version that new task runs use by default. Omitted until a version has been registered.
+			DefaultVersionId *string `json:"defaultVersionId,omitempty"`
+			EnvironmentId    *string `json:"environmentId,omitempty"`
+			Id               string  `json:"id"`
+			Name             string  `json:"name"`
+			OwnerId          string  `json:"ownerId"`
 
 			// Region Defaults to "oregon"
 			Region UpdateWorkflow200JSONResponseBodyRegion `json:"region"`
