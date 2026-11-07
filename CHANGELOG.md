@@ -2,6 +2,16 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.7.0, 2026-11-07
+
+- Added sandbox build support. New client methods: `ListSandboxBuilds`, `CreateSandboxBuild` and `RetrieveSandboxBuild`, each with a `WithResponse` variant. `CreateSandboxBuild` also has `CreateSandboxBuildWithBody` and `CreateSandboxBuildWithBodyWithResponse`.
+- Added the matching request builders (`NewListSandboxBuildsRequest`, `NewCreateSandboxBuildRequest`, `NewCreateSandboxBuildRequestWithBody`, `NewRetrieveSandboxBuildRequest`), parsers (`ParseListSandboxBuildsResponse`, `ParseCreateSandboxBuildResponse`, `ParseRetrieveSandboxBuildResponse`) and response types (`ListSandboxBuildsResponse`, `CreateSandboxBuildResponse`, `RetrieveSandboxBuildResponse`), each with a 429 headers type.
+- Added the types `SandboxBuildWithCursor`, `ListSandboxBuildsParams`, `CreateSandboxBuildJSONBody` and `CreateSandboxBuildJSONRequestBody`, plus build status enums such as `SandboxBuildWithCursorBuildStatus` and `ListSandboxBuildsParamsStatus` with `Pending`, `Running`, `Succeeded` and `Failed` constants.
+- `CreateSandboxJSONBody` has new fields `BuildId`, `BuildName` and `Name`, so a sandbox can start from a succeeded build. `ListSandboxesParams.Name` filters sandboxes by exact name.
+- Sandbox responses now include `Name`, a `*string`. This changes the inline struct types of `CreateSandboxResponse.JSON201`, `RetrieveSandboxResponse.JSON200` and `SandboxWithCursor.Sandbox`, and the return types of `CreateSandboxResponse.GetJSON201` and `RetrieveSandboxResponse.GetJSON200`. Code that names these struct types must change.
+- Added `JSON409` and `GetJSON409` on `ConnectSandboxRunResponse` and `ConnectSandboxFilesResponse`.
+- The four build methods are added to `ClientInterface`, and their `WithResponse` variants to `ClientWithResponsesInterface`. Code that implements these interfaces, such as a mock, must add them.
+
 ## v0.6.0, 2026-11-05
 
 - Workflow responses now include `DefaultVersionId`, a `*string` with the ID of the workflow version that new task runs use. It is omitted until a version is registered.
