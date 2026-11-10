@@ -724,7 +724,9 @@ const (
 	FlowRunWithCursorFlowRunStatusFlowRunStatusPaused    FlowRunWithCursorFlowRunStatus = "paused"
 	FlowRunWithCursorFlowRunStatusFlowRunStatusPending   FlowRunWithCursorFlowRunStatus = "pending"
 	FlowRunWithCursorFlowRunStatusFlowRunStatusRunning   FlowRunWithCursorFlowRunStatus = "running"
+	FlowRunWithCursorFlowRunStatusFlowRunStatusSleeping  FlowRunWithCursorFlowRunStatus = "sleeping"
 	FlowRunWithCursorFlowRunStatusFlowRunStatusSucceeded FlowRunWithCursorFlowRunStatus = "succeeded"
+	FlowRunWithCursorFlowRunStatusFlowRunStatusSuspended FlowRunWithCursorFlowRunStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the FlowRunWithCursorFlowRunStatus enum.
@@ -740,7 +742,11 @@ func (e FlowRunWithCursorFlowRunStatus) Valid() bool {
 		return true
 	case FlowRunWithCursorFlowRunStatusFlowRunStatusRunning:
 		return true
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusSleeping:
+		return true
 	case FlowRunWithCursorFlowRunStatusFlowRunStatusSucceeded:
+		return true
+	case FlowRunWithCursorFlowRunStatusFlowRunStatusSuspended:
 		return true
 	default:
 		return false
@@ -2981,7 +2987,9 @@ const (
 	TaskRunWithCursorTaskRunAttemptsStatusPaused    TaskRunWithCursorTaskRunAttemptsStatus = "paused"
 	TaskRunWithCursorTaskRunAttemptsStatusPending   TaskRunWithCursorTaskRunAttemptsStatus = "pending"
 	TaskRunWithCursorTaskRunAttemptsStatusRunning   TaskRunWithCursorTaskRunAttemptsStatus = "running"
+	TaskRunWithCursorTaskRunAttemptsStatusSleeping  TaskRunWithCursorTaskRunAttemptsStatus = "sleeping"
 	TaskRunWithCursorTaskRunAttemptsStatusSucceeded TaskRunWithCursorTaskRunAttemptsStatus = "succeeded"
+	TaskRunWithCursorTaskRunAttemptsStatusSuspended TaskRunWithCursorTaskRunAttemptsStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the TaskRunWithCursorTaskRunAttemptsStatus enum.
@@ -2999,7 +3007,11 @@ func (e TaskRunWithCursorTaskRunAttemptsStatus) Valid() bool {
 		return true
 	case TaskRunWithCursorTaskRunAttemptsStatusRunning:
 		return true
+	case TaskRunWithCursorTaskRunAttemptsStatusSleeping:
+		return true
 	case TaskRunWithCursorTaskRunAttemptsStatusSucceeded:
+		return true
+	case TaskRunWithCursorTaskRunAttemptsStatusSuspended:
 		return true
 	default:
 		return false
@@ -3014,7 +3026,9 @@ const (
 	TaskRunWithCursorTaskRunStatusPaused    TaskRunWithCursorTaskRunStatus = "paused"
 	TaskRunWithCursorTaskRunStatusPending   TaskRunWithCursorTaskRunStatus = "pending"
 	TaskRunWithCursorTaskRunStatusRunning   TaskRunWithCursorTaskRunStatus = "running"
+	TaskRunWithCursorTaskRunStatusSleeping  TaskRunWithCursorTaskRunStatus = "sleeping"
 	TaskRunWithCursorTaskRunStatusSucceeded TaskRunWithCursorTaskRunStatus = "succeeded"
+	TaskRunWithCursorTaskRunStatusSuspended TaskRunWithCursorTaskRunStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the TaskRunWithCursorTaskRunStatus enum.
@@ -3032,7 +3046,11 @@ func (e TaskRunWithCursorTaskRunStatus) Valid() bool {
 		return true
 	case TaskRunWithCursorTaskRunStatusRunning:
 		return true
+	case TaskRunWithCursorTaskRunStatusSleeping:
+		return true
 	case TaskRunWithCursorTaskRunStatusSucceeded:
+		return true
+	case TaskRunWithCursorTaskRunStatusSuspended:
 		return true
 	default:
 		return false
@@ -4849,7 +4867,9 @@ const (
 	ListFlowRunsParamsStatusFlowRunStatusPaused    ListFlowRunsParamsStatus = "paused"
 	ListFlowRunsParamsStatusFlowRunStatusPending   ListFlowRunsParamsStatus = "pending"
 	ListFlowRunsParamsStatusFlowRunStatusRunning   ListFlowRunsParamsStatus = "running"
+	ListFlowRunsParamsStatusFlowRunStatusSleeping  ListFlowRunsParamsStatus = "sleeping"
 	ListFlowRunsParamsStatusFlowRunStatusSucceeded ListFlowRunsParamsStatus = "succeeded"
+	ListFlowRunsParamsStatusFlowRunStatusSuspended ListFlowRunsParamsStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the ListFlowRunsParamsStatus enum.
@@ -4865,7 +4885,11 @@ func (e ListFlowRunsParamsStatus) Valid() bool {
 		return true
 	case ListFlowRunsParamsStatusFlowRunStatusRunning:
 		return true
+	case ListFlowRunsParamsStatusFlowRunStatusSleeping:
+		return true
 	case ListFlowRunsParamsStatusFlowRunStatusSucceeded:
+		return true
+	case ListFlowRunsParamsStatusFlowRunStatusSuspended:
 		return true
 	default:
 		return false
@@ -4879,7 +4903,9 @@ const (
 	StartFlowRun202JSONResponseBodyStatusFlowRunStatusPaused    StartFlowRun202JSONResponseBodyStatus = "paused"
 	StartFlowRun202JSONResponseBodyStatusFlowRunStatusPending   StartFlowRun202JSONResponseBodyStatus = "pending"
 	StartFlowRun202JSONResponseBodyStatusFlowRunStatusRunning   StartFlowRun202JSONResponseBodyStatus = "running"
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusSleeping  StartFlowRun202JSONResponseBodyStatus = "sleeping"
 	StartFlowRun202JSONResponseBodyStatusFlowRunStatusSucceeded StartFlowRun202JSONResponseBodyStatus = "succeeded"
+	StartFlowRun202JSONResponseBodyStatusFlowRunStatusSuspended StartFlowRun202JSONResponseBodyStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the StartFlowRun202JSONResponseBodyStatus enum.
@@ -4895,7 +4921,11 @@ func (e StartFlowRun202JSONResponseBodyStatus) Valid() bool {
 		return true
 	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusRunning:
 		return true
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusSleeping:
+		return true
 	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusSucceeded:
+		return true
+	case StartFlowRun202JSONResponseBodyStatusFlowRunStatusSuspended:
 		return true
 	default:
 		return false
@@ -4909,7 +4939,9 @@ const (
 	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusPaused    GetFlowRun200JSONResponseBodyAttemptsStatus = "paused"
 	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusPending   GetFlowRun200JSONResponseBodyAttemptsStatus = "pending"
 	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusRunning   GetFlowRun200JSONResponseBodyAttemptsStatus = "running"
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSleeping  GetFlowRun200JSONResponseBodyAttemptsStatus = "sleeping"
 	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSucceeded GetFlowRun200JSONResponseBodyAttemptsStatus = "succeeded"
+	GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSuspended GetFlowRun200JSONResponseBodyAttemptsStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the GetFlowRun200JSONResponseBodyAttemptsStatus enum.
@@ -4925,7 +4957,11 @@ func (e GetFlowRun200JSONResponseBodyAttemptsStatus) Valid() bool {
 		return true
 	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusRunning:
 		return true
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSleeping:
+		return true
 	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSucceeded:
+		return true
+	case GetFlowRun200JSONResponseBodyAttemptsStatusFlowRunStatusSuspended:
 		return true
 	default:
 		return false
@@ -4984,7 +5020,9 @@ const (
 	GetFlowRun200JSONResponseBodyStatusFlowRunStatusPaused    GetFlowRun200JSONResponseBodyStatus = "paused"
 	GetFlowRun200JSONResponseBodyStatusFlowRunStatusPending   GetFlowRun200JSONResponseBodyStatus = "pending"
 	GetFlowRun200JSONResponseBodyStatusFlowRunStatusRunning   GetFlowRun200JSONResponseBodyStatus = "running"
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusSleeping  GetFlowRun200JSONResponseBodyStatus = "sleeping"
 	GetFlowRun200JSONResponseBodyStatusFlowRunStatusSucceeded GetFlowRun200JSONResponseBodyStatus = "succeeded"
+	GetFlowRun200JSONResponseBodyStatusFlowRunStatusSuspended GetFlowRun200JSONResponseBodyStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the GetFlowRun200JSONResponseBodyStatus enum.
@@ -5000,7 +5038,11 @@ func (e GetFlowRun200JSONResponseBodyStatus) Valid() bool {
 		return true
 	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusRunning:
 		return true
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusSleeping:
+		return true
 	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusSucceeded:
+		return true
+	case GetFlowRun200JSONResponseBodyStatusFlowRunStatusSuspended:
 		return true
 	default:
 		return false
@@ -6989,7 +7031,9 @@ const (
 	CreateTask202JSONResponseBodyAttemptsStatusPaused    CreateTask202JSONResponseBodyAttemptsStatus = "paused"
 	CreateTask202JSONResponseBodyAttemptsStatusPending   CreateTask202JSONResponseBodyAttemptsStatus = "pending"
 	CreateTask202JSONResponseBodyAttemptsStatusRunning   CreateTask202JSONResponseBodyAttemptsStatus = "running"
+	CreateTask202JSONResponseBodyAttemptsStatusSleeping  CreateTask202JSONResponseBodyAttemptsStatus = "sleeping"
 	CreateTask202JSONResponseBodyAttemptsStatusSucceeded CreateTask202JSONResponseBodyAttemptsStatus = "succeeded"
+	CreateTask202JSONResponseBodyAttemptsStatusSuspended CreateTask202JSONResponseBodyAttemptsStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the CreateTask202JSONResponseBodyAttemptsStatus enum.
@@ -7007,7 +7051,11 @@ func (e CreateTask202JSONResponseBodyAttemptsStatus) Valid() bool {
 		return true
 	case CreateTask202JSONResponseBodyAttemptsStatusRunning:
 		return true
+	case CreateTask202JSONResponseBodyAttemptsStatusSleeping:
+		return true
 	case CreateTask202JSONResponseBodyAttemptsStatusSucceeded:
+		return true
+	case CreateTask202JSONResponseBodyAttemptsStatusSuspended:
 		return true
 	default:
 		return false
@@ -7022,7 +7070,9 @@ const (
 	CreateTask202JSONResponseBodyStatusPaused    CreateTask202JSONResponseBodyStatus = "paused"
 	CreateTask202JSONResponseBodyStatusPending   CreateTask202JSONResponseBodyStatus = "pending"
 	CreateTask202JSONResponseBodyStatusRunning   CreateTask202JSONResponseBodyStatus = "running"
+	CreateTask202JSONResponseBodyStatusSleeping  CreateTask202JSONResponseBodyStatus = "sleeping"
 	CreateTask202JSONResponseBodyStatusSucceeded CreateTask202JSONResponseBodyStatus = "succeeded"
+	CreateTask202JSONResponseBodyStatusSuspended CreateTask202JSONResponseBodyStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the CreateTask202JSONResponseBodyStatus enum.
@@ -7040,7 +7090,11 @@ func (e CreateTask202JSONResponseBodyStatus) Valid() bool {
 		return true
 	case CreateTask202JSONResponseBodyStatusRunning:
 		return true
+	case CreateTask202JSONResponseBodyStatusSleeping:
+		return true
 	case CreateTask202JSONResponseBodyStatusSucceeded:
+		return true
+	case CreateTask202JSONResponseBodyStatusSuspended:
 		return true
 	default:
 		return false
@@ -7070,7 +7124,9 @@ const (
 	GetTaskRun200JSONResponseBodyAttemptsStatusPaused    GetTaskRun200JSONResponseBodyAttemptsStatus = "paused"
 	GetTaskRun200JSONResponseBodyAttemptsStatusPending   GetTaskRun200JSONResponseBodyAttemptsStatus = "pending"
 	GetTaskRun200JSONResponseBodyAttemptsStatusRunning   GetTaskRun200JSONResponseBodyAttemptsStatus = "running"
+	GetTaskRun200JSONResponseBodyAttemptsStatusSleeping  GetTaskRun200JSONResponseBodyAttemptsStatus = "sleeping"
 	GetTaskRun200JSONResponseBodyAttemptsStatusSucceeded GetTaskRun200JSONResponseBodyAttemptsStatus = "succeeded"
+	GetTaskRun200JSONResponseBodyAttemptsStatusSuspended GetTaskRun200JSONResponseBodyAttemptsStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the GetTaskRun200JSONResponseBodyAttemptsStatus enum.
@@ -7088,7 +7144,11 @@ func (e GetTaskRun200JSONResponseBodyAttemptsStatus) Valid() bool {
 		return true
 	case GetTaskRun200JSONResponseBodyAttemptsStatusRunning:
 		return true
+	case GetTaskRun200JSONResponseBodyAttemptsStatusSleeping:
+		return true
 	case GetTaskRun200JSONResponseBodyAttemptsStatusSucceeded:
+		return true
+	case GetTaskRun200JSONResponseBodyAttemptsStatusSuspended:
 		return true
 	default:
 		return false
@@ -7103,7 +7163,9 @@ const (
 	GetTaskRun200JSONResponseBodyStatusPaused    GetTaskRun200JSONResponseBodyStatus = "paused"
 	GetTaskRun200JSONResponseBodyStatusPending   GetTaskRun200JSONResponseBodyStatus = "pending"
 	GetTaskRun200JSONResponseBodyStatusRunning   GetTaskRun200JSONResponseBodyStatus = "running"
+	GetTaskRun200JSONResponseBodyStatusSleeping  GetTaskRun200JSONResponseBodyStatus = "sleeping"
 	GetTaskRun200JSONResponseBodyStatusSucceeded GetTaskRun200JSONResponseBodyStatus = "succeeded"
+	GetTaskRun200JSONResponseBodyStatusSuspended GetTaskRun200JSONResponseBodyStatus = "suspended"
 )
 
 // Valid indicates whether the value is a known member of the GetTaskRun200JSONResponseBodyStatus enum.
@@ -7121,7 +7183,11 @@ func (e GetTaskRun200JSONResponseBodyStatus) Valid() bool {
 		return true
 	case GetTaskRun200JSONResponseBodyStatusRunning:
 		return true
+	case GetTaskRun200JSONResponseBodyStatusSleeping:
+		return true
 	case GetTaskRun200JSONResponseBodyStatusSucceeded:
+		return true
+	case GetTaskRun200JSONResponseBodyStatusSuspended:
 		return true
 	default:
 		return false

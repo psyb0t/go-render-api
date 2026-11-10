@@ -2,6 +2,13 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.7.1, 2026-11-10
+
+- Added the run status values `sleeping` and `suspended` to the flow run and task run status enums. `Valid` now accepts both values on each type.
+- New flow run constants: `FlowRunWithCursorFlowRunStatusFlowRunStatusSleeping`, `FlowRunWithCursorFlowRunStatusFlowRunStatusSuspended`, `ListFlowRunsParamsStatusFlowRunStatusSleeping`, `ListFlowRunsParamsStatusFlowRunStatusSuspended`, `StartFlowRun202JSONResponseBodyStatusFlowRunStatusSleeping`, `StartFlowRun202JSONResponseBodyStatusFlowRunStatusSuspended`, plus the matching `GetFlowRun200JSONResponseBodyStatus` and `GetFlowRun200JSONResponseBodyAttemptsStatus` constants.
+- New task run constants: `TaskRunWithCursorTaskRunStatusSleeping`, `TaskRunWithCursorTaskRunStatusSuspended`, `TaskRunWithCursorTaskRunAttemptsStatusSleeping`, `TaskRunWithCursorTaskRunAttemptsStatusSuspended`, plus the matching `CreateTask202JSONResponseBody` and `GetTaskRun200JSONResponseBody` status and attempts status constants.
+- `ListFlowRunsParams.Status` can now filter flow runs by `sleeping` and `suspended`.
+
 ## v0.7.0, 2026-11-07
 
 - Added sandbox build support. New client methods: `ListSandboxBuilds`, `CreateSandboxBuild` and `RetrieveSandboxBuild`, each with a `WithResponse` variant. `CreateSandboxBuild` also has `CreateSandboxBuildWithBody` and `CreateSandboxBuildWithBodyWithResponse`.
