@@ -2,6 +2,14 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.8.0, 2026-11-11
+
+- Sandbox build responses now include `FailureCode`, a `*string` with a machine-checkable reason a build failed. It is null unless the build failed. Treat an unknown code as `internal_error`.
+- This changes the inline struct types of `CreateSandboxBuildResponse.JSON201`, `RetrieveSandboxBuildResponse.JSON200` and `SandboxBuildWithCursor.Build`, and the return types of `CreateSandboxBuildResponse.GetJSON201` and `RetrieveSandboxBuildResponse.GetJSON200`. Code that names these struct types must change.
+- `ListSandboxSnapshotsParams.Name` filters snapshots by exact name and lists every version of that name, newest first. `NewListSandboxSnapshotsRequest` sends it as the `name` query parameter.
+- Doc comment only: `FailureReason` on sandbox builds can include the registry's own error text, so show it as detail next to a message chosen from `FailureCode`.
+- Doc comment only: `ConnectSandboxRunJSONBody.Command` is marked deprecated. The API ignores it and the sandbox timeline records the command sent in the run request.
+
 ## v0.7.1, 2026-11-10
 
 - Added the run status values `sleeping` and `suspended` to the flow run and task run status enums. `Valid` now accepts both values on each type.

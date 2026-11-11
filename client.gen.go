@@ -10477,7 +10477,17 @@ type SandboxBuildWithCursor struct {
 	Build struct {
 		CreatedAt time.Time `json:"createdAt"`
 
-		// FailureReason Why the build failed. Null unless `failed`.
+		// FailureCode Why the build failed, for code to check. Null unless `failed`. The
+		// sandboxBuildFailureCode schema lists the codes. Treat a code you
+		// don't recognize as `internal_error`.
+		//
+		//
+		// Example: image_pull_failed
+		FailureCode *string `json:"failureCode,omitempty"`
+
+		// FailureReason Why the build failed. Null unless `failed`. It can include the
+		// registry's own error text, so show it as detail alongside a
+		// message chosen from `failureCode` rather than as the headline.
 		FailureReason *string `json:"failureReason,omitempty"`
 
 		// FinishedAt When the build succeeded or failed.
@@ -14781,6 +14791,12 @@ type ListSandboxSnapshotsParams struct {
 	// OwnerId The ID of the workspace whose snapshots to return.
 	OwnerId string `form:"ownerId" json:"ownerId"`
 
+	// Name Return only snapshots with exactly this name. Each snapshot taken
+	// with a name is a new version, so this lists every version, newest
+	// first. The first `available` one is the version `snapshotName`
+	// boots on sandbox create.
+	Name *string `form:"name,omitempty" json:"name,omitempty"`
+
 	// Cursor The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
 	Cursor *CursorParam `form:"cursor,omitempty" json:"cursor,omitempty"`
 
@@ -15054,6 +15070,7 @@ type ConnectSandboxFilesParams struct {
 // ConnectSandboxRunJSONBody defines parameters for ConnectSandboxRun.
 type ConnectSandboxRunJSONBody struct {
 	// Command Command text for the sandbox event timeline.
+	// Deprecated: Ignored. The sandbox timeline records the command sent in the run request.
 	Command *string `json:"command,omitempty"`
 }
 
@@ -40935,6 +40952,18 @@ func NewListSandboxSnapshotsRequest(server string, sandboxGroupId string, params
 			for _, qp := range strings.Split(queryFrag, "&") {
 				rawQueryFragments = append(rawQueryFragments, qp)
 			}
+		}
+
+		if params.Name != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "name", *params.Name, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
 		}
 
 		if params.Cursor != nil {
@@ -67463,7 +67492,17 @@ type CreateSandboxBuildResponse struct {
 	JSON201 *struct {
 		CreatedAt time.Time `json:"createdAt"`
 
-		// FailureReason Why the build failed. Null unless `failed`.
+		// FailureCode Why the build failed, for code to check. Null unless `failed`. The
+		// sandboxBuildFailureCode schema lists the codes. Treat a code you
+		// don't recognize as `internal_error`.
+		//
+		//
+		// Example: image_pull_failed
+		FailureCode *string `json:"failureCode,omitempty"`
+
+		// FailureReason Why the build failed. Null unless `failed`. It can include the
+		// registry's own error text, so show it as detail alongside a
+		// message chosen from `failureCode` rather than as the headline.
 		FailureReason *string `json:"failureReason,omitempty"`
 
 		// FinishedAt When the build succeeded or failed.
@@ -67518,7 +67557,17 @@ type CreateSandboxBuildResponse struct {
 func (r CreateSandboxBuildResponse) GetJSON201() *struct {
 	CreatedAt time.Time `json:"createdAt"`
 
-	// FailureReason Why the build failed. Null unless `failed`.
+	// FailureCode Why the build failed, for code to check. Null unless `failed`. The
+	// sandboxBuildFailureCode schema lists the codes. Treat a code you
+	// don't recognize as `internal_error`.
+	//
+	//
+	// Example: image_pull_failed
+	FailureCode *string `json:"failureCode,omitempty"`
+
+	// FailureReason Why the build failed. Null unless `failed`. It can include the
+	// registry's own error text, so show it as detail alongside a
+	// message chosen from `failureCode` rather than as the headline.
 	FailureReason *string `json:"failureReason,omitempty"`
 
 	// FinishedAt When the build succeeded or failed.
@@ -67636,7 +67685,17 @@ type RetrieveSandboxBuildResponse struct {
 	JSON200 *struct {
 		CreatedAt time.Time `json:"createdAt"`
 
-		// FailureReason Why the build failed. Null unless `failed`.
+		// FailureCode Why the build failed, for code to check. Null unless `failed`. The
+		// sandboxBuildFailureCode schema lists the codes. Treat a code you
+		// don't recognize as `internal_error`.
+		//
+		//
+		// Example: image_pull_failed
+		FailureCode *string `json:"failureCode,omitempty"`
+
+		// FailureReason Why the build failed. Null unless `failed`. It can include the
+		// registry's own error text, so show it as detail alongside a
+		// message chosen from `failureCode` rather than as the headline.
 		FailureReason *string `json:"failureReason,omitempty"`
 
 		// FinishedAt When the build succeeded or failed.
@@ -67689,7 +67748,17 @@ type RetrieveSandboxBuildResponse struct {
 func (r RetrieveSandboxBuildResponse) GetJSON200() *struct {
 	CreatedAt time.Time `json:"createdAt"`
 
-	// FailureReason Why the build failed. Null unless `failed`.
+	// FailureCode Why the build failed, for code to check. Null unless `failed`. The
+	// sandboxBuildFailureCode schema lists the codes. Treat a code you
+	// don't recognize as `internal_error`.
+	//
+	//
+	// Example: image_pull_failed
+	FailureCode *string `json:"failureCode,omitempty"`
+
+	// FailureReason Why the build failed. Null unless `failed`. It can include the
+	// registry's own error text, so show it as detail alongside a
+	// message chosen from `failureCode` rather than as the headline.
 	FailureReason *string `json:"failureReason,omitempty"`
 
 	// FinishedAt When the build succeeded or failed.
@@ -100717,7 +100786,17 @@ func ParseCreateSandboxBuildResponse(rsp *http.Response) (*CreateSandboxBuildRes
 		var dest struct {
 			CreatedAt time.Time `json:"createdAt"`
 
-			// FailureReason Why the build failed. Null unless `failed`.
+			// FailureCode Why the build failed, for code to check. Null unless `failed`. The
+			// sandboxBuildFailureCode schema lists the codes. Treat a code you
+			// don't recognize as `internal_error`.
+			//
+			//
+			// Example: image_pull_failed
+			FailureCode *string `json:"failureCode,omitempty"`
+
+			// FailureReason Why the build failed. Null unless `failed`. It can include the
+			// registry's own error text, so show it as detail alongside a
+			// message chosen from `failureCode` rather than as the headline.
 			FailureReason *string `json:"failureReason,omitempty"`
 
 			// FinishedAt When the build succeeded or failed.
@@ -100866,7 +100945,17 @@ func ParseRetrieveSandboxBuildResponse(rsp *http.Response) (*RetrieveSandboxBuil
 		var dest struct {
 			CreatedAt time.Time `json:"createdAt"`
 
-			// FailureReason Why the build failed. Null unless `failed`.
+			// FailureCode Why the build failed, for code to check. Null unless `failed`. The
+			// sandboxBuildFailureCode schema lists the codes. Treat a code you
+			// don't recognize as `internal_error`.
+			//
+			//
+			// Example: image_pull_failed
+			FailureCode *string `json:"failureCode,omitempty"`
+
+			// FailureReason Why the build failed. Null unless `failed`. It can include the
+			// registry's own error text, so show it as detail alongside a
+			// message chosen from `failureCode` rather than as the headline.
 			FailureReason *string `json:"failureReason,omitempty"`
 
 			// FinishedAt When the build succeeded or failed.
