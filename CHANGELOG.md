@@ -2,6 +2,17 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.9.0, 2026-11-12
+
+- `TriggerBuildSourceBuild` now takes a request body. Its signature, and those of `TriggerBuildSourceBuildWithResponse` and `NewTriggerBuildSourceBuildRequest`, gain a `TriggerBuildSourceBuildJSONRequestBody` parameter before the editors. Existing callers must pass a body.
+- Added `TriggerBuildSourceBuildWithBody`, `TriggerBuildSourceBuildWithBodyWithResponse` and `NewTriggerBuildSourceBuildRequestWithBody`, plus the types `TriggerBuildSourceBuildJSONBody` and `TriggerBuildSourceBuildJSONRequestBody`. The new field `ClearCache` takes `TriggerBuildSourceBuildJSONBodyClearCacheClear` or `TriggerBuildSourceBuildJSONBodyClearCacheDoNotClear` to clear the build cache before a build.
+- Added `DeleteSandboxBuild` and `DeleteSandboxBuildWithResponse`, with `NewDeleteSandboxBuildRequest`, `ParseDeleteSandboxBuildResponse`, `DeleteSandboxBuildResponse` and its 429 headers type.
+- `CreateSandboxSnapshotJSONBody.TTLSeconds` sets how long a snapshot lives after its last use. 0 keeps it until deleted. `ExpiresAt` on the same type is deprecated in favor of it.
+- Snapshot responses now include `TTLSeconds`, a `*int`. This changes the inline struct types of `CreateSandboxSnapshotResponse.JSON202`, `RetrieveSandboxSnapshotResponse.JSON200` and `SandboxSnapshotWithCursor.Snapshot`, and the return types of `CreateSandboxSnapshotResponse.GetJSON202` and `RetrieveSandboxSnapshotResponse.GetJSON200`. Code that names these struct types must change.
+- Doc comment only: snapshot `ExpiresAt` moves forward each time a sandbox is created from the snapshot.
+- `DeleteSandboxBuild` and `TriggerBuildSourceBuildWithBody` are added to `ClientInterface`, their `WithResponse` variants to `ClientWithResponsesInterface`, and the `TriggerBuildSourceBuild` signature changes there too. Code that implements these interfaces, such as a mock, must change.
+- Raised the Go pin from 1.26.10 to 1.26.11 in `go.mod` and `Dockerfile.dev`. The new toolchain fixes GO-2026-6859 in `net/http`.
+
 ## v0.8.0, 2026-11-11
 
 - Sandbox build responses now include `FailureCode`, a `*string` with a machine-checkable reason a build failed. It is null unless the build failed. Treat an unknown code as `internal_error`.

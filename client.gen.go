@@ -4362,6 +4362,24 @@ func (e ListBuildsInBuildSource200JSONResponseBodyBuildBuildRunStatus) Valid() b
 	}
 }
 
+// Defines values for TriggerBuildSourceBuildJSONBodyClearCache.
+const (
+	TriggerBuildSourceBuildJSONBodyClearCacheClear      TriggerBuildSourceBuildJSONBodyClearCache = "clear"
+	TriggerBuildSourceBuildJSONBodyClearCacheDoNotClear TriggerBuildSourceBuildJSONBodyClearCache = "do_not_clear"
+)
+
+// Valid indicates whether the value is a known member of the TriggerBuildSourceBuildJSONBodyClearCache enum.
+func (e TriggerBuildSourceBuildJSONBodyClearCache) Valid() bool {
+	switch e {
+	case TriggerBuildSourceBuildJSONBodyClearCacheClear:
+		return true
+	case TriggerBuildSourceBuildJSONBodyClearCacheDoNotClear:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime.
 const (
 	TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntimeDocker TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime = "docker"
@@ -10575,7 +10593,9 @@ type SandboxSnapshotWithCursor struct {
 		Error *string `json:"error,omitempty"`
 
 		// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-		// Set by Render when the create request did not specify one.
+		// Each time you create a sandbox from the snapshot, Render moves this time
+		// forward so that the snapshot lives for its TTL after that use. For a
+		// snapshot that does not expire (a TTL of 0), this is 9999-12-31T23:59:59Z.
 		ExpiresAt time.Time `json:"expiresAt"`
 
 		// Id Example: snp-cph1rs3idesc73a2b2mg
@@ -10602,6 +10622,11 @@ type SandboxSnapshotWithCursor struct {
 		// SourceSandboxId The sandbox this snapshot was captured from. Lineage only.
 		SourceSandboxId string                                  `json:"sourceSandboxId"`
 		Status          SandboxSnapshotWithCursorSnapshotStatus `json:"status"`
+
+		// TTLSeconds How long the snapshot lives after its last use, in seconds. 0 means the
+		// snapshot does not expire. Absent for a snapshot that was created before
+		// snapshots had a TTL. Such a snapshot uses Render's default snapshot lifetime.
+		TTLSeconds *int `json:"ttlSeconds,omitempty"`
 	} `json:"snapshot"`
 }
 
@@ -12493,6 +12518,15 @@ type ListBuildsInBuildSource200JSONResponseBodyBuildBuildRunRuntime string
 
 // ListBuildsInBuildSource200JSONResponseBodyBuildBuildRunStatus defines parameters for ListBuildsInBuildSource.
 type ListBuildsInBuildSource200JSONResponseBodyBuildBuildRunStatus string
+
+// TriggerBuildSourceBuildJSONBody defines parameters for TriggerBuildSourceBuild.
+type TriggerBuildSourceBuildJSONBody struct {
+	// ClearCache If `clear`, Render clears the build source's build cache before building. This can be useful if you're experiencing issues with your build.
+	ClearCache *TriggerBuildSourceBuildJSONBodyClearCache `json:"clearCache,omitempty"`
+}
+
+// TriggerBuildSourceBuildJSONBodyClearCache defines parameters for TriggerBuildSourceBuild.
+type TriggerBuildSourceBuildJSONBodyClearCache string
 
 // TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime defines parameters for TriggerBuildSourceBuild.
 type TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime string
@@ -15083,8 +15117,9 @@ type ConnectSandboxRunParams struct {
 
 // CreateSandboxSnapshotJSONBody defines parameters for CreateSandboxSnapshot.
 type CreateSandboxSnapshotJSONBody struct {
-	// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-	// Must be in the future. Omit to use Render's default snapshot lifetime.
+	// ExpiresAt Deprecated. Use `ttlSeconds`. Must be in the future. Render sets the TTL
+	// to the time from the request until `expiresAt`.
+	// Deprecated: Use ttlSeconds instead.
 	ExpiresAt *time.Time                         `json:"expiresAt,omitempty"`
 	Kind      *CreateSandboxSnapshotJSONBodyKind `json:"kind,omitempty"`
 
@@ -15096,6 +15131,12 @@ type CreateSandboxSnapshotJSONBody struct {
 	//
 	// Example: gold
 	Name *string `json:"name,omitempty"`
+
+	// TTLSeconds How long the snapshot lives after its last use, in seconds. Each time you
+	// create a sandbox from the snapshot, the snapshot lives for this long again.
+	// Use 0 to keep the snapshot until you delete it. Omit to use Render's
+	// default snapshot lifetime. Do not set both `ttlSeconds` and `expiresAt`.
+	TTLSeconds *int `json:"ttlSeconds,omitempty"`
 }
 
 // CreateSandboxSnapshotParams defines parameters for CreateSandboxSnapshot.
@@ -15832,6 +15873,9 @@ type CreateBuildSourceJSONRequestBody CreateBuildSourceJSONBody
 
 // UpdateBuildSourceJSONRequestBody defines body for UpdateBuildSource for application/json ContentType.
 type UpdateBuildSourceJSONRequestBody UpdateBuildSourceJSONBody
+
+// TriggerBuildSourceBuildJSONRequestBody defines body for TriggerBuildSourceBuild for application/json ContentType.
+type TriggerBuildSourceBuildJSONRequestBody TriggerBuildSourceBuildJSONBody
 
 // UpdateEnvVarsForBuildSourceJSONRequestBody defines body for UpdateEnvVarsForBuildSource for application/json ContentType.
 type UpdateEnvVarsForBuildSourceJSONRequestBody = UpdateEnvVarsForBuildSourceJSONBody
@@ -21165,6 +21209,23 @@ type ClientInterface interface {
 	// Corresponds with GET /build-sources/{buildSourceId}/builds (the `ListBuildsInBuildSource` operationId).
 	ListBuildsInBuildSource(ctx context.Context, buildSourceId string, params *ListBuildsInBuildSourceParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// TriggerBuildSourceBuildWithBody Trigger a build
+	//
+	// Start a new build of the build source at the current HEAD of its
+	// branch, even if an up-to-date build already exists. Services linked to
+	// the build source with autodeploy enabled are deployed with the result.
+	//
+	// Updating a build source or its build-time environment (env vars,
+	// secret files, env groups) with the REST API does not build it. Call
+	// this endpoint after those changes to build them.
+	//
+	// Only `git` build sources can be built.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
+	TriggerBuildSourceBuildWithBody(ctx context.Context, buildSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// TriggerBuildSourceBuild Trigger a build
 	//
 	// Start a new build of the build source at the current HEAD of its
@@ -21177,8 +21238,10 @@ type ClientInterface interface {
 	//
 	// Only `git` build sources can be built.
 	//
+	// Takes a body of the `application/json` content type.
+	//
 	// Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
-	TriggerBuildSourceBuild(ctx context.Context, buildSourceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TriggerBuildSourceBuild(ctx context.Context, buildSourceId string, body TriggerBuildSourceBuildJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// RetrieveBuildSourceBuild Retrieve a build
 	//
@@ -22874,6 +22937,28 @@ type ClientInterface interface {
 	// Corresponds with POST /sandbox-groups/{sandboxGroupId}/builds (the `CreateSandboxBuild` operationId).
 	CreateSandboxBuild(ctx context.Context, sandboxGroupId string, body CreateSandboxBuildJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DeleteSandboxBuild Delete sandbox build
+	//
+	// Deletes one build: one version of an image. The build no longer
+	// appears in lists, can't be retrieved, and can't start sandboxes,
+	// including through the image's name. Deleting a deleted build returns 204.
+	//
+	// 409 with `code: image_in_use` while sandboxes that aren't terminated, or
+	// snapshots that haven't expired, still boot from the build. That includes
+	// snapshots of sandboxes restored from such snapshots, and paused
+	// sandboxes. The message lists up to 10 of them. Delete them, or wait for
+	// them to expire, and retry.
+	//
+	// 404 with `code: build_not_found` if the build doesn't exist or belongs
+	// to another sandbox group.
+	//
+	// 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a
+	// well-formed `sbg-` ID, or `invalid build ID` if `buildId` is not a
+	// well-formed `sbb-` ID.
+	//
+	// Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/builds/{buildId} (the `DeleteSandboxBuild` operationId).
+	DeleteSandboxBuild(ctx context.Context, sandboxGroupId string, buildId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// RetrieveSandboxBuild Retrieve sandbox build
 	//
 	// One build by ID. 404 with `code: build_not_found` if the build doesn't
@@ -24279,6 +24364,33 @@ func (c *Client) ListBuildsInBuildSource(ctx context.Context, buildSourceId stri
 	return c.Client.Do(req)
 }
 
+// TriggerBuildSourceBuildWithBody Trigger a build
+//
+// Start a new build of the build source at the current HEAD of its
+// branch, even if an up-to-date build already exists. Services linked to
+// the build source with autodeploy enabled are deployed with the result.
+//
+// Updating a build source or its build-time environment (env vars,
+// secret files, env groups) with the REST API does not build it. Call
+// this endpoint after those changes to build them.
+//
+// Only `git` build sources can be built.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
+func (c *Client) TriggerBuildSourceBuildWithBody(ctx context.Context, buildSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTriggerBuildSourceBuildRequestWithBody(c.Server, buildSourceId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // TriggerBuildSourceBuild Trigger a build
 //
 // Start a new build of the build source at the current HEAD of its
@@ -24291,9 +24403,11 @@ func (c *Client) ListBuildsInBuildSource(ctx context.Context, buildSourceId stri
 //
 // Only `git` build sources can be built.
 //
+// Takes a body of the `application/json` content type.
+//
 // Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
-func (c *Client) TriggerBuildSourceBuild(ctx context.Context, buildSourceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTriggerBuildSourceBuildRequest(c.Server, buildSourceId)
+func (c *Client) TriggerBuildSourceBuild(ctx context.Context, buildSourceId string, body TriggerBuildSourceBuildJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTriggerBuildSourceBuildRequest(c.Server, buildSourceId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -27958,6 +28072,38 @@ func (c *Client) CreateSandboxBuild(ctx context.Context, sandboxGroupId string, 
 	return c.Client.Do(req)
 }
 
+// DeleteSandboxBuild Delete sandbox build
+//
+// Deletes one build: one version of an image. The build no longer
+// appears in lists, can't be retrieved, and can't start sandboxes,
+// including through the image's name. Deleting a deleted build returns 204.
+//
+// 409 with `code: image_in_use` while sandboxes that aren't terminated, or
+// snapshots that haven't expired, still boot from the build. That includes
+// snapshots of sandboxes restored from such snapshots, and paused
+// sandboxes. The message lists up to 10 of them. Delete them, or wait for
+// them to expire, and retry.
+//
+// 404 with `code: build_not_found` if the build doesn't exist or belongs
+// to another sandbox group.
+//
+// 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a
+// well-formed `sbg-` ID, or `invalid build ID` if `buildId` is not a
+// well-formed `sbb-` ID.
+//
+// Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/builds/{buildId} (the `DeleteSandboxBuild` operationId).
+func (c *Client) DeleteSandboxBuild(ctx context.Context, sandboxGroupId string, buildId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteSandboxBuildRequest(c.Server, sandboxGroupId, buildId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // RetrieveSandboxBuild Retrieve sandbox build
 //
 // One build by ID. 404 with `code: build_not_found` if the build doesn't
@@ -30843,8 +30989,19 @@ func NewListBuildsInBuildSourceRequest(server string, buildSourceId string, para
 	return req, nil
 }
 
-// NewTriggerBuildSourceBuildRequest constructs an http.Request for the TriggerBuildSourceBuild method
-func NewTriggerBuildSourceBuildRequest(server string, buildSourceId string) (*http.Request, error) {
+// NewTriggerBuildSourceBuildRequest calls the generic TriggerBuildSourceBuild builder with application/json body
+func NewTriggerBuildSourceBuildRequest(server string, buildSourceId string, body TriggerBuildSourceBuildJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewTriggerBuildSourceBuildRequestWithBody(server, buildSourceId, "application/json", bodyReader)
+}
+
+// NewTriggerBuildSourceBuildRequestWithBody constructs an http.Request for the TriggerBuildSourceBuild method, with any body, and a specified content type
+func NewTriggerBuildSourceBuildRequestWithBody(server string, buildSourceId string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -30869,10 +31026,12 @@ func NewTriggerBuildSourceBuildRequest(server string, buildSourceId string) (*ht
 		return nil, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -40870,6 +41029,47 @@ func NewCreateSandboxBuildRequestWithBody(server string, sandboxGroupId string, 
 	return req, nil
 }
 
+// NewDeleteSandboxBuildRequest constructs an http.Request for the DeleteSandboxBuild method
+func NewDeleteSandboxBuildRequest(server string, sandboxGroupId string, buildId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "sandboxGroupId", sandboxGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "buildId", buildId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/sandbox-groups/%s/builds/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewRetrieveSandboxBuildRequest constructs an http.Request for the RetrieveSandboxBuild method
 func NewRetrieveSandboxBuildRequest(server string, sandboxGroupId string, buildId string) (*http.Request, error) {
 	var err error
@@ -46116,6 +46316,23 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /build-sources/{buildSourceId}/builds (the `ListBuildsInBuildSource` operationId).
 	ListBuildsInBuildSourceWithResponse(ctx context.Context, buildSourceId string, params *ListBuildsInBuildSourceParams, reqEditors ...RequestEditorFn) (*ListBuildsInBuildSourceResponse, error)
 
+	// TriggerBuildSourceBuildWithBodyWithResponse Trigger a build
+	//
+	// Start a new build of the build source at the current HEAD of its
+	// branch, even if an up-to-date build already exists. Services linked to
+	// the build source with autodeploy enabled are deployed with the result.
+	//
+	// Updating a build source or its build-time environment (env vars,
+	// secret files, env groups) with the REST API does not build it. Call
+	// this endpoint after those changes to build them.
+	//
+	// Only `git` build sources can be built.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
+	TriggerBuildSourceBuildWithBodyWithResponse(ctx context.Context, buildSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TriggerBuildSourceBuildResponse, error)
+
 	// TriggerBuildSourceBuildWithResponse Trigger a build
 	//
 	// Start a new build of the build source at the current HEAD of its
@@ -46128,10 +46345,10 @@ type ClientWithResponsesInterface interface {
 	//
 	// Only `git` build sources can be built.
 	//
-	// Returns a wrapper object for the known response body format(s).
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
-	TriggerBuildSourceBuildWithResponse(ctx context.Context, buildSourceId string, reqEditors ...RequestEditorFn) (*TriggerBuildSourceBuildResponse, error)
+	TriggerBuildSourceBuildWithResponse(ctx context.Context, buildSourceId string, body TriggerBuildSourceBuildJSONRequestBody, reqEditors ...RequestEditorFn) (*TriggerBuildSourceBuildResponse, error)
 
 	// RetrieveBuildSourceBuildWithResponse Retrieve a build
 	//
@@ -48064,6 +48281,30 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /sandbox-groups/{sandboxGroupId}/builds (the `CreateSandboxBuild` operationId).
 	CreateSandboxBuildWithResponse(ctx context.Context, sandboxGroupId string, body CreateSandboxBuildJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSandboxBuildResponse, error)
+
+	// DeleteSandboxBuildWithResponse Delete sandbox build
+	//
+	// Deletes one build: one version of an image. The build no longer
+	// appears in lists, can't be retrieved, and can't start sandboxes,
+	// including through the image's name. Deleting a deleted build returns 204.
+	//
+	// 409 with `code: image_in_use` while sandboxes that aren't terminated, or
+	// snapshots that haven't expired, still boot from the build. That includes
+	// snapshots of sandboxes restored from such snapshots, and paused
+	// sandboxes. The message lists up to 10 of them. Delete them, or wait for
+	// them to expire, and retry.
+	//
+	// 404 with `code: build_not_found` if the build doesn't exist or belongs
+	// to another sandbox group.
+	//
+	// 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a
+	// well-formed `sbg-` ID, or `invalid build ID` if `buildId` is not a
+	// well-formed `sbb-` ID.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/builds/{buildId} (the `DeleteSandboxBuild` operationId).
+	DeleteSandboxBuildWithResponse(ctx context.Context, sandboxGroupId string, buildId string, reqEditors ...RequestEditorFn) (*DeleteSandboxBuildResponse, error)
 
 	// RetrieveSandboxBuildWithResponse Retrieve sandbox build
 	//
@@ -67670,6 +67911,106 @@ func (r CreateSandboxBuildResponse) ContentType() string {
 	return ""
 }
 
+// DeleteSandboxBuildResponse429Headers the declared response headers of an HTTP 429 response for DeleteSandboxBuild
+type DeleteSandboxBuildResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type DeleteSandboxBuildResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *N409Conflict
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *DeleteSandboxBuildResponse429Headers
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON409() *N409Conflict {
+	return r.JSON409
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r DeleteSandboxBuildResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteSandboxBuildResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteSandboxBuildResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteSandboxBuildResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteSandboxBuildResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 // RetrieveSandboxBuildResponse429Headers the declared response headers of an HTTP 429 response for RetrieveSandboxBuild
 type RetrieveSandboxBuildResponse429Headers struct {
 	RateLimitLimit     *int
@@ -68076,7 +68417,9 @@ type RetrieveSandboxSnapshotResponse struct {
 		Error *string `json:"error,omitempty"`
 
 		// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-		// Set by Render when the create request did not specify one.
+		// Each time you create a sandbox from the snapshot, Render moves this time
+		// forward so that the snapshot lives for its TTL after that use. For a
+		// snapshot that does not expire (a TTL of 0), this is 9999-12-31T23:59:59Z.
 		ExpiresAt time.Time `json:"expiresAt"`
 
 		// Id Example: snp-cph1rs3idesc73a2b2mg
@@ -68103,6 +68446,11 @@ type RetrieveSandboxSnapshotResponse struct {
 		// SourceSandboxId The sandbox this snapshot was captured from. Lineage only.
 		SourceSandboxId string                                           `json:"sourceSandboxId"`
 		Status          RetrieveSandboxSnapshot200JSONResponseBodyStatus `json:"status"`
+
+		// TTLSeconds How long the snapshot lives after its last use, in seconds. 0 means the
+		// snapshot does not expire. Absent for a snapshot that was created before
+		// snapshots had a TTL. Such a snapshot uses Render's default snapshot lifetime.
+		TTLSeconds *int `json:"ttlSeconds,omitempty"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *N400BadRequest
@@ -68131,7 +68479,9 @@ func (r RetrieveSandboxSnapshotResponse) GetJSON200() *struct {
 	Error *string `json:"error,omitempty"`
 
 	// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-	// Set by Render when the create request did not specify one.
+	// Each time you create a sandbox from the snapshot, Render moves this time
+	// forward so that the snapshot lives for its TTL after that use. For a
+	// snapshot that does not expire (a TTL of 0), this is 9999-12-31T23:59:59Z.
 	ExpiresAt time.Time `json:"expiresAt"`
 
 	// Id Example: snp-cph1rs3idesc73a2b2mg
@@ -68158,6 +68508,11 @@ func (r RetrieveSandboxSnapshotResponse) GetJSON200() *struct {
 	// SourceSandboxId The sandbox this snapshot was captured from. Lineage only.
 	SourceSandboxId string                                           `json:"sourceSandboxId"`
 	Status          RetrieveSandboxSnapshot200JSONResponseBodyStatus `json:"status"`
+
+	// TTLSeconds How long the snapshot lives after its last use, in seconds. 0 means the
+	// snapshot does not expire. Absent for a snapshot that was created before
+	// snapshots had a TTL. Such a snapshot uses Render's default snapshot lifetime.
+	TTLSeconds *int `json:"ttlSeconds,omitempty"`
 } {
 	return r.JSON200
 }
@@ -69335,7 +69690,9 @@ type CreateSandboxSnapshotResponse struct {
 		Error *string `json:"error,omitempty"`
 
 		// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-		// Set by Render when the create request did not specify one.
+		// Each time you create a sandbox from the snapshot, Render moves this time
+		// forward so that the snapshot lives for its TTL after that use. For a
+		// snapshot that does not expire (a TTL of 0), this is 9999-12-31T23:59:59Z.
 		ExpiresAt time.Time `json:"expiresAt"`
 
 		// Id Example: snp-cph1rs3idesc73a2b2mg
@@ -69362,6 +69719,11 @@ type CreateSandboxSnapshotResponse struct {
 		// SourceSandboxId The sandbox this snapshot was captured from. Lineage only.
 		SourceSandboxId string                                         `json:"sourceSandboxId"`
 		Status          CreateSandboxSnapshot202JSONResponseBodyStatus `json:"status"`
+
+		// TTLSeconds How long the snapshot lives after its last use, in seconds. 0 means the
+		// snapshot does not expire. Absent for a snapshot that was created before
+		// snapshots had a TTL. Such a snapshot uses Render's default snapshot lifetime.
+		TTLSeconds *int `json:"ttlSeconds,omitempty"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *N400BadRequest
@@ -69392,7 +69754,9 @@ func (r CreateSandboxSnapshotResponse) GetJSON202() *struct {
 	Error *string `json:"error,omitempty"`
 
 	// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-	// Set by Render when the create request did not specify one.
+	// Each time you create a sandbox from the snapshot, Render moves this time
+	// forward so that the snapshot lives for its TTL after that use. For a
+	// snapshot that does not expire (a TTL of 0), this is 9999-12-31T23:59:59Z.
 	ExpiresAt time.Time `json:"expiresAt"`
 
 	// Id Example: snp-cph1rs3idesc73a2b2mg
@@ -69419,6 +69783,11 @@ func (r CreateSandboxSnapshotResponse) GetJSON202() *struct {
 	// SourceSandboxId The sandbox this snapshot was captured from. Lineage only.
 	SourceSandboxId string                                         `json:"sourceSandboxId"`
 	Status          CreateSandboxSnapshot202JSONResponseBodyStatus `json:"status"`
+
+	// TTLSeconds How long the snapshot lives after its last use, in seconds. 0 means the
+	// snapshot does not expire. Absent for a snapshot that was created before
+	// snapshots had a TTL. Such a snapshot uses Render's default snapshot lifetime.
+	TTLSeconds *int `json:"ttlSeconds,omitempty"`
 } {
 	return r.JSON202
 }
@@ -77667,6 +78036,29 @@ func (c *ClientWithResponses) ListBuildsInBuildSourceWithResponse(ctx context.Co
 	return ParseListBuildsInBuildSourceResponse(rsp)
 }
 
+// TriggerBuildSourceBuildWithBodyWithResponse Trigger a build
+//
+// Start a new build of the build source at the current HEAD of its
+// branch, even if an up-to-date build already exists. Services linked to
+// the build source with autodeploy enabled are deployed with the result.
+//
+// Updating a build source or its build-time environment (env vars,
+// secret files, env groups) with the REST API does not build it. Call
+// this endpoint after those changes to build them.
+//
+// Only `git` build sources can be built.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
+func (c *ClientWithResponses) TriggerBuildSourceBuildWithBodyWithResponse(ctx context.Context, buildSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TriggerBuildSourceBuildResponse, error) {
+	rsp, err := c.TriggerBuildSourceBuildWithBody(ctx, buildSourceId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTriggerBuildSourceBuildResponse(rsp)
+}
+
 // TriggerBuildSourceBuildWithResponse Trigger a build
 //
 // Start a new build of the build source at the current HEAD of its
@@ -77679,11 +78071,11 @@ func (c *ClientWithResponses) ListBuildsInBuildSourceWithResponse(ctx context.Co
 //
 // Only `git` build sources can be built.
 //
-// Returns a wrapper object for the known response body format(s).
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /build-sources/{buildSourceId}/builds (the `TriggerBuildSourceBuild` operationId).
-func (c *ClientWithResponses) TriggerBuildSourceBuildWithResponse(ctx context.Context, buildSourceId string, reqEditors ...RequestEditorFn) (*TriggerBuildSourceBuildResponse, error) {
-	rsp, err := c.TriggerBuildSourceBuild(ctx, buildSourceId, reqEditors...)
+func (c *ClientWithResponses) TriggerBuildSourceBuildWithResponse(ctx context.Context, buildSourceId string, body TriggerBuildSourceBuildJSONRequestBody, reqEditors ...RequestEditorFn) (*TriggerBuildSourceBuildResponse, error) {
+	rsp, err := c.TriggerBuildSourceBuild(ctx, buildSourceId, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -80800,6 +81192,36 @@ func (c *ClientWithResponses) CreateSandboxBuildWithResponse(ctx context.Context
 		return nil, err
 	}
 	return ParseCreateSandboxBuildResponse(rsp)
+}
+
+// DeleteSandboxBuildWithResponse Delete sandbox build
+//
+// Deletes one build: one version of an image. The build no longer
+// appears in lists, can't be retrieved, and can't start sandboxes,
+// including through the image's name. Deleting a deleted build returns 204.
+//
+// 409 with `code: image_in_use` while sandboxes that aren't terminated, or
+// snapshots that haven't expired, still boot from the build. That includes
+// snapshots of sandboxes restored from such snapshots, and paused
+// sandboxes. The message lists up to 10 of them. Delete them, or wait for
+// them to expire, and retry.
+//
+// 404 with `code: build_not_found` if the build doesn't exist or belongs
+// to another sandbox group.
+//
+// 400 with `code: invalid_sandbox_group_id` if `sandboxGroupId` is not a
+// well-formed `sbg-` ID, or `invalid build ID` if `buildId` is not a
+// well-formed `sbb-` ID.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/builds/{buildId} (the `DeleteSandboxBuild` operationId).
+func (c *ClientWithResponses) DeleteSandboxBuildWithResponse(ctx context.Context, sandboxGroupId string, buildId string, reqEditors ...RequestEditorFn) (*DeleteSandboxBuildResponse, error) {
+	rsp, err := c.DeleteSandboxBuild(ctx, sandboxGroupId, buildId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteSandboxBuildResponse(rsp)
 }
 
 // RetrieveSandboxBuildWithResponse Retrieve sandbox build
@@ -100927,6 +101349,118 @@ func ParseCreateSandboxBuildResponse(rsp *http.Response) (*CreateSandboxBuildRes
 	return response, nil
 }
 
+// ParseDeleteSandboxBuildResponse parses an HTTP response from a DeleteSandboxBuildWithResponse call
+func ParseDeleteSandboxBuildResponse(rsp *http.Response) (*DeleteSandboxBuildResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteSandboxBuildResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest N409Conflict
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers DeleteSandboxBuildResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
 // ParseRetrieveSandboxBuildResponse parses an HTTP response from a RetrieveSandboxBuildWithResponse call
 func ParseRetrieveSandboxBuildResponse(rsp *http.Response) (*RetrieveSandboxBuildResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -101323,7 +101857,9 @@ func ParseRetrieveSandboxSnapshotResponse(rsp *http.Response) (*RetrieveSandboxS
 			Error *string `json:"error,omitempty"`
 
 			// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-			// Set by Render when the create request did not specify one.
+			// Each time you create a sandbox from the snapshot, Render moves this time
+			// forward so that the snapshot lives for its TTL after that use. For a
+			// snapshot that does not expire (a TTL of 0), this is 9999-12-31T23:59:59Z.
 			ExpiresAt time.Time `json:"expiresAt"`
 
 			// Id Example: snp-cph1rs3idesc73a2b2mg
@@ -101350,6 +101886,11 @@ func ParseRetrieveSandboxSnapshotResponse(rsp *http.Response) (*RetrieveSandboxS
 			// SourceSandboxId The sandbox this snapshot was captured from. Lineage only.
 			SourceSandboxId string                                           `json:"sourceSandboxId"`
 			Status          RetrieveSandboxSnapshot200JSONResponseBodyStatus `json:"status"`
+
+			// TTLSeconds How long the snapshot lives after its last use, in seconds. 0 means the
+			// snapshot does not expire. Absent for a snapshot that was created before
+			// snapshots had a TTL. Such a snapshot uses Render's default snapshot lifetime.
+			TTLSeconds *int `json:"ttlSeconds,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -102428,7 +102969,9 @@ func ParseCreateSandboxSnapshotResponse(rsp *http.Response) (*CreateSandboxSnaps
 			Error *string `json:"error,omitempty"`
 
 			// ExpiresAt The time after which the snapshot can no longer be retrieved or restored.
-			// Set by Render when the create request did not specify one.
+			// Each time you create a sandbox from the snapshot, Render moves this time
+			// forward so that the snapshot lives for its TTL after that use. For a
+			// snapshot that does not expire (a TTL of 0), this is 9999-12-31T23:59:59Z.
 			ExpiresAt time.Time `json:"expiresAt"`
 
 			// Id Example: snp-cph1rs3idesc73a2b2mg
@@ -102455,6 +102998,11 @@ func ParseCreateSandboxSnapshotResponse(rsp *http.Response) (*CreateSandboxSnaps
 			// SourceSandboxId The sandbox this snapshot was captured from. Lineage only.
 			SourceSandboxId string                                         `json:"sourceSandboxId"`
 			Status          CreateSandboxSnapshot202JSONResponseBodyStatus `json:"status"`
+
+			// TTLSeconds How long the snapshot lives after its last use, in seconds. 0 means the
+			// snapshot does not expire. Absent for a snapshot that was created before
+			// snapshots had a TTL. Such a snapshot uses Render's default snapshot lifetime.
+			TTLSeconds *int `json:"ttlSeconds,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
