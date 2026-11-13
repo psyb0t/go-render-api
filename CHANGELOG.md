@@ -2,6 +2,16 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.10.0, 2026-11-13
+
+- `ConnectSandboxRun` no longer takes a request body. `ConnectSandboxRun`, `ConnectSandboxRunWithResponse` and `NewConnectSandboxRunRequest` drop the `ConnectSandboxRunJSONRequestBody` parameter. Existing callers must remove the argument.
+- Removed `ConnectSandboxRunWithBody`, `ConnectSandboxRunWithBodyWithResponse`, `NewConnectSandboxRunRequestWithBody`, `ConnectSandboxRunJSONBody` and `ConnectSandboxRunJSONRequestBody`.
+- Added sandbox group credential endpoints: `CreateSandboxGroupCredential`, `ListSandboxGroupCredentials`, `RetrieveSandboxGroupCredential`, `UpdateSandboxGroupCredential`, `DeleteSandboxGroupCredential`, `ListSandboxGroupCredentialVersions` and `RestoreSandboxGroupCredential`. The create, update and restore calls also have `WithBody` variants.
+- Each new call has a `WithResponse` variant, a `New...Request` builder, a `Parse...Response` function and a response type with a 429 headers type.
+- New body types include `CreateSandboxGroupCredentialJSONBody`, `UpdateSandboxGroupCredentialJSONBody` and `RestoreSandboxGroupCredentialJSONBody`. Injection types are `basic`, `cookie`, `header` and `query`, for example `CreateSandboxGroupCredentialJSONBodyInjectionTypeHeader`.
+- Added the error response aliases `N400SandboxBuildBadRequest`, `N400SandboxGroupBadRequest`, `N400SandboxSnapshotBadRequest`, `N404SandboxBuildNotFound`, `N409SandboxConnectConflict`, `N409SandboxGroupSuspended` and `N429SandboxCredentialRateLimitOrConflict`.
+- The new methods are added to `ClientInterface` and `ClientWithResponsesInterface`, and the `ConnectSandboxRun` signature changes there too. Code that implements these interfaces, such as a mock, must change.
+
 ## v0.9.0, 2026-11-12
 
 - `TriggerBuildSourceBuild` now takes a request body. Its signature, and those of `TriggerBuildSourceBuildWithResponse` and `NewTriggerBuildSourceBuildRequest`, gain a `TriggerBuildSourceBuildJSONRequestBody` parameter before the editors. Existing callers must pass a body.
