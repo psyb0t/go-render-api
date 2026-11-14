@@ -2,6 +2,13 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.10.1, 2026-11-14
+
+- Added a `build` log filter. `ListLogsParams.Build`, `SubscribeLogsParams.Build` and `ListLogsValuesParams.Build` are `*[]string` fields that filter logs by build ID, such as a service build or a sandbox image build. The generated request builders send it as the `build` query parameter.
+- Added the label name constants `Logs200ResponseLogsLabelsNameBuild`, `ListLogs200JSONResponseBodyLogsLabelsNameBuild` and `SubscribeLogs101JSONResponseBodyLabelsNameBuild`. `Valid` now accepts `build` on each type.
+- Doc comment only: `CreateSandboxBuildJSONBody.Name` now says a name can't start with `sbb-`, the prefix reserved for build IDs.
+- Doc comments on several sandbox types, such as `ExecutionWithCursor`, `SandboxBuildWithCursor` and `CreateSandboxGroupCredentialJSONBody`, are now on one line each instead of wrapped. No text change.
+
 ## v0.10.0, 2026-11-13
 
 - `ConnectSandboxRun` no longer takes a request body. `ConnectSandboxRun`, `ConnectSandboxRunWithResponse` and `NewConnectSandboxRunRequest` drop the `ConnectSandboxRunJSONRequestBody` parameter. Existing callers must remove the argument.

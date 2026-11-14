@@ -3786,6 +3786,7 @@ func (e EventTypeParam) Valid() bool {
 // Defines values for Logs200ResponseLogsLabelsName.
 const (
 	Logs200ResponseLogsLabelsNameBlocked          Logs200ResponseLogsLabelsName = "blocked"
+	Logs200ResponseLogsLabelsNameBuild            Logs200ResponseLogsLabelsName = "build"
 	Logs200ResponseLogsLabelsNameHost             Logs200ResponseLogsLabelsName = "host"
 	Logs200ResponseLogsLabelsNameInstance         Logs200ResponseLogsLabelsName = "instance"
 	Logs200ResponseLogsLabelsNameLevel            Logs200ResponseLogsLabelsName = "level"
@@ -3806,6 +3807,8 @@ const (
 func (e Logs200ResponseLogsLabelsName) Valid() bool {
 	switch e {
 	case Logs200ResponseLogsLabelsNameBlocked:
+		return true
+	case Logs200ResponseLogsLabelsNameBuild:
 		return true
 	case Logs200ResponseLogsLabelsNameHost:
 		return true
@@ -5172,6 +5175,7 @@ func (e ListLogsParamsDirection) Valid() bool {
 // Defines values for ListLogs200JSONResponseBodyLogsLabelsName.
 const (
 	ListLogs200JSONResponseBodyLogsLabelsNameBlocked          ListLogs200JSONResponseBodyLogsLabelsName = "blocked"
+	ListLogs200JSONResponseBodyLogsLabelsNameBuild            ListLogs200JSONResponseBodyLogsLabelsName = "build"
 	ListLogs200JSONResponseBodyLogsLabelsNameHost             ListLogs200JSONResponseBodyLogsLabelsName = "host"
 	ListLogs200JSONResponseBodyLogsLabelsNameInstance         ListLogs200JSONResponseBodyLogsLabelsName = "instance"
 	ListLogs200JSONResponseBodyLogsLabelsNameLevel            ListLogs200JSONResponseBodyLogsLabelsName = "level"
@@ -5192,6 +5196,8 @@ const (
 func (e ListLogs200JSONResponseBodyLogsLabelsName) Valid() bool {
 	switch e {
 	case ListLogs200JSONResponseBodyLogsLabelsNameBlocked:
+		return true
+	case ListLogs200JSONResponseBodyLogsLabelsNameBuild:
 		return true
 	case ListLogs200JSONResponseBodyLogsLabelsNameHost:
 		return true
@@ -5391,6 +5397,7 @@ func (e SubscribeLogsParamsDirection) Valid() bool {
 // Defines values for SubscribeLogs101JSONResponseBodyLabelsName.
 const (
 	SubscribeLogs101JSONResponseBodyLabelsNameBlocked          SubscribeLogs101JSONResponseBodyLabelsName = "blocked"
+	SubscribeLogs101JSONResponseBodyLabelsNameBuild            SubscribeLogs101JSONResponseBodyLabelsName = "build"
 	SubscribeLogs101JSONResponseBodyLabelsNameHost             SubscribeLogs101JSONResponseBodyLabelsName = "host"
 	SubscribeLogs101JSONResponseBodyLabelsNameInstance         SubscribeLogs101JSONResponseBodyLabelsName = "instance"
 	SubscribeLogs101JSONResponseBodyLabelsNameLevel            SubscribeLogs101JSONResponseBodyLabelsName = "level"
@@ -5411,6 +5418,8 @@ const (
 func (e SubscribeLogs101JSONResponseBodyLabelsName) Valid() bool {
 	switch e {
 	case SubscribeLogs101JSONResponseBodyLabelsNameBlocked:
+		return true
+	case SubscribeLogs101JSONResponseBodyLabelsNameBuild:
 		return true
 	case SubscribeLogs101JSONResponseBodyLabelsNameHost:
 		return true
@@ -9577,14 +9586,9 @@ type Error struct {
 type ExecutionWithCursor struct {
 	Cursor Cursor `json:"cursor"`
 
-	// Execution A record of a command run or file transfer in a sandbox. `startedAt` records
-	// when the connect token was created. The command can appear while the
-	// execution is running. `stoppedAt` and `exitCode` are omitted until Render
-	// receives the result or finalizes the execution when the sandbox stops.
+	// Execution A record of a command run or file transfer in a sandbox. `startedAt` records when the connect token was created. The command can appear while the execution is running. `stoppedAt` and `exitCode` are omitted until Render receives the result or finalizes the execution when the sandbox stops.
 	Execution struct {
-		// Command The command run in the sandbox, or the target path for a file transfer.
-		// Command text may be redacted or truncated. Omitted if you do not have
-		// permission to view execution commands.
+		// Command The command run in the sandbox, or the target path for a file transfer. Command text may be redacted or truncated. Omitted if you do not have permission to view execution commands.
 		Command *string `json:"command,omitempty"`
 
 		// ExitCode The execution exit code. Omitted until a result is available.
@@ -10681,18 +10685,13 @@ type SandboxBuildWithCursor struct {
 		// CreatedAt The timestamp when the sandbox build was created, in ISO 8601 format.
 		CreatedAt time.Time `json:"createdAt"`
 
-		// FailureCode A machine-readable reason the build failed. Null unless the status is
-		// `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized
-		// codes as `internal_error`.
+		// FailureCode A machine-readable reason the build failed. Null unless the status is `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized codes as `internal_error`.
 		//
 		//
 		// Example: image_pull_failed
 		FailureCode *string `json:"failureCode,omitempty"`
 
-		// FailureReason A description of why the build failed. Null unless the status is `failed`.
-		// May include error text from the image registry. When displaying errors, use
-		// `failureCode` to select the main message and show this value as additional
-		// detail.
+		// FailureReason A description of why the build failed. Null unless the status is `failed`. May include error text from the image registry. When displaying errors, use `failureCode` to select the main message and show this value as additional detail.
 		FailureReason *string `json:"failureReason,omitempty"`
 
 		// FinishedAt The timestamp when the build succeeded or failed, in ISO 8601 format. Null while the build is pending or running.
@@ -10802,11 +10801,7 @@ type SandboxSnapshotWithCursor struct {
 		// Error The reason the snapshot failed. Null unless its status is `failed`.
 		Error *string `json:"error,omitempty"`
 
-		// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or
-		// restored, in ISO 8601 format. Each time you create a sandbox from this
-		// snapshot, Render resets its expiration to `ttlSeconds` seconds after that
-		// use. For snapshots with no expiration (`ttlSeconds: 0`), this is
-		// `9999-12-31T23:59:59Z`.
+		// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or restored, in ISO 8601 format. Each time you create a sandbox from this snapshot, Render resets its expiration to `ttlSeconds` seconds after that use. For snapshots with no expiration (`ttlSeconds: 0`), this is `9999-12-31T23:59:59Z`.
 		ExpiresAt time.Time `json:"expiresAt"`
 
 		// Id The ID of the sandbox snapshot.
@@ -10814,10 +10809,7 @@ type SandboxSnapshotWithCursor struct {
 		// Example: snp-cph1rs3idesc73a2b2mg
 		Id string `json:"id"`
 
-		// Kind The state to capture. A `filesystem` snapshot captures the writable
-		// filesystem and can be restored to any plan. A `runtime` snapshot also
-		// captures memory and CPU state and must be restored to the source sandbox
-		// plan.
+		// Kind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 		Kind SandboxSnapshotWithCursorSnapshotKind `json:"kind"`
 
 		// Name The name assigned when the snapshot was created. Cannot be changed. Null if no name was provided.
@@ -10843,17 +10835,12 @@ type SandboxSnapshotWithCursor struct {
 		// Status The snapshot's current status.
 		Status SandboxSnapshotWithCursorSnapshotStatus `json:"status"`
 
-		// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means
-		// the snapshot does not expire. If omitted, Render's default snapshot
-		// lifetime applies.
+		// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means the snapshot does not expire. If omitted, Render's default snapshot lifetime applies.
 		TTLSeconds *int `json:"ttlSeconds,omitempty"`
 	} `json:"snapshot"`
 }
 
-// SandboxSnapshotWithCursorSnapshotKind The state to capture. A `filesystem` snapshot captures the writable
-// filesystem and can be restored to any plan. A `runtime` snapshot also
-// captures memory and CPU state and must be restored to the source sandbox
-// plan.
+// SandboxSnapshotWithCursorSnapshotKind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 type SandboxSnapshotWithCursorSnapshotKind string
 
 // SandboxSnapshotWithCursorSnapshotPlan0 The compute plan for the sandbox. The `starter`, `standard`, and `pro` plans are deprecated.
@@ -10900,12 +10887,9 @@ type SandboxWithCursor struct {
 			// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 			Default *SandboxWithCursorSandboxNetworkPolicyDefault `json:"default,omitempty"`
 
-			// Rules Destinations the sandbox may reach, present when `type` is
-			// `allow-list` and absent otherwise. Each domain may be listed once.
+			// Rules Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once.
 			Rules *[]struct {
-				// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-				// `foo.local` does not match `api.foo.local`. Use a separate rule or
-				// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+				// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 				//
 				//
 				// Example: *.bar.local
@@ -10936,9 +10920,7 @@ type SandboxWithCursor struct {
 		// TerminatedAt The timestamp when the sandbox was terminated, in ISO 8601 format. Null if the sandbox has not been terminated.
 		TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
 
-		// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-		// terminates when this time elapses. If the sandbox is suspended and later
-		// resumed, this timeout restarts. A value of 0 disables the runtime timeout.
+		// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts. A value of 0 disables the runtime timeout.
 		//
 		//
 		// Example: 86400
@@ -13991,6 +13973,9 @@ type ListLogsParams struct {
 	// Sandbox Filter logs by sandbox ID.
 	Sandbox *[]string `form:"sandbox,omitempty" json:"sandbox,omitempty"`
 
+	// Build Filter logs by build ID, such as a service build or a sandbox image build.
+	Build *[]string `form:"build,omitempty" json:"build,omitempty"`
+
 	// Level Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported.
 	Level *[]string `form:"level,omitempty" json:"level,omitempty"`
 
@@ -14121,6 +14106,9 @@ type SubscribeLogsParams struct {
 	// Sandbox Filter logs by sandbox ID.
 	Sandbox *[]string `form:"sandbox,omitempty" json:"sandbox,omitempty"`
 
+	// Build Filter logs by build ID, such as a service build or a sandbox image build.
+	Build *[]string `form:"build,omitempty" json:"build,omitempty"`
+
 	// Level Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported.
 	Level *[]string `form:"level,omitempty" json:"level,omitempty"`
 
@@ -14184,6 +14172,9 @@ type ListLogsValuesParams struct {
 
 	// Sandbox Filter logs by sandbox ID.
 	Sandbox *[]string `form:"sandbox,omitempty" json:"sandbox,omitempty"`
+
+	// Build Filter logs by build ID, such as a service build or a sandbox image build.
+	Build *[]string `form:"build,omitempty" json:"build,omitempty"`
 
 	// Level Filter logs by their severity level. [Wildcards and regex](https://render.com/docs/logging#wildcards-and-regular-expressions) are supported.
 	Level *[]string `form:"level,omitempty" json:"level,omitempty"`
@@ -15019,9 +15010,7 @@ type CreateSandboxGroupJSONBody struct {
 
 // UpdateSandboxGroupJSONBody defines parameters for UpdateSandboxGroup.
 type UpdateSandboxGroupJSONBody struct {
-	// ConcurrencyLimit The maximum number of active sandboxes allowed in this group. Must be at
-	// least 1. Render caps this value at the workspace's limit and returns the
-	// effective limit. Lowering the limit does not stop existing sandboxes.
+	// ConcurrencyLimit The maximum number of active sandboxes allowed in this group. Must be at least 1. Render caps this value at the workspace's limit and returns the effective limit. Lowering the limit does not stop existing sandboxes.
 	//
 	//
 	// Example: 10
@@ -15048,7 +15037,7 @@ type ListSandboxBuildsParamsStatus string
 
 // CreateSandboxBuildJSONBody defines parameters for CreateSandboxBuild.
 type CreateSandboxBuildJSONBody struct {
-	// Name The name used to select this image when creating a sandbox, between 1 and 255 characters. Multiple builds can share a name.
+	// Name The name used to select this image when creating a sandbox, between 1 and 255 characters. Can't start with `sbb-`, the prefix reserved for build IDs. Multiple builds can share a name.
 	Name string `json:"name"`
 
 	// RegistryCredential Credentials used to pull `sourceImage` from a private registry for this build.
@@ -15077,18 +15066,13 @@ type ListSandboxGroupCredentials200JSONResponseBodyInjectionType string
 
 // CreateSandboxGroupCredentialJSONBody defines parameters for CreateSandboxGroupCredential.
 type CreateSandboxGroupCredentialJSONBody struct {
-	// Domain The destination hostname to match for credential injection. Must
-	// be a public DNS hostname. Render normalizes it to lowercase and matches it
-	// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-	// not supported.
+	// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 	Domain string `json:"domain"`
 
 	// Enabled Whether this credential is enabled for injection. Defaults to `true`.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-	// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-	// `.` and `..` and IDs starting with `rnd-` are reserved.
+	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 	//
 	//
 	// Example: my-inference-key
@@ -15096,38 +15080,23 @@ type CreateSandboxGroupCredentialJSONBody struct {
 
 	// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 	Injection struct {
-		// Name The header, cookie, or query parameter to set. Required for `header`,
-		// `cookie`, and `query`. Headers that control routing or connection behavior
-		// cannot be used.
+		// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 		Name *string `json:"name,omitempty"`
 
-		// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-		// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-		// Omit to use the secret value without a template.
+		// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 		//
 		//
 		// Example: Bearer ${SECRET}
 		Template *string `json:"template,omitempty"`
 
-		// Type How Render adds the credential to a matching request. For `basic`, the value
-		// after applying `template` must have the form `username:password`. Do not
-		// provide `name`.
+		// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 		Type CreateSandboxGroupCredentialJSONBodyInjectionType `json:"type"`
 	} `json:"injection"`
 
-	// Methods The HTTP methods to match for credential injection.
-	// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-	// normalized to uppercase.
-	// Omit or provide an empty list to match any method.
+	// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. Omit or provide an empty list to match any method.
 	Methods *[]string `json:"methods,omitempty"`
 
-	// Paths The request path patterns to match for credential injection. Each
-	// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-	// `**` for one or more segments. Wildcards must occupy whole segments. For
-	// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-	// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-	// Request query strings do not affect matching.
-	// Omit or provide an empty list to match any path.
+	// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. Omit or provide an empty list to match any path.
 	Paths *[]string `json:"paths,omitempty"`
 
 	// Value The secret value to store, up to 5 KiB (5120 UTF-8 bytes).
@@ -15145,10 +15114,7 @@ type RetrieveSandboxGroupCredential200JSONResponseBodyInjectionType string
 
 // UpdateSandboxGroupCredentialJSONBody defines parameters for UpdateSandboxGroupCredential.
 type UpdateSandboxGroupCredentialJSONBody struct {
-	// Domain The destination hostname to match for credential injection. Must
-	// be a public DNS hostname. Render normalizes it to lowercase and matches it
-	// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-	// not supported. Omit to preserve the current hostname.
+	// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported. Omit to preserve the current hostname.
 	Domain *string `json:"domain,omitempty"`
 
 	// Enabled Whether this credential is enabled for injection. Omit to preserve the current setting.
@@ -15156,38 +15122,23 @@ type UpdateSandboxGroupCredentialJSONBody struct {
 
 	// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 	Injection *struct {
-		// Name The header, cookie, or query parameter to set. Required for `header`,
-		// `cookie`, and `query`. Headers that control routing or connection behavior
-		// cannot be used.
+		// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 		Name *string `json:"name,omitempty"`
 
-		// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-		// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-		// Omit to use the secret value without a template.
+		// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 		//
 		//
 		// Example: Bearer ${SECRET}
 		Template *string `json:"template,omitempty"`
 
-		// Type How Render adds the credential to a matching request. For `basic`, the value
-		// after applying `template` must have the form `username:password`. Do not
-		// provide `name`.
+		// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 		Type UpdateSandboxGroupCredentialJSONBodyInjectionType `json:"type"`
 	} `json:"injection,omitempty"`
 
-	// Methods The HTTP methods to match for credential injection.
-	// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-	// normalized to uppercase.
-	// An empty list matches any method. Omit to preserve the current filter.
+	// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method. Omit to preserve the current filter.
 	Methods *[]string `json:"methods,omitempty"`
 
-	// Paths The request path patterns to match for credential injection. Each
-	// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-	// `**` for one or more segments. Wildcards must occupy whole segments. For
-	// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-	// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-	// Request query strings do not affect matching.
-	// An empty list matches any path. Omit to preserve the current filter.
+	// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path. Omit to preserve the current filter.
 	Paths *[]string `json:"paths,omitempty"`
 
 	// Value The replacement secret value, up to 5 KiB (5120 UTF-8 bytes). Requires an admin. Omit to preserve the current value.
@@ -15214,10 +15165,7 @@ type ListSandboxSnapshotsParams struct {
 	// OwnerId The ID of the workspace whose snapshots to return.
 	OwnerId string `form:"ownerId" json:"ownerId"`
 
-	// Name Filter for snapshots with exactly this name. Multiple snapshots can share
-	// a name; results include each version, newest first. When creating a sandbox
-	// with `snapshotName`, Render uses the most recently created snapshot
-	// with that name that is `available` and unexpired.
+	// Name Filter for snapshots with exactly this name. Multiple snapshots can share a name; results include each version, newest first. When creating a sandbox with `snapshotName`, Render uses the most recently created snapshot with that name that is `available` and unexpired.
 	Name *string `form:"name,omitempty" json:"name,omitempty"`
 
 	// Cursor The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
@@ -15279,9 +15227,7 @@ type ListSandboxesParams struct {
 	// Limit The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination).
 	Limit *LimitParam `form:"limit,omitempty" json:"limit,omitempty"`
 
-	// Status Filter for sandboxes with the specified statuses. By default, returns all
-	// statuses except `terminated`. Include `terminated` explicitly to return
-	// terminated sandboxes.
+	// Status Filter for sandboxes with the specified statuses. By default, returns all statuses except `terminated`. Include `terminated` explicitly to return terminated sandboxes.
 	Status *[]ListSandboxesParamsStatus `form:"status,omitempty" json:"status,omitempty"`
 }
 
@@ -15290,43 +15236,30 @@ type ListSandboxesParamsStatus string
 
 // CreateSandboxJSONBody defines parameters for CreateSandbox.
 type CreateSandboxJSONBody struct {
-	// BuildId The ID of the build to create the sandbox from instead of the base image.
-	// The build must have succeeded and belong to the same sandbox group. Cannot
-	// be combined with `buildName`, `snapshotId`, or `snapshotName`.
+	// BuildId The ID of the build to create the sandbox from instead of the base image. The build must have succeeded and belong to the same sandbox group. Cannot be combined with `buildName`, `snapshotId`, or `snapshotName`.
 	BuildId *string `json:"buildId,omitempty"`
 
-	// BuildName The name of the build to create the sandbox from instead of the base image.
-	// Uses the newest successful build with this name in the sandbox group. Cannot
-	// be combined with `buildId`, `snapshotId`, or `snapshotName`.
+	// BuildName The name of the build to create the sandbox from instead of the base image. Uses the newest successful build with this name in the sandbox group. Cannot be combined with `buildId`, `snapshotId`, or `snapshotName`.
 	BuildName *string `json:"buildName,omitempty"`
 
 	// Env The environment variables to set when creating the sandbox.
 	Env *map[string]string `json:"env,omitempty"`
 
-	// IdleTimeoutSeconds The number of seconds of inactivity before Render suspends the sandbox.
-	// Use 0 to disable automatic idle suspension. Positive values must be between
-	// 300 and 86400. Defaults to 900, or to the source sandbox's idle timeout when
-	// creating a sandbox from a snapshot.
+	// IdleTimeoutSeconds The number of seconds of inactivity before Render suspends the sandbox. Use 0 to disable automatic idle suspension. Positive values must be between 300 and 86400. Defaults to 900, or to the source sandbox's idle timeout when creating a sandbox from a snapshot.
 	IdleTimeoutSeconds *int `json:"idleTimeoutSeconds,omitempty"`
 
-	// Name A label for the sandbox, such as `my-agent`, up to 64 characters. Names do
-	// not have to be unique; use the sandbox ID to identify a specific sandbox.
-	// Must not start with `sbx-`.
+	// Name A label for the sandbox, such as `my-agent`, up to 64 characters. Names do not have to be unique; use the sandbox ID to identify a specific sandbox. Must not start with `sbx-`.
 	Name *string `json:"name,omitempty"`
 
-	// NetworkPolicy The outbound traffic policy to apply to the sandbox. Provide `type` or its
-	// deprecated alias `default`. If both are provided, they must match.
+	// NetworkPolicy The outbound traffic policy to apply to the sandbox. Provide `type` or its deprecated alias `default`. If both are provided, they must match.
 	NetworkPolicy *struct {
 		// Default A deprecated alias for `type`. Use `type` instead.
 		// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 		Default *CreateSandboxJSONBodyNetworkPolicyDefault `json:"default,omitempty"`
 
-		// Rules Destinations the sandbox may reach, required when the policy is
-		// `allow-list` and rejected otherwise. Each domain may be listed once.
+		// Rules Destinations the sandbox may reach, required when the policy is `allow-list` and rejected otherwise. Each domain may be listed once.
 		Rules *[]struct {
-			// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-			// `foo.local` does not match `api.foo.local`. Use a separate rule or
-			// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+			// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 			//
 			//
 			// Example: *.bar.local
@@ -15336,10 +15269,7 @@ type CreateSandboxJSONBody struct {
 			Protocol *CreateSandboxJSONBodyNetworkPolicyRulesProtocol `json:"protocol,omitempty"`
 		} `json:"rules,omitempty"`
 
-		// Type How Render handles outbound traffic from the sandbox. The `allow-list`
-		// policy requires `rules`. Required unless `default` is provided. If
-		// `networkPolicy` is omitted, defaults to `allow-all`, or to the source
-		// sandbox's policy when creating a sandbox from a snapshot.
+		// Type How Render handles outbound traffic from the sandbox. The `allow-list` policy requires `rules`. Required unless `default` is provided. If `networkPolicy` is omitted, defaults to `allow-all`, or to the source sandbox's policy when creating a sandbox from a snapshot.
 		Type *CreateSandboxJSONBodyNetworkPolicyType `json:"type,omitempty"`
 	} `json:"networkPolicy,omitempty"`
 
@@ -15352,27 +15282,15 @@ type CreateSandboxJSONBody struct {
 	// SandboxGroupId The ID of the sandbox group to create the sandbox in. Defaults to the workspace's default group.
 	SandboxGroupId *string `json:"sandboxGroupId,omitempty"`
 
-	// SnapshotId The ID of the snapshot to create the sandbox from instead of the base image.
-	// The snapshot must be `available` and belong to the same sandbox group. For
-	// a `runtime` snapshot, `plan` must match the snapshot's plan. The new sandbox
-	// inherits the source sandbox's network policy, timeout, and idle timeout.
-	// Provide `networkPolicy`, `timeoutSeconds`, or `idleTimeoutSeconds` to override
-	// these settings.
+	// SnapshotId The ID of the snapshot to create the sandbox from instead of the base image. The snapshot must be `available` and belong to the same sandbox group. For a `runtime` snapshot, `plan` must match the snapshot's plan. The new sandbox inherits the source sandbox's network policy, timeout, and idle timeout. Provide `networkPolicy`, `timeoutSeconds`, or `idleTimeoutSeconds` to override these settings.
 	SnapshotId *string `json:"snapshotId,omitempty"`
 
-	// SnapshotName The name of the snapshot to create the sandbox from. Uses the most recently
-	// created snapshot with this name in the sandbox group that is `available`
-	// and unexpired. Cannot be combined with `snapshotId`. The same restore
-	// requirements as `snapshotId` apply.
+	// SnapshotName The name of the snapshot to create the sandbox from. Uses the most recently created snapshot with this name in the sandbox group that is `available` and unexpired. Cannot be combined with `snapshotId`. The same restore requirements as `snapshotId` apply.
 	SnapshotName *string `json:"snapshotName,omitempty"`
 
-	// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-	// terminates when this time elapses. If the sandbox is suspended and later
-	// resumed, this timeout restarts.
+	// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts.
 	//
-	// Use 0 to disable the runtime timeout. Positive values must be between 60
-	// and 2592000 (30 days). Defaults to 86400, or to the source sandbox's runtime
-	// timeout when creating a sandbox from a snapshot.
+	// Use 0 to disable the runtime timeout. Positive values must be between 60 and 2592000 (30 days). Defaults to 86400, or to the source sandbox's runtime timeout when creating a sandbox from a snapshot.
 	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
 }
 
@@ -15477,13 +15395,9 @@ type ConnectSandboxFilesParams struct {
 	// OwnerId The ID of the workspace the sandbox belongs to. If provided, it must match the sandbox's workspace. If omitted, Render determines the workspace from the sandbox ID.
 	OwnerId *string `form:"ownerId,omitempty" json:"ownerId,omitempty"`
 
-	// Path The file or directory path the token authorizes. For archive uploads, this
-	// is the directory to extract into. For downloads, it is the file or directory
-	// to retrieve.
+	// Path The file or directory path the token authorizes. For archive uploads, this is the directory to extract into. For downloads, it is the file or directory to retrieve.
 	//
-	// Relative paths are resolved from the image's `WORKDIR`, or the home directory
-	// if no `WORKDIR` is set. Use `.` for that working directory. Absolute paths
-	// are resolved from the sandbox filesystem root.
+	// Relative paths are resolved from the image's `WORKDIR`, or the home directory if no `WORKDIR` is set. Use `.` for that working directory. Absolute paths are resolved from the sandbox filesystem root.
 	Path string `form:"path" json:"path"`
 }
 
@@ -15495,28 +15409,20 @@ type ConnectSandboxRunParams struct {
 
 // CreateSandboxSnapshotJSONBody defines parameters for CreateSandboxSnapshot.
 type CreateSandboxSnapshotJSONBody struct {
-	// ExpiresAt The expiration timestamp, in ISO 8601 format. Deprecated; use `ttlSeconds`
-	// instead. Must be in the future. Render sets the snapshot lifetime to the
-	// duration between the request and this timestamp.
+	// ExpiresAt The expiration timestamp, in ISO 8601 format. Deprecated; use `ttlSeconds` instead. Must be in the future. Render sets the snapshot lifetime to the duration between the request and this timestamp.
 	// Deprecated: Use ttlSeconds instead.
 	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
 
 	// Kind The state to capture in the snapshot. Defaults to `runtime`.
 	Kind *CreateSandboxSnapshotJSONBodyKind `json:"kind,omitempty"`
 
-	// Name A case-sensitive name for snapshots in a sandbox group, up to 64 characters.
-	// Must not start with `snp-`. Multiple snapshots can share a name. When creating
-	// a sandbox by snapshot name, Render uses the most recently created snapshot
-	// with that name that is `available` and unexpired.
+	// Name A case-sensitive name for snapshots in a sandbox group, up to 64 characters. Must not start with `snp-`. Multiple snapshots can share a name. When creating a sandbox by snapshot name, Render uses the most recently created snapshot with that name that is `available` and unexpired.
 	//
 	//
 	// Example: gold
 	Name *string `json:"name,omitempty"`
 
-	// TTLSeconds The snapshot's lifetime after its last use, in seconds. Creating a sandbox
-	// from this snapshot resets its remaining lifetime to this duration. Use 0
-	// to keep the snapshot until you delete it. Defaults to Render's snapshot
-	// lifetime. Cannot be combined with `expiresAt`.
+	// TTLSeconds The snapshot's lifetime after its last use, in seconds. Creating a sandbox from this snapshot resets its remaining lifetime to this duration. Use 0 to keep the snapshot until you delete it. Defaults to Render's snapshot lifetime. Cannot be combined with `expiresAt`.
 	TTLSeconds *int `json:"ttlSeconds,omitempty"`
 }
 
@@ -23210,9 +23116,7 @@ type ClientInterface interface {
 
 	// ListSandboxGroups List sandbox groups
 	//
-	// List sandbox groups in a workspace, newest first. Returns up to 20 groups
-	// by default, with a maximum of 100. To fetch the next page, pass the last
-	// result's cursor as `cursor`. Continue until the response is empty.
+	// List sandbox groups in a workspace, newest first. Returns up to 20 groups by default, with a maximum of 100. To fetch the next page, pass the last result's cursor as `cursor`. Continue until the response is empty.
 	//
 	// Corresponds with GET /sandbox-groups (the `ListSandboxGroups` operationId).
 	ListSandboxGroups(ctx context.Context, params *ListSandboxGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -23244,8 +23148,7 @@ type ClientInterface interface {
 
 	// UpdateSandboxGroupWithBody Update sandbox group
 	//
-	// Update a sandbox group's concurrency limit. The response contains the
-	// effective limit after applying Render's limit for the workspace.
+	// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -23254,8 +23157,7 @@ type ClientInterface interface {
 
 	// UpdateSandboxGroup Update sandbox group
 	//
-	// Update a sandbox group's concurrency limit. The response contains the
-	// effective limit after applying Render's limit for the workspace.
+	// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -23271,14 +23173,9 @@ type ClientInterface interface {
 
 	// CreateSandboxBuildWithBody Create sandbox build
 	//
-	// Start converting an OCI container image into an image that sandboxes can
-	// use. New builds run asynchronously. Retrieve the build until its status is
-	// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-	// creating a sandbox.
+	// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 	//
-	// If the group already has a pending, running, or succeeded build for the same
-	// name and image digest, Render returns that build. Retrying a failed build
-	// starts a new build.
+	// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -23287,14 +23184,9 @@ type ClientInterface interface {
 
 	// CreateSandboxBuild Create sandbox build
 	//
-	// Start converting an OCI container image into an image that sandboxes can
-	// use. New builds run asynchronously. Retrieve the build until its status is
-	// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-	// creating a sandbox.
+	// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 	//
-	// If the group already has a pending, running, or succeeded build for the same
-	// name and image digest, Render returns that build. Retrying a failed build
-	// starts a new build.
+	// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -23303,9 +23195,7 @@ type ClientInterface interface {
 
 	// DeleteSandboxBuild Delete sandbox build
 	//
-	// Delete a build of a sandbox image. The build no longer appears in lists
-	// and cannot be retrieved or used to create sandboxes, including by image
-	// name. Repeated requests to delete the build return HTTP 204.
+	// Delete a build of a sandbox image. The build no longer appears in lists and cannot be retrieved or used to create sandboxes, including by image name. Repeated requests to delete the build return HTTP 204.
 	//
 	// Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/builds/{buildId} (the `DeleteSandboxBuild` operationId).
 	DeleteSandboxBuild(ctx context.Context, sandboxGroupId string, buildId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -23319,26 +23209,18 @@ type ClientInterface interface {
 
 	// ListSandboxGroupCredentials List sandbox group credentials
 	//
-	// List credentials in the sandbox group, sorted by credential ID. Returns
-	// credential settings and metadata. These endpoints do not return secret values,
-	// including to admins.
+	// List credentials in the sandbox group, sorted by credential ID. Returns credential settings and metadata. These endpoints do not return secret values, including to admins.
 	//
 	// Corresponds with GET /sandbox-groups/{sandboxGroupId}/credentials (the `ListSandboxGroupCredentials` operationId).
 	ListSandboxGroupCredentials(ctx context.Context, sandboxGroupId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CreateSandboxGroupCredentialWithBody Create sandbox group credential
 	//
-	// Configure a credential for injection into matching outbound HTTPS requests
-	// from sandboxes in this group. Requires an admin. You assign the credential ID.
+	// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 	//
-	// Each group supports up to 25 credentials. Current credential settings and
-	// secret values have a combined serialized size limit of 200 KiB (204800
-	// bytes). Render retains the current configuration and three distinct prior
-	// configurations per credential, with a total storage limit of 1 MiB including
-	// version metadata.
+	// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -23347,17 +23229,11 @@ type ClientInterface interface {
 
 	// CreateSandboxGroupCredential Create sandbox group credential
 	//
-	// Configure a credential for injection into matching outbound HTTPS requests
-	// from sandboxes in this group. Requires an admin. You assign the credential ID.
+	// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 	//
-	// Each group supports up to 25 credentials. Current credential settings and
-	// secret values have a combined serialized size limit of 200 KiB (204800
-	// bytes). Render retains the current configuration and three distinct prior
-	// configurations per credential, with a total storage limit of 1 MiB including
-	// version metadata.
+	// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -23366,34 +23242,25 @@ type ClientInterface interface {
 
 	// DeleteSandboxGroupCredential Delete sandbox group credential
 	//
-	// Delete a credential from the sandbox group. Requires an admin. Repeated
-	// delete requests are accepted, including if the credential is already absent.
+	// Delete a credential from the sandbox group. Requires an admin. Repeated delete requests are accepted, including if the credential is already absent.
 	//
 	// Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/credentials/{credentialId} (the `DeleteSandboxGroupCredential` operationId).
 	DeleteSandboxGroupCredential(ctx context.Context, sandboxGroupId string, credentialId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// RetrieveSandboxGroupCredential Retrieve sandbox group credential
 	//
-	// Retrieve the settings and metadata for a credential in this sandbox group.
-	// These endpoints do not return secret values, including to admins.
+	// Retrieve the settings and metadata for a credential in this sandbox group. These endpoints do not return secret values, including to admins.
 	//
 	// Corresponds with GET /sandbox-groups/{sandboxGroupId}/credentials/{credentialId} (the `RetrieveSandboxGroupCredential` operationId).
 	RetrieveSandboxGroupCredential(ctx context.Context, sandboxGroupId string, credentialId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UpdateSandboxGroupCredentialWithBody Update sandbox group credential
 	//
-	// Update a credential. Developers can change `injection`, `methods`, `paths`,
-	// and `enabled`. Changing `domain` or `value` requires an admin.
+	// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 	//
-	// Omitted top-level fields keep their current values. Providing `injection`
-	// replaces the entire object. Its `template` defaults to `${SECRET}` when
-	// omitted. An empty `methods` or `paths` list removes that filter. Providing
-	// `value` creates a new version.
-	// The combined serialized size of current credential settings and secret
-	// values in the group must remain within 200 KiB (204800 bytes).
+	// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -23402,18 +23269,11 @@ type ClientInterface interface {
 
 	// UpdateSandboxGroupCredential Update sandbox group credential
 	//
-	// Update a credential. Developers can change `injection`, `methods`, `paths`,
-	// and `enabled`. Changing `domain` or `value` requires an admin.
+	// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 	//
-	// Omitted top-level fields keep their current values. Providing `injection`
-	// replaces the entire object. Its `template` defaults to `${SECRET}` when
-	// omitted. An empty `methods` or `paths` list removes that filter. Providing
-	// `value` creates a new version.
-	// The combined serialized size of current credential settings and secret
-	// values in the group must remain within 200 KiB (204800 bytes).
+	// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -23422,18 +23282,11 @@ type ClientInterface interface {
 
 	// RestoreSandboxGroupCredentialWithBody Restore sandbox credential configuration
 	//
-	// Restore a retained credential version, including its routing settings,
-	// injection settings, and secret value, as a new current version. Requires
-	// an admin.
+	// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 	//
-	// The new version has a higher ID, records who restored it and when, and
-	// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-	// the source version. Render retains the current configuration and the three
-	// distinct prior configurations most recently active. Removing an older
-	// configuration also removes all versions that refer to it.
+	// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// These endpoints do not return secret values.
 	//
@@ -23444,18 +23297,11 @@ type ClientInterface interface {
 
 	// RestoreSandboxGroupCredential Restore sandbox credential configuration
 	//
-	// Restore a retained credential version, including its routing settings,
-	// injection settings, and secret value, as a new current version. Requires
-	// an admin.
+	// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 	//
-	// The new version has a higher ID, records who restored it and when, and
-	// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-	// the source version. Render retains the current configuration and the three
-	// distinct prior configurations most recently active. Removing an older
-	// configuration also removes all versions that refer to it.
+	// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// These endpoints do not return secret values.
 	//
@@ -23466,29 +23312,23 @@ type ClientInterface interface {
 
 	// ListSandboxGroupCredentialVersions List sandbox credential versions
 	//
-	// List retained credential versions, newest version ID first. Versions with
-	// identical settings and secret values share a fingerprint.
+	// List retained credential versions, newest version ID first. Versions with identical settings and secret values share a fingerprint.
 	//
-	// Render retains the current configuration and the three distinct prior
-	// configurations most recently active. When an older configuration is removed,
-	// all versions that refer to it are also removed. These endpoints do not return
-	// secret values.
+	// Render retains the current configuration and the three distinct prior configurations most recently active. When an older configuration is removed, all versions that refer to it are also removed. These endpoints do not return secret values.
 	//
 	// Corresponds with GET /sandbox-groups/{sandboxGroupId}/credentials/{credentialId}/versions (the `ListSandboxGroupCredentialVersions` operationId).
 	ListSandboxGroupCredentialVersions(ctx context.Context, sandboxGroupId string, credentialId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListSandboxSnapshots List sandbox snapshots
 	//
-	// List snapshots in a sandbox group, newest first. Excludes expired and
-	// deleted snapshots.
+	// List snapshots in a sandbox group, newest first. Excludes expired and deleted snapshots.
 	//
 	// Corresponds with GET /sandbox-groups/{sandboxGroupId}/snapshots (the `ListSandboxSnapshots` operationId).
 	ListSandboxSnapshots(ctx context.Context, sandboxGroupId string, params *ListSandboxSnapshotsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteSandboxSnapshot Delete sandbox snapshot
 	//
-	// Delete a snapshot. Sandboxes created from it are not affected. Returns
-	// HTTP 204 if the snapshot is already deleted or expired.
+	// Delete a snapshot. Sandboxes created from it are not affected. Returns HTTP 204 if the snapshot is already deleted or expired.
 	//
 	// Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/snapshots/{snapshotId} (the `DeleteSandboxSnapshot` operationId).
 	DeleteSandboxSnapshot(ctx context.Context, sandboxGroupId string, snapshotId string, params *DeleteSandboxSnapshotParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -23502,17 +23342,14 @@ type ClientInterface interface {
 
 	// ListSandboxes List sandboxes
 	//
-	// List sandboxes in a workspace. Each request must specify one workspace.
-	// Sandboxes run in the region of their sandbox group.
+	// List sandboxes in a workspace. Each request must specify one workspace. Sandboxes run in the region of their sandbox group.
 	//
 	// Corresponds with GET /sandboxes (the `ListSandboxes` operationId).
 	ListSandboxes(ctx context.Context, params *ListSandboxesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CreateSandboxWithBody Create sandbox
 	//
-	// Create a sandbox and return its initial state. The sandbox might still be
-	// starting when the response is returned. To use a saved snapshot or custom
-	// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+	// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -23521,9 +23358,7 @@ type ClientInterface interface {
 
 	// CreateSandbox Create sandbox
 	//
-	// Create a sandbox and return its initial state. The sandbox might still be
-	// starting when the response is returned. To use a saved snapshot or custom
-	// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+	// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -23553,33 +23388,23 @@ type ClientInterface interface {
 
 	// ConnectSandboxFiles Mint a connect token for a sandbox file transfer
 	//
-	// Create a short-lived connect token for a file upload or download. Transfer
-	// the file directly to or from the URL in the response, using the token as
-	// the bearer token. The token authorizes only the specified sandbox, operation,
-	// and path. Its expiration time is returned in `expiresAt`.
+	// Create a short-lived connect token for a file upload or download. Transfer the file directly to or from the URL in the response, using the token as the bearer token. The token authorizes only the specified sandbox, operation, and path. Its expiration time is returned in `expiresAt`.
 	//
-	// Use `application/octet-stream` for a single file or `application/x-tar` for
-	// a directory archive. For gzip compression, also set `Content-Encoding: gzip`.
-	// Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
+	// Use `application/octet-stream` for a single file or `application/x-tar` for a directory archive. For gzip compression, also set `Content-Encoding: gzip`. Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
 	//
 	// Corresponds with POST /sandboxes/{sandboxId}/files/{operation}/token (the `ConnectSandboxFiles` operationId).
 	ConnectSandboxFiles(ctx context.Context, sandboxId string, operation string, params *ConnectSandboxFilesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ConnectSandboxRun Create a connect token for a sandbox run
 	//
-	// Create a short-lived connect token for a command run in this sandbox.
-	// Send the command to the URL in the response, using the token as the bearer
-	// token. The token authorizes only the requested operation.
+	// Create a short-lived connect token for a command run in this sandbox. Send the command to the URL in the response, using the token as the bearer token. The token authorizes only the requested operation.
 	//
 	// Corresponds with POST /sandboxes/{sandboxId}/runs/{operation}/token (the `ConnectSandboxRun` operationId).
 	ConnectSandboxRun(ctx context.Context, sandboxId string, operation string, params *ConnectSandboxRunParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CreateSandboxSnapshotWithBody Create sandbox snapshot
 	//
-	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-	// in `creating` status. Retrieve the snapshot until its status is `available`
-	// or `failed`. The sandbox continues running, with a brief pause when capturing
-	// a runtime snapshot.
+	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -23588,10 +23413,7 @@ type ClientInterface interface {
 
 	// CreateSandboxSnapshot Create sandbox snapshot
 	//
-	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-	// in `creating` status. Retrieve the snapshot until its status is `available`
-	// or `failed`. The sandbox continues running, with a brief pause when capturing
-	// a runtime snapshot.
+	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -23600,9 +23422,7 @@ type ClientInterface interface {
 
 	// TerminateSandbox Terminate sandbox
 	//
-	// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the
-	// sandbox is already terminated. You can also terminate a sandbox while it
-	// is starting (`creating`).
+	// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the sandbox is already terminated. You can also terminate a sandbox while it is starting (`creating`).
 	//
 	// Corresponds with POST /sandboxes/{sandboxId}/terminate (the `TerminateSandbox` operationId).
 	TerminateSandbox(ctx context.Context, sandboxId string, params *TerminateSandboxParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -28286,9 +28106,7 @@ func (c *Client) UpdateRegistryCredential(ctx context.Context, registryCredentia
 
 // ListSandboxGroups List sandbox groups
 //
-// List sandbox groups in a workspace, newest first. Returns up to 20 groups
-// by default, with a maximum of 100. To fetch the next page, pass the last
-// result's cursor as `cursor`. Continue until the response is empty.
+// List sandbox groups in a workspace, newest first. Returns up to 20 groups by default, with a maximum of 100. To fetch the next page, pass the last result's cursor as `cursor`. Continue until the response is empty.
 //
 // Corresponds with GET /sandbox-groups (the `ListSandboxGroups` operationId).
 func (c *Client) ListSandboxGroups(ctx context.Context, params *ListSandboxGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28360,8 +28178,7 @@ func (c *Client) RetrieveSandboxGroup(ctx context.Context, sandboxGroupId string
 
 // UpdateSandboxGroupWithBody Update sandbox group
 //
-// Update a sandbox group's concurrency limit. The response contains the
-// effective limit after applying Render's limit for the workspace.
+// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 //
 // Takes any type of body and a specified content type.
 //
@@ -28380,8 +28197,7 @@ func (c *Client) UpdateSandboxGroupWithBody(ctx context.Context, sandboxGroupId 
 
 // UpdateSandboxGroup Update sandbox group
 //
-// Update a sandbox group's concurrency limit. The response contains the
-// effective limit after applying Render's limit for the workspace.
+// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -28417,14 +28233,9 @@ func (c *Client) ListSandboxBuilds(ctx context.Context, sandboxGroupId string, p
 
 // CreateSandboxBuildWithBody Create sandbox build
 //
-// Start converting an OCI container image into an image that sandboxes can
-// use. New builds run asynchronously. Retrieve the build until its status is
-// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-// creating a sandbox.
+// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 //
-// If the group already has a pending, running, or succeeded build for the same
-// name and image digest, Render returns that build. Retrying a failed build
-// starts a new build.
+// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 //
 // Takes any type of body and a specified content type.
 //
@@ -28443,14 +28254,9 @@ func (c *Client) CreateSandboxBuildWithBody(ctx context.Context, sandboxGroupId 
 
 // CreateSandboxBuild Create sandbox build
 //
-// Start converting an OCI container image into an image that sandboxes can
-// use. New builds run asynchronously. Retrieve the build until its status is
-// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-// creating a sandbox.
+// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 //
-// If the group already has a pending, running, or succeeded build for the same
-// name and image digest, Render returns that build. Retrying a failed build
-// starts a new build.
+// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -28469,9 +28275,7 @@ func (c *Client) CreateSandboxBuild(ctx context.Context, sandboxGroupId string, 
 
 // DeleteSandboxBuild Delete sandbox build
 //
-// Delete a build of a sandbox image. The build no longer appears in lists
-// and cannot be retrieved or used to create sandboxes, including by image
-// name. Repeated requests to delete the build return HTTP 204.
+// Delete a build of a sandbox image. The build no longer appears in lists and cannot be retrieved or used to create sandboxes, including by image name. Repeated requests to delete the build return HTTP 204.
 //
 // Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/builds/{buildId} (the `DeleteSandboxBuild` operationId).
 func (c *Client) DeleteSandboxBuild(ctx context.Context, sandboxGroupId string, buildId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28505,9 +28309,7 @@ func (c *Client) RetrieveSandboxBuild(ctx context.Context, sandboxGroupId string
 
 // ListSandboxGroupCredentials List sandbox group credentials
 //
-// List credentials in the sandbox group, sorted by credential ID. Returns
-// credential settings and metadata. These endpoints do not return secret values,
-// including to admins.
+// List credentials in the sandbox group, sorted by credential ID. Returns credential settings and metadata. These endpoints do not return secret values, including to admins.
 //
 // Corresponds with GET /sandbox-groups/{sandboxGroupId}/credentials (the `ListSandboxGroupCredentials` operationId).
 func (c *Client) ListSandboxGroupCredentials(ctx context.Context, sandboxGroupId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28524,17 +28326,11 @@ func (c *Client) ListSandboxGroupCredentials(ctx context.Context, sandboxGroupId
 
 // CreateSandboxGroupCredentialWithBody Create sandbox group credential
 //
-// Configure a credential for injection into matching outbound HTTPS requests
-// from sandboxes in this group. Requires an admin. You assign the credential ID.
+// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 //
-// Each group supports up to 25 credentials. Current credential settings and
-// secret values have a combined serialized size limit of 200 KiB (204800
-// bytes). Render retains the current configuration and three distinct prior
-// configurations per credential, with a total storage limit of 1 MiB including
-// version metadata.
+// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes any type of body and a specified content type.
 //
@@ -28553,17 +28349,11 @@ func (c *Client) CreateSandboxGroupCredentialWithBody(ctx context.Context, sandb
 
 // CreateSandboxGroupCredential Create sandbox group credential
 //
-// Configure a credential for injection into matching outbound HTTPS requests
-// from sandboxes in this group. Requires an admin. You assign the credential ID.
+// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 //
-// Each group supports up to 25 credentials. Current credential settings and
-// secret values have a combined serialized size limit of 200 KiB (204800
-// bytes). Render retains the current configuration and three distinct prior
-// configurations per credential, with a total storage limit of 1 MiB including
-// version metadata.
+// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -28582,8 +28372,7 @@ func (c *Client) CreateSandboxGroupCredential(ctx context.Context, sandboxGroupI
 
 // DeleteSandboxGroupCredential Delete sandbox group credential
 //
-// Delete a credential from the sandbox group. Requires an admin. Repeated
-// delete requests are accepted, including if the credential is already absent.
+// Delete a credential from the sandbox group. Requires an admin. Repeated delete requests are accepted, including if the credential is already absent.
 //
 // Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/credentials/{credentialId} (the `DeleteSandboxGroupCredential` operationId).
 func (c *Client) DeleteSandboxGroupCredential(ctx context.Context, sandboxGroupId string, credentialId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28600,8 +28389,7 @@ func (c *Client) DeleteSandboxGroupCredential(ctx context.Context, sandboxGroupI
 
 // RetrieveSandboxGroupCredential Retrieve sandbox group credential
 //
-// Retrieve the settings and metadata for a credential in this sandbox group.
-// These endpoints do not return secret values, including to admins.
+// Retrieve the settings and metadata for a credential in this sandbox group. These endpoints do not return secret values, including to admins.
 //
 // Corresponds with GET /sandbox-groups/{sandboxGroupId}/credentials/{credentialId} (the `RetrieveSandboxGroupCredential` operationId).
 func (c *Client) RetrieveSandboxGroupCredential(ctx context.Context, sandboxGroupId string, credentialId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28618,18 +28406,11 @@ func (c *Client) RetrieveSandboxGroupCredential(ctx context.Context, sandboxGrou
 
 // UpdateSandboxGroupCredentialWithBody Update sandbox group credential
 //
-// Update a credential. Developers can change `injection`, `methods`, `paths`,
-// and `enabled`. Changing `domain` or `value` requires an admin.
+// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 //
-// Omitted top-level fields keep their current values. Providing `injection`
-// replaces the entire object. Its `template` defaults to `${SECRET}` when
-// omitted. An empty `methods` or `paths` list removes that filter. Providing
-// `value` creates a new version.
-// The combined serialized size of current credential settings and secret
-// values in the group must remain within 200 KiB (204800 bytes).
+// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes any type of body and a specified content type.
 //
@@ -28648,18 +28429,11 @@ func (c *Client) UpdateSandboxGroupCredentialWithBody(ctx context.Context, sandb
 
 // UpdateSandboxGroupCredential Update sandbox group credential
 //
-// Update a credential. Developers can change `injection`, `methods`, `paths`,
-// and `enabled`. Changing `domain` or `value` requires an admin.
+// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 //
-// Omitted top-level fields keep their current values. Providing `injection`
-// replaces the entire object. Its `template` defaults to `${SECRET}` when
-// omitted. An empty `methods` or `paths` list removes that filter. Providing
-// `value` creates a new version.
-// The combined serialized size of current credential settings and secret
-// values in the group must remain within 200 KiB (204800 bytes).
+// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -28678,18 +28452,11 @@ func (c *Client) UpdateSandboxGroupCredential(ctx context.Context, sandboxGroupI
 
 // RestoreSandboxGroupCredentialWithBody Restore sandbox credential configuration
 //
-// Restore a retained credential version, including its routing settings,
-// injection settings, and secret value, as a new current version. Requires
-// an admin.
+// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 //
-// The new version has a higher ID, records who restored it and when, and
-// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-// the source version. Render retains the current configuration and the three
-// distinct prior configurations most recently active. Removing an older
-// configuration also removes all versions that refer to it.
+// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // These endpoints do not return secret values.
 //
@@ -28710,18 +28477,11 @@ func (c *Client) RestoreSandboxGroupCredentialWithBody(ctx context.Context, sand
 
 // RestoreSandboxGroupCredential Restore sandbox credential configuration
 //
-// Restore a retained credential version, including its routing settings,
-// injection settings, and secret value, as a new current version. Requires
-// an admin.
+// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 //
-// The new version has a higher ID, records who restored it and when, and
-// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-// the source version. Render retains the current configuration and the three
-// distinct prior configurations most recently active. Removing an older
-// configuration also removes all versions that refer to it.
+// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // These endpoints do not return secret values.
 //
@@ -28742,13 +28502,9 @@ func (c *Client) RestoreSandboxGroupCredential(ctx context.Context, sandboxGroup
 
 // ListSandboxGroupCredentialVersions List sandbox credential versions
 //
-// List retained credential versions, newest version ID first. Versions with
-// identical settings and secret values share a fingerprint.
+// List retained credential versions, newest version ID first. Versions with identical settings and secret values share a fingerprint.
 //
-// Render retains the current configuration and the three distinct prior
-// configurations most recently active. When an older configuration is removed,
-// all versions that refer to it are also removed. These endpoints do not return
-// secret values.
+// Render retains the current configuration and the three distinct prior configurations most recently active. When an older configuration is removed, all versions that refer to it are also removed. These endpoints do not return secret values.
 //
 // Corresponds with GET /sandbox-groups/{sandboxGroupId}/credentials/{credentialId}/versions (the `ListSandboxGroupCredentialVersions` operationId).
 func (c *Client) ListSandboxGroupCredentialVersions(ctx context.Context, sandboxGroupId string, credentialId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28765,8 +28521,7 @@ func (c *Client) ListSandboxGroupCredentialVersions(ctx context.Context, sandbox
 
 // ListSandboxSnapshots List sandbox snapshots
 //
-// List snapshots in a sandbox group, newest first. Excludes expired and
-// deleted snapshots.
+// List snapshots in a sandbox group, newest first. Excludes expired and deleted snapshots.
 //
 // Corresponds with GET /sandbox-groups/{sandboxGroupId}/snapshots (the `ListSandboxSnapshots` operationId).
 func (c *Client) ListSandboxSnapshots(ctx context.Context, sandboxGroupId string, params *ListSandboxSnapshotsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28783,8 +28538,7 @@ func (c *Client) ListSandboxSnapshots(ctx context.Context, sandboxGroupId string
 
 // DeleteSandboxSnapshot Delete sandbox snapshot
 //
-// Delete a snapshot. Sandboxes created from it are not affected. Returns
-// HTTP 204 if the snapshot is already deleted or expired.
+// Delete a snapshot. Sandboxes created from it are not affected. Returns HTTP 204 if the snapshot is already deleted or expired.
 //
 // Corresponds with DELETE /sandbox-groups/{sandboxGroupId}/snapshots/{snapshotId} (the `DeleteSandboxSnapshot` operationId).
 func (c *Client) DeleteSandboxSnapshot(ctx context.Context, sandboxGroupId string, snapshotId string, params *DeleteSandboxSnapshotParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28818,8 +28572,7 @@ func (c *Client) RetrieveSandboxSnapshot(ctx context.Context, sandboxGroupId str
 
 // ListSandboxes List sandboxes
 //
-// List sandboxes in a workspace. Each request must specify one workspace.
-// Sandboxes run in the region of their sandbox group.
+// List sandboxes in a workspace. Each request must specify one workspace. Sandboxes run in the region of their sandbox group.
 //
 // Corresponds with GET /sandboxes (the `ListSandboxes` operationId).
 func (c *Client) ListSandboxes(ctx context.Context, params *ListSandboxesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28836,9 +28589,7 @@ func (c *Client) ListSandboxes(ctx context.Context, params *ListSandboxesParams,
 
 // CreateSandboxWithBody Create sandbox
 //
-// Create a sandbox and return its initial state. The sandbox might still be
-// starting when the response is returned. To use a saved snapshot or custom
-// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 //
 // Takes any type of body and a specified content type.
 //
@@ -28857,9 +28608,7 @@ func (c *Client) CreateSandboxWithBody(ctx context.Context, contentType string, 
 
 // CreateSandbox Create sandbox
 //
-// Create a sandbox and return its initial state. The sandbox might still be
-// starting when the response is returned. To use a saved snapshot or custom
-// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -28929,14 +28678,9 @@ func (c *Client) RetrieveSandboxExecution(ctx context.Context, sandboxId string,
 
 // ConnectSandboxFiles Mint a connect token for a sandbox file transfer
 //
-// Create a short-lived connect token for a file upload or download. Transfer
-// the file directly to or from the URL in the response, using the token as
-// the bearer token. The token authorizes only the specified sandbox, operation,
-// and path. Its expiration time is returned in `expiresAt`.
+// Create a short-lived connect token for a file upload or download. Transfer the file directly to or from the URL in the response, using the token as the bearer token. The token authorizes only the specified sandbox, operation, and path. Its expiration time is returned in `expiresAt`.
 //
-// Use `application/octet-stream` for a single file or `application/x-tar` for
-// a directory archive. For gzip compression, also set `Content-Encoding: gzip`.
-// Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
+// Use `application/octet-stream` for a single file or `application/x-tar` for a directory archive. For gzip compression, also set `Content-Encoding: gzip`. Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
 //
 // Corresponds with POST /sandboxes/{sandboxId}/files/{operation}/token (the `ConnectSandboxFiles` operationId).
 func (c *Client) ConnectSandboxFiles(ctx context.Context, sandboxId string, operation string, params *ConnectSandboxFilesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28953,9 +28697,7 @@ func (c *Client) ConnectSandboxFiles(ctx context.Context, sandboxId string, oper
 
 // ConnectSandboxRun Create a connect token for a sandbox run
 //
-// Create a short-lived connect token for a command run in this sandbox.
-// Send the command to the URL in the response, using the token as the bearer
-// token. The token authorizes only the requested operation.
+// Create a short-lived connect token for a command run in this sandbox. Send the command to the URL in the response, using the token as the bearer token. The token authorizes only the requested operation.
 //
 // Corresponds with POST /sandboxes/{sandboxId}/runs/{operation}/token (the `ConnectSandboxRun` operationId).
 func (c *Client) ConnectSandboxRun(ctx context.Context, sandboxId string, operation string, params *ConnectSandboxRunParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -28972,10 +28714,7 @@ func (c *Client) ConnectSandboxRun(ctx context.Context, sandboxId string, operat
 
 // CreateSandboxSnapshotWithBody Create sandbox snapshot
 //
-// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-// in `creating` status. Retrieve the snapshot until its status is `available`
-// or `failed`. The sandbox continues running, with a brief pause when capturing
-// a runtime snapshot.
+// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 //
 // Takes any type of body and a specified content type.
 //
@@ -28994,10 +28733,7 @@ func (c *Client) CreateSandboxSnapshotWithBody(ctx context.Context, sandboxId st
 
 // CreateSandboxSnapshot Create sandbox snapshot
 //
-// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-// in `creating` status. Retrieve the snapshot until its status is `available`
-// or `failed`. The sandbox continues running, with a brief pause when capturing
-// a runtime snapshot.
+// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -29016,9 +28752,7 @@ func (c *Client) CreateSandboxSnapshot(ctx context.Context, sandboxId string, pa
 
 // TerminateSandbox Terminate sandbox
 //
-// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the
-// sandbox is already terminated. You can also terminate a sandbox while it
-// is starting (`creating`).
+// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the sandbox is already terminated. You can also terminate a sandbox while it is starting (`creating`).
 //
 // Corresponds with POST /sandboxes/{sandboxId}/terminate (the `TerminateSandbox` operationId).
 func (c *Client) TerminateSandbox(ctx context.Context, sandboxId string, params *TerminateSandboxParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -35131,6 +34865,18 @@ func NewListLogsRequest(server string, params *ListLogsParams) (*http.Request, e
 
 		}
 
+		if params.Build != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "build", *params.Build, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Level != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "level", *params.Level, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
@@ -35717,6 +35463,18 @@ func NewSubscribeLogsRequest(server string, params *SubscribeLogsParams) (*http.
 
 		}
 
+		if params.Build != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "build", *params.Build, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Level != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "level", *params.Level, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
@@ -35958,6 +35716,18 @@ func NewListLogsValuesRequest(server string, params *ListLogsValuesParams) (*htt
 		if params.Sandbox != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sandbox", *params.Sandbox, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Build != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "build", *params.Build, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -49000,9 +48770,7 @@ type ClientWithResponsesInterface interface {
 
 	// ListSandboxGroupsWithResponse List sandbox groups
 	//
-	// List sandbox groups in a workspace, newest first. Returns up to 20 groups
-	// by default, with a maximum of 100. To fetch the next page, pass the last
-	// result's cursor as `cursor`. Continue until the response is empty.
+	// List sandbox groups in a workspace, newest first. Returns up to 20 groups by default, with a maximum of 100. To fetch the next page, pass the last result's cursor as `cursor`. Continue until the response is empty.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49038,8 +48806,7 @@ type ClientWithResponsesInterface interface {
 
 	// UpdateSandboxGroupWithBodyWithResponse Update sandbox group
 	//
-	// Update a sandbox group's concurrency limit. The response contains the
-	// effective limit after applying Render's limit for the workspace.
+	// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49048,8 +48815,7 @@ type ClientWithResponsesInterface interface {
 
 	// UpdateSandboxGroupWithResponse Update sandbox group
 	//
-	// Update a sandbox group's concurrency limit. The response contains the
-	// effective limit after applying Render's limit for the workspace.
+	// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49067,14 +48833,9 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxBuildWithBodyWithResponse Create sandbox build
 	//
-	// Start converting an OCI container image into an image that sandboxes can
-	// use. New builds run asynchronously. Retrieve the build until its status is
-	// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-	// creating a sandbox.
+	// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 	//
-	// If the group already has a pending, running, or succeeded build for the same
-	// name and image digest, Render returns that build. Retrying a failed build
-	// starts a new build.
+	// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49083,14 +48844,9 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxBuildWithResponse Create sandbox build
 	//
-	// Start converting an OCI container image into an image that sandboxes can
-	// use. New builds run asynchronously. Retrieve the build until its status is
-	// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-	// creating a sandbox.
+	// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 	//
-	// If the group already has a pending, running, or succeeded build for the same
-	// name and image digest, Render returns that build. Retrying a failed build
-	// starts a new build.
+	// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49099,9 +48855,7 @@ type ClientWithResponsesInterface interface {
 
 	// DeleteSandboxBuildWithResponse Delete sandbox build
 	//
-	// Delete a build of a sandbox image. The build no longer appears in lists
-	// and cannot be retrieved or used to create sandboxes, including by image
-	// name. Repeated requests to delete the build return HTTP 204.
+	// Delete a build of a sandbox image. The build no longer appears in lists and cannot be retrieved or used to create sandboxes, including by image name. Repeated requests to delete the build return HTTP 204.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49119,9 +48873,7 @@ type ClientWithResponsesInterface interface {
 
 	// ListSandboxGroupCredentialsWithResponse List sandbox group credentials
 	//
-	// List credentials in the sandbox group, sorted by credential ID. Returns
-	// credential settings and metadata. These endpoints do not return secret values,
-	// including to admins.
+	// List credentials in the sandbox group, sorted by credential ID. Returns credential settings and metadata. These endpoints do not return secret values, including to admins.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49130,17 +48882,11 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxGroupCredentialWithBodyWithResponse Create sandbox group credential
 	//
-	// Configure a credential for injection into matching outbound HTTPS requests
-	// from sandboxes in this group. Requires an admin. You assign the credential ID.
+	// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 	//
-	// Each group supports up to 25 credentials. Current credential settings and
-	// secret values have a combined serialized size limit of 200 KiB (204800
-	// bytes). Render retains the current configuration and three distinct prior
-	// configurations per credential, with a total storage limit of 1 MiB including
-	// version metadata.
+	// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49149,17 +48895,11 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxGroupCredentialWithResponse Create sandbox group credential
 	//
-	// Configure a credential for injection into matching outbound HTTPS requests
-	// from sandboxes in this group. Requires an admin. You assign the credential ID.
+	// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 	//
-	// Each group supports up to 25 credentials. Current credential settings and
-	// secret values have a combined serialized size limit of 200 KiB (204800
-	// bytes). Render retains the current configuration and three distinct prior
-	// configurations per credential, with a total storage limit of 1 MiB including
-	// version metadata.
+	// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49168,8 +48908,7 @@ type ClientWithResponsesInterface interface {
 
 	// DeleteSandboxGroupCredentialWithResponse Delete sandbox group credential
 	//
-	// Delete a credential from the sandbox group. Requires an admin. Repeated
-	// delete requests are accepted, including if the credential is already absent.
+	// Delete a credential from the sandbox group. Requires an admin. Repeated delete requests are accepted, including if the credential is already absent.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49178,8 +48917,7 @@ type ClientWithResponsesInterface interface {
 
 	// RetrieveSandboxGroupCredentialWithResponse Retrieve sandbox group credential
 	//
-	// Retrieve the settings and metadata for a credential in this sandbox group.
-	// These endpoints do not return secret values, including to admins.
+	// Retrieve the settings and metadata for a credential in this sandbox group. These endpoints do not return secret values, including to admins.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49188,18 +48926,11 @@ type ClientWithResponsesInterface interface {
 
 	// UpdateSandboxGroupCredentialWithBodyWithResponse Update sandbox group credential
 	//
-	// Update a credential. Developers can change `injection`, `methods`, `paths`,
-	// and `enabled`. Changing `domain` or `value` requires an admin.
+	// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 	//
-	// Omitted top-level fields keep their current values. Providing `injection`
-	// replaces the entire object. Its `template` defaults to `${SECRET}` when
-	// omitted. An empty `methods` or `paths` list removes that filter. Providing
-	// `value` creates a new version.
-	// The combined serialized size of current credential settings and secret
-	// values in the group must remain within 200 KiB (204800 bytes).
+	// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49208,18 +48939,11 @@ type ClientWithResponsesInterface interface {
 
 	// UpdateSandboxGroupCredentialWithResponse Update sandbox group credential
 	//
-	// Update a credential. Developers can change `injection`, `methods`, `paths`,
-	// and `enabled`. Changing `domain` or `value` requires an admin.
+	// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 	//
-	// Omitted top-level fields keep their current values. Providing `injection`
-	// replaces the entire object. Its `template` defaults to `${SECRET}` when
-	// omitted. An empty `methods` or `paths` list removes that filter. Providing
-	// `value` creates a new version.
-	// The combined serialized size of current credential settings and secret
-	// values in the group must remain within 200 KiB (204800 bytes).
+	// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49228,18 +48952,11 @@ type ClientWithResponsesInterface interface {
 
 	// RestoreSandboxGroupCredentialWithBodyWithResponse Restore sandbox credential configuration
 	//
-	// Restore a retained credential version, including its routing settings,
-	// injection settings, and secret value, as a new current version. Requires
-	// an admin.
+	// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 	//
-	// The new version has a higher ID, records who restored it and when, and
-	// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-	// the source version. Render retains the current configuration and the three
-	// distinct prior configurations most recently active. Removing an older
-	// configuration also removes all versions that refer to it.
+	// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// These endpoints do not return secret values.
 	//
@@ -49250,18 +48967,11 @@ type ClientWithResponsesInterface interface {
 
 	// RestoreSandboxGroupCredentialWithResponse Restore sandbox credential configuration
 	//
-	// Restore a retained credential version, including its routing settings,
-	// injection settings, and secret value, as a new current version. Requires
-	// an admin.
+	// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 	//
-	// The new version has a higher ID, records who restored it and when, and
-	// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-	// the source version. Render retains the current configuration and the three
-	// distinct prior configurations most recently active. Removing an older
-	// configuration also removes all versions that refer to it.
+	// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 	//
-	// The response confirms the configuration was saved. It does not confirm that
-	// credential injection is active for a particular sandbox.
+	// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 	//
 	// These endpoints do not return secret values.
 	//
@@ -49272,13 +48982,9 @@ type ClientWithResponsesInterface interface {
 
 	// ListSandboxGroupCredentialVersionsWithResponse List sandbox credential versions
 	//
-	// List retained credential versions, newest version ID first. Versions with
-	// identical settings and secret values share a fingerprint.
+	// List retained credential versions, newest version ID first. Versions with identical settings and secret values share a fingerprint.
 	//
-	// Render retains the current configuration and the three distinct prior
-	// configurations most recently active. When an older configuration is removed,
-	// all versions that refer to it are also removed. These endpoints do not return
-	// secret values.
+	// Render retains the current configuration and the three distinct prior configurations most recently active. When an older configuration is removed, all versions that refer to it are also removed. These endpoints do not return secret values.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49287,8 +48993,7 @@ type ClientWithResponsesInterface interface {
 
 	// ListSandboxSnapshotsWithResponse List sandbox snapshots
 	//
-	// List snapshots in a sandbox group, newest first. Excludes expired and
-	// deleted snapshots.
+	// List snapshots in a sandbox group, newest first. Excludes expired and deleted snapshots.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49297,8 +49002,7 @@ type ClientWithResponsesInterface interface {
 
 	// DeleteSandboxSnapshotWithResponse Delete sandbox snapshot
 	//
-	// Delete a snapshot. Sandboxes created from it are not affected. Returns
-	// HTTP 204 if the snapshot is already deleted or expired.
+	// Delete a snapshot. Sandboxes created from it are not affected. Returns HTTP 204 if the snapshot is already deleted or expired.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49316,8 +49020,7 @@ type ClientWithResponsesInterface interface {
 
 	// ListSandboxesWithResponse List sandboxes
 	//
-	// List sandboxes in a workspace. Each request must specify one workspace.
-	// Sandboxes run in the region of their sandbox group.
+	// List sandboxes in a workspace. Each request must specify one workspace. Sandboxes run in the region of their sandbox group.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49326,9 +49029,7 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxWithBodyWithResponse Create sandbox
 	//
-	// Create a sandbox and return its initial state. The sandbox might still be
-	// starting when the response is returned. To use a saved snapshot or custom
-	// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+	// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49337,9 +49038,7 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxWithResponse Create sandbox
 	//
-	// Create a sandbox and return its initial state. The sandbox might still be
-	// starting when the response is returned. To use a saved snapshot or custom
-	// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+	// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49375,14 +49074,9 @@ type ClientWithResponsesInterface interface {
 
 	// ConnectSandboxFilesWithResponse Mint a connect token for a sandbox file transfer
 	//
-	// Create a short-lived connect token for a file upload or download. Transfer
-	// the file directly to or from the URL in the response, using the token as
-	// the bearer token. The token authorizes only the specified sandbox, operation,
-	// and path. Its expiration time is returned in `expiresAt`.
+	// Create a short-lived connect token for a file upload or download. Transfer the file directly to or from the URL in the response, using the token as the bearer token. The token authorizes only the specified sandbox, operation, and path. Its expiration time is returned in `expiresAt`.
 	//
-	// Use `application/octet-stream` for a single file or `application/x-tar` for
-	// a directory archive. For gzip compression, also set `Content-Encoding: gzip`.
-	// Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
+	// Use `application/octet-stream` for a single file or `application/x-tar` for a directory archive. For gzip compression, also set `Content-Encoding: gzip`. Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49391,9 +49085,7 @@ type ClientWithResponsesInterface interface {
 
 	// ConnectSandboxRunWithResponse Create a connect token for a sandbox run
 	//
-	// Create a short-lived connect token for a command run in this sandbox.
-	// Send the command to the URL in the response, using the token as the bearer
-	// token. The token authorizes only the requested operation.
+	// Create a short-lived connect token for a command run in this sandbox. Send the command to the URL in the response, using the token as the bearer token. The token authorizes only the requested operation.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -49402,10 +49094,7 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxSnapshotWithBodyWithResponse Create sandbox snapshot
 	//
-	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-	// in `creating` status. Retrieve the snapshot until its status is `available`
-	// or `failed`. The sandbox continues running, with a brief pause when capturing
-	// a runtime snapshot.
+	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49414,10 +49103,7 @@ type ClientWithResponsesInterface interface {
 
 	// CreateSandboxSnapshotWithResponse Create sandbox snapshot
 	//
-	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-	// in `creating` status. Retrieve the snapshot until its status is `available`
-	// or `failed`. The sandbox continues running, with a brief pause when capturing
-	// a runtime snapshot.
+	// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -49426,9 +49112,7 @@ type ClientWithResponsesInterface interface {
 
 	// TerminateSandboxWithResponse Terminate sandbox
 	//
-	// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the
-	// sandbox is already terminated. You can also terminate a sandbox while it
-	// is starting (`creating`).
+	// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the sandbox is already terminated. You can also terminate a sandbox while it is starting (`creating`).
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -68641,18 +68325,13 @@ type CreateSandboxBuildResponse struct {
 		// CreatedAt The timestamp when the sandbox build was created, in ISO 8601 format.
 		CreatedAt time.Time `json:"createdAt"`
 
-		// FailureCode A machine-readable reason the build failed. Null unless the status is
-		// `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized
-		// codes as `internal_error`.
+		// FailureCode A machine-readable reason the build failed. Null unless the status is `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized codes as `internal_error`.
 		//
 		//
 		// Example: image_pull_failed
 		FailureCode *string `json:"failureCode,omitempty"`
 
-		// FailureReason A description of why the build failed. Null unless the status is `failed`.
-		// May include error text from the image registry. When displaying errors, use
-		// `failureCode` to select the main message and show this value as additional
-		// detail.
+		// FailureReason A description of why the build failed. Null unless the status is `failed`. May include error text from the image registry. When displaying errors, use `failureCode` to select the main message and show this value as additional detail.
 		FailureReason *string `json:"failureReason,omitempty"`
 
 		// FinishedAt The timestamp when the build succeeded or failed, in ISO 8601 format. Null while the build is pending or running.
@@ -68722,18 +68401,13 @@ func (r CreateSandboxBuildResponse) GetJSON201() *struct {
 	// CreatedAt The timestamp when the sandbox build was created, in ISO 8601 format.
 	CreatedAt time.Time `json:"createdAt"`
 
-	// FailureCode A machine-readable reason the build failed. Null unless the status is
-	// `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized
-	// codes as `internal_error`.
+	// FailureCode A machine-readable reason the build failed. Null unless the status is `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized codes as `internal_error`.
 	//
 	//
 	// Example: image_pull_failed
 	FailureCode *string `json:"failureCode,omitempty"`
 
-	// FailureReason A description of why the build failed. Null unless the status is `failed`.
-	// May include error text from the image registry. When displaying errors, use
-	// `failureCode` to select the main message and show this value as additional
-	// detail.
+	// FailureReason A description of why the build failed. Null unless the status is `failed`. May include error text from the image registry. When displaying errors, use `failureCode` to select the main message and show this value as additional detail.
 	FailureReason *string `json:"failureReason,omitempty"`
 
 	// FinishedAt The timestamp when the build succeeded or failed, in ISO 8601 format. Null while the build is pending or running.
@@ -68966,18 +68640,13 @@ type RetrieveSandboxBuildResponse struct {
 		// CreatedAt The timestamp when the sandbox build was created, in ISO 8601 format.
 		CreatedAt time.Time `json:"createdAt"`
 
-		// FailureCode A machine-readable reason the build failed. Null unless the status is
-		// `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized
-		// codes as `internal_error`.
+		// FailureCode A machine-readable reason the build failed. Null unless the status is `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized codes as `internal_error`.
 		//
 		//
 		// Example: image_pull_failed
 		FailureCode *string `json:"failureCode,omitempty"`
 
-		// FailureReason A description of why the build failed. Null unless the status is `failed`.
-		// May include error text from the image registry. When displaying errors, use
-		// `failureCode` to select the main message and show this value as additional
-		// detail.
+		// FailureReason A description of why the build failed. Null unless the status is `failed`. May include error text from the image registry. When displaying errors, use `failureCode` to select the main message and show this value as additional detail.
 		FailureReason *string `json:"failureReason,omitempty"`
 
 		// FinishedAt The timestamp when the build succeeded or failed, in ISO 8601 format. Null while the build is pending or running.
@@ -69045,18 +68714,13 @@ func (r RetrieveSandboxBuildResponse) GetJSON200() *struct {
 	// CreatedAt The timestamp when the sandbox build was created, in ISO 8601 format.
 	CreatedAt time.Time `json:"createdAt"`
 
-	// FailureCode A machine-readable reason the build failed. Null unless the status is
-	// `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized
-	// codes as `internal_error`.
+	// FailureCode A machine-readable reason the build failed. Null unless the status is `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized codes as `internal_error`.
 	//
 	//
 	// Example: image_pull_failed
 	FailureCode *string `json:"failureCode,omitempty"`
 
-	// FailureReason A description of why the build failed. Null unless the status is `failed`.
-	// May include error text from the image registry. When displaying errors, use
-	// `failureCode` to select the main message and show this value as additional
-	// detail.
+	// FailureReason A description of why the build failed. Null unless the status is `failed`. May include error text from the image registry. When displaying errors, use `failureCode` to select the main message and show this value as additional detail.
 	FailureReason *string `json:"failureReason,omitempty"`
 
 	// FinishedAt The timestamp when the build succeeded or failed, in ISO 8601 format. Null while the build is pending or running.
@@ -69181,10 +68845,7 @@ type ListSandboxGroupCredentialsResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *[]struct {
-		// Domain The destination hostname to match for credential injection. Must
-		// be a public DNS hostname. Render normalizes it to lowercase and matches it
-		// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-		// not supported.
+		// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 		//
 		//
 		// Example: api.render.com
@@ -69193,9 +68854,7 @@ type ListSandboxGroupCredentialsResponse struct {
 		// Enabled Whether this credential is enabled for injection.
 		Enabled bool `json:"enabled"`
 
-		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-		// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-		// `.` and `..` and IDs starting with `rnd-` are reserved.
+		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 		//
 		//
 		// Example: my-inference-key
@@ -69203,45 +68862,28 @@ type ListSandboxGroupCredentialsResponse struct {
 
 		// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 		Injection struct {
-			// Name The header, cookie, or query parameter to set. Required for `header`,
-			// `cookie`, and `query`. Headers that control routing or connection behavior
-			// cannot be used.
+			// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 			Name *string `json:"name,omitempty"`
 
-			// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-			// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-			// Omit to use the secret value without a template.
+			// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 			//
 			//
 			// Example: Bearer ${SECRET}
 			Template *string `json:"template,omitempty"`
 
-			// Type How Render adds the credential to a matching request. For `basic`, the value
-			// after applying `template` must have the form `username:password`. Do not
-			// provide `name`.
+			// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 			Type ListSandboxGroupCredentials200JSONResponseBodyInjectionType `json:"type"`
 		} `json:"injection"`
 
-		// Methods The HTTP methods to match for credential injection.
-		// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-		// normalized to uppercase.
-		// An empty list matches any method.
+		// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 		Methods []string `json:"methods"`
 
-		// Paths The request path patterns to match for credential injection. Each
-		// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-		// `**` for one or more segments. Wildcards must occupy whole segments. For
-		// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-		// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-		// Request query strings do not affect matching.
-		// An empty list matches any path.
+		// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 		Paths []string `json:"paths"`
 
 		// Version Metadata for a credential version. These endpoints do not return secret values.
 		Version *struct {
-			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-			// Matching fingerprints identify equivalent credential configurations within
-			// the same sandbox group. Fingerprints cannot be compared across groups.
+			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 			Fingerprint string `json:"fingerprint"`
 
 			// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -69277,10 +68919,7 @@ type ListSandboxGroupCredentialsResponse struct {
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r ListSandboxGroupCredentialsResponse) GetJSON200() *[]struct {
-	// Domain The destination hostname to match for credential injection. Must
-	// be a public DNS hostname. Render normalizes it to lowercase and matches it
-	// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-	// not supported.
+	// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 	//
 	//
 	// Example: api.render.com
@@ -69289,9 +68928,7 @@ func (r ListSandboxGroupCredentialsResponse) GetJSON200() *[]struct {
 	// Enabled Whether this credential is enabled for injection.
 	Enabled bool `json:"enabled"`
 
-	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-	// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-	// `.` and `..` and IDs starting with `rnd-` are reserved.
+	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 	//
 	//
 	// Example: my-inference-key
@@ -69299,45 +68936,28 @@ func (r ListSandboxGroupCredentialsResponse) GetJSON200() *[]struct {
 
 	// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 	Injection struct {
-		// Name The header, cookie, or query parameter to set. Required for `header`,
-		// `cookie`, and `query`. Headers that control routing or connection behavior
-		// cannot be used.
+		// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 		Name *string `json:"name,omitempty"`
 
-		// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-		// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-		// Omit to use the secret value without a template.
+		// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 		//
 		//
 		// Example: Bearer ${SECRET}
 		Template *string `json:"template,omitempty"`
 
-		// Type How Render adds the credential to a matching request. For `basic`, the value
-		// after applying `template` must have the form `username:password`. Do not
-		// provide `name`.
+		// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 		Type ListSandboxGroupCredentials200JSONResponseBodyInjectionType `json:"type"`
 	} `json:"injection"`
 
-	// Methods The HTTP methods to match for credential injection.
-	// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-	// normalized to uppercase.
-	// An empty list matches any method.
+	// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 	Methods []string `json:"methods"`
 
-	// Paths The request path patterns to match for credential injection. Each
-	// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-	// `**` for one or more segments. Wildcards must occupy whole segments. For
-	// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-	// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-	// Request query strings do not affect matching.
-	// An empty list matches any path.
+	// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 	Paths []string `json:"paths"`
 
 	// Version Metadata for a credential version. These endpoints do not return secret values.
 	Version *struct {
-		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-		// Matching fingerprints identify equivalent credential configurations within
-		// the same sandbox group. Fingerprints cannot be compared across groups.
+		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 		Fingerprint string `json:"fingerprint"`
 
 		// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -69433,10 +69053,7 @@ type CreateSandboxGroupCredentialResponse struct {
 	HTTPResponse *http.Response
 	// JSON201 the response for an HTTP 201 `application/json` response
 	JSON201 *struct {
-		// Domain The destination hostname to match for credential injection. Must
-		// be a public DNS hostname. Render normalizes it to lowercase and matches it
-		// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-		// not supported.
+		// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 		//
 		//
 		// Example: api.render.com
@@ -69445,9 +69062,7 @@ type CreateSandboxGroupCredentialResponse struct {
 		// Enabled Whether this credential is enabled for injection.
 		Enabled bool `json:"enabled"`
 
-		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-		// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-		// `.` and `..` and IDs starting with `rnd-` are reserved.
+		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 		//
 		//
 		// Example: my-inference-key
@@ -69455,45 +69070,28 @@ type CreateSandboxGroupCredentialResponse struct {
 
 		// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 		Injection struct {
-			// Name The header, cookie, or query parameter to set. Required for `header`,
-			// `cookie`, and `query`. Headers that control routing or connection behavior
-			// cannot be used.
+			// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 			Name *string `json:"name,omitempty"`
 
-			// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-			// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-			// Omit to use the secret value without a template.
+			// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 			//
 			//
 			// Example: Bearer ${SECRET}
 			Template *string `json:"template,omitempty"`
 
-			// Type How Render adds the credential to a matching request. For `basic`, the value
-			// after applying `template` must have the form `username:password`. Do not
-			// provide `name`.
+			// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 			Type CreateSandboxGroupCredential201JSONResponseBodyInjectionType `json:"type"`
 		} `json:"injection"`
 
-		// Methods The HTTP methods to match for credential injection.
-		// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-		// normalized to uppercase.
-		// An empty list matches any method.
+		// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 		Methods []string `json:"methods"`
 
-		// Paths The request path patterns to match for credential injection. Each
-		// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-		// `**` for one or more segments. Wildcards must occupy whole segments. For
-		// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-		// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-		// Request query strings do not affect matching.
-		// An empty list matches any path.
+		// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 		Paths []string `json:"paths"`
 
 		// Version Metadata for a credential version. These endpoints do not return secret values.
 		Version *struct {
-			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-			// Matching fingerprints identify equivalent credential configurations within
-			// the same sandbox group. Fingerprints cannot be compared across groups.
+			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 			Fingerprint string `json:"fingerprint"`
 
 			// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -69531,10 +69129,7 @@ type CreateSandboxGroupCredentialResponse struct {
 
 // GetJSON201 returns the response for an HTTP 201 `application/json` response
 func (r CreateSandboxGroupCredentialResponse) GetJSON201() *struct {
-	// Domain The destination hostname to match for credential injection. Must
-	// be a public DNS hostname. Render normalizes it to lowercase and matches it
-	// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-	// not supported.
+	// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 	//
 	//
 	// Example: api.render.com
@@ -69543,9 +69138,7 @@ func (r CreateSandboxGroupCredentialResponse) GetJSON201() *struct {
 	// Enabled Whether this credential is enabled for injection.
 	Enabled bool `json:"enabled"`
 
-	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-	// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-	// `.` and `..` and IDs starting with `rnd-` are reserved.
+	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 	//
 	//
 	// Example: my-inference-key
@@ -69553,45 +69146,28 @@ func (r CreateSandboxGroupCredentialResponse) GetJSON201() *struct {
 
 	// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 	Injection struct {
-		// Name The header, cookie, or query parameter to set. Required for `header`,
-		// `cookie`, and `query`. Headers that control routing or connection behavior
-		// cannot be used.
+		// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 		Name *string `json:"name,omitempty"`
 
-		// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-		// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-		// Omit to use the secret value without a template.
+		// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 		//
 		//
 		// Example: Bearer ${SECRET}
 		Template *string `json:"template,omitempty"`
 
-		// Type How Render adds the credential to a matching request. For `basic`, the value
-		// after applying `template` must have the form `username:password`. Do not
-		// provide `name`.
+		// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 		Type CreateSandboxGroupCredential201JSONResponseBodyInjectionType `json:"type"`
 	} `json:"injection"`
 
-	// Methods The HTTP methods to match for credential injection.
-	// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-	// normalized to uppercase.
-	// An empty list matches any method.
+	// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 	Methods []string `json:"methods"`
 
-	// Paths The request path patterns to match for credential injection. Each
-	// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-	// `**` for one or more segments. Wildcards must occupy whole segments. For
-	// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-	// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-	// Request query strings do not affect matching.
-	// An empty list matches any path.
+	// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 	Paths []string `json:"paths"`
 
 	// Version Metadata for a credential version. These endpoints do not return secret values.
 	Version *struct {
-		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-		// Matching fingerprints identify equivalent credential configurations within
-		// the same sandbox group. Fingerprints cannot be compared across groups.
+		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 		Fingerprint string `json:"fingerprint"`
 
 		// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -69792,10 +69368,7 @@ type RetrieveSandboxGroupCredentialResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *struct {
-		// Domain The destination hostname to match for credential injection. Must
-		// be a public DNS hostname. Render normalizes it to lowercase and matches it
-		// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-		// not supported.
+		// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 		//
 		//
 		// Example: api.render.com
@@ -69804,9 +69377,7 @@ type RetrieveSandboxGroupCredentialResponse struct {
 		// Enabled Whether this credential is enabled for injection.
 		Enabled bool `json:"enabled"`
 
-		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-		// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-		// `.` and `..` and IDs starting with `rnd-` are reserved.
+		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 		//
 		//
 		// Example: my-inference-key
@@ -69814,45 +69385,28 @@ type RetrieveSandboxGroupCredentialResponse struct {
 
 		// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 		Injection struct {
-			// Name The header, cookie, or query parameter to set. Required for `header`,
-			// `cookie`, and `query`. Headers that control routing or connection behavior
-			// cannot be used.
+			// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 			Name *string `json:"name,omitempty"`
 
-			// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-			// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-			// Omit to use the secret value without a template.
+			// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 			//
 			//
 			// Example: Bearer ${SECRET}
 			Template *string `json:"template,omitempty"`
 
-			// Type How Render adds the credential to a matching request. For `basic`, the value
-			// after applying `template` must have the form `username:password`. Do not
-			// provide `name`.
+			// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 			Type RetrieveSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 		} `json:"injection"`
 
-		// Methods The HTTP methods to match for credential injection.
-		// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-		// normalized to uppercase.
-		// An empty list matches any method.
+		// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 		Methods []string `json:"methods"`
 
-		// Paths The request path patterns to match for credential injection. Each
-		// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-		// `**` for one or more segments. Wildcards must occupy whole segments. For
-		// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-		// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-		// Request query strings do not affect matching.
-		// An empty list matches any path.
+		// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 		Paths []string `json:"paths"`
 
 		// Version Metadata for a credential version. These endpoints do not return secret values.
 		Version *struct {
-			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-			// Matching fingerprints identify equivalent credential configurations within
-			// the same sandbox group. Fingerprints cannot be compared across groups.
+			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 			Fingerprint string `json:"fingerprint"`
 
 			// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -69888,10 +69442,7 @@ type RetrieveSandboxGroupCredentialResponse struct {
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r RetrieveSandboxGroupCredentialResponse) GetJSON200() *struct {
-	// Domain The destination hostname to match for credential injection. Must
-	// be a public DNS hostname. Render normalizes it to lowercase and matches it
-	// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-	// not supported.
+	// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 	//
 	//
 	// Example: api.render.com
@@ -69900,9 +69451,7 @@ func (r RetrieveSandboxGroupCredentialResponse) GetJSON200() *struct {
 	// Enabled Whether this credential is enabled for injection.
 	Enabled bool `json:"enabled"`
 
-	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-	// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-	// `.` and `..` and IDs starting with `rnd-` are reserved.
+	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 	//
 	//
 	// Example: my-inference-key
@@ -69910,45 +69459,28 @@ func (r RetrieveSandboxGroupCredentialResponse) GetJSON200() *struct {
 
 	// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 	Injection struct {
-		// Name The header, cookie, or query parameter to set. Required for `header`,
-		// `cookie`, and `query`. Headers that control routing or connection behavior
-		// cannot be used.
+		// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 		Name *string `json:"name,omitempty"`
 
-		// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-		// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-		// Omit to use the secret value without a template.
+		// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 		//
 		//
 		// Example: Bearer ${SECRET}
 		Template *string `json:"template,omitempty"`
 
-		// Type How Render adds the credential to a matching request. For `basic`, the value
-		// after applying `template` must have the form `username:password`. Do not
-		// provide `name`.
+		// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 		Type RetrieveSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 	} `json:"injection"`
 
-	// Methods The HTTP methods to match for credential injection.
-	// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-	// normalized to uppercase.
-	// An empty list matches any method.
+	// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 	Methods []string `json:"methods"`
 
-	// Paths The request path patterns to match for credential injection. Each
-	// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-	// `**` for one or more segments. Wildcards must occupy whole segments. For
-	// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-	// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-	// Request query strings do not affect matching.
-	// An empty list matches any path.
+	// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 	Paths []string `json:"paths"`
 
 	// Version Metadata for a credential version. These endpoints do not return secret values.
 	Version *struct {
-		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-		// Matching fingerprints identify equivalent credential configurations within
-		// the same sandbox group. Fingerprints cannot be compared across groups.
+		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 		Fingerprint string `json:"fingerprint"`
 
 		// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -70044,10 +69576,7 @@ type UpdateSandboxGroupCredentialResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *struct {
-		// Domain The destination hostname to match for credential injection. Must
-		// be a public DNS hostname. Render normalizes it to lowercase and matches it
-		// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-		// not supported.
+		// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 		//
 		//
 		// Example: api.render.com
@@ -70056,9 +69585,7 @@ type UpdateSandboxGroupCredentialResponse struct {
 		// Enabled Whether this credential is enabled for injection.
 		Enabled bool `json:"enabled"`
 
-		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-		// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-		// `.` and `..` and IDs starting with `rnd-` are reserved.
+		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 		//
 		//
 		// Example: my-inference-key
@@ -70066,45 +69593,28 @@ type UpdateSandboxGroupCredentialResponse struct {
 
 		// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 		Injection struct {
-			// Name The header, cookie, or query parameter to set. Required for `header`,
-			// `cookie`, and `query`. Headers that control routing or connection behavior
-			// cannot be used.
+			// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 			Name *string `json:"name,omitempty"`
 
-			// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-			// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-			// Omit to use the secret value without a template.
+			// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 			//
 			//
 			// Example: Bearer ${SECRET}
 			Template *string `json:"template,omitempty"`
 
-			// Type How Render adds the credential to a matching request. For `basic`, the value
-			// after applying `template` must have the form `username:password`. Do not
-			// provide `name`.
+			// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 			Type UpdateSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 		} `json:"injection"`
 
-		// Methods The HTTP methods to match for credential injection.
-		// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-		// normalized to uppercase.
-		// An empty list matches any method.
+		// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 		Methods []string `json:"methods"`
 
-		// Paths The request path patterns to match for credential injection. Each
-		// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-		// `**` for one or more segments. Wildcards must occupy whole segments. For
-		// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-		// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-		// Request query strings do not affect matching.
-		// An empty list matches any path.
+		// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 		Paths []string `json:"paths"`
 
 		// Version Metadata for a credential version. These endpoints do not return secret values.
 		Version *struct {
-			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-			// Matching fingerprints identify equivalent credential configurations within
-			// the same sandbox group. Fingerprints cannot be compared across groups.
+			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 			Fingerprint string `json:"fingerprint"`
 
 			// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -70142,10 +69652,7 @@ type UpdateSandboxGroupCredentialResponse struct {
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r UpdateSandboxGroupCredentialResponse) GetJSON200() *struct {
-	// Domain The destination hostname to match for credential injection. Must
-	// be a public DNS hostname. Render normalizes it to lowercase and matches it
-	// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-	// not supported.
+	// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 	//
 	//
 	// Example: api.render.com
@@ -70154,9 +69661,7 @@ func (r UpdateSandboxGroupCredentialResponse) GetJSON200() *struct {
 	// Enabled Whether this credential is enabled for injection.
 	Enabled bool `json:"enabled"`
 
-	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-	// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-	// `.` and `..` and IDs starting with `rnd-` are reserved.
+	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 	//
 	//
 	// Example: my-inference-key
@@ -70164,45 +69669,28 @@ func (r UpdateSandboxGroupCredentialResponse) GetJSON200() *struct {
 
 	// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 	Injection struct {
-		// Name The header, cookie, or query parameter to set. Required for `header`,
-		// `cookie`, and `query`. Headers that control routing or connection behavior
-		// cannot be used.
+		// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 		Name *string `json:"name,omitempty"`
 
-		// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-		// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-		// Omit to use the secret value without a template.
+		// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 		//
 		//
 		// Example: Bearer ${SECRET}
 		Template *string `json:"template,omitempty"`
 
-		// Type How Render adds the credential to a matching request. For `basic`, the value
-		// after applying `template` must have the form `username:password`. Do not
-		// provide `name`.
+		// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 		Type UpdateSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 	} `json:"injection"`
 
-	// Methods The HTTP methods to match for credential injection.
-	// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-	// normalized to uppercase.
-	// An empty list matches any method.
+	// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 	Methods []string `json:"methods"`
 
-	// Paths The request path patterns to match for credential injection. Each
-	// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-	// `**` for one or more segments. Wildcards must occupy whole segments. For
-	// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-	// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-	// Request query strings do not affect matching.
-	// An empty list matches any path.
+	// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 	Paths []string `json:"paths"`
 
 	// Version Metadata for a credential version. These endpoints do not return secret values.
 	Version *struct {
-		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-		// Matching fingerprints identify equivalent credential configurations within
-		// the same sandbox group. Fingerprints cannot be compared across groups.
+		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 		Fingerprint string `json:"fingerprint"`
 
 		// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -70303,10 +69791,7 @@ type RestoreSandboxGroupCredentialResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *struct {
-		// Domain The destination hostname to match for credential injection. Must
-		// be a public DNS hostname. Render normalizes it to lowercase and matches it
-		// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-		// not supported.
+		// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 		//
 		//
 		// Example: api.render.com
@@ -70315,9 +69800,7 @@ type RestoreSandboxGroupCredentialResponse struct {
 		// Enabled Whether this credential is enabled for injection.
 		Enabled bool `json:"enabled"`
 
-		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-		// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-		// `.` and `..` and IDs starting with `rnd-` are reserved.
+		// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 		//
 		//
 		// Example: my-inference-key
@@ -70325,45 +69808,28 @@ type RestoreSandboxGroupCredentialResponse struct {
 
 		// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 		Injection struct {
-			// Name The header, cookie, or query parameter to set. Required for `header`,
-			// `cookie`, and `query`. Headers that control routing or connection behavior
-			// cannot be used.
+			// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 			Name *string `json:"name,omitempty"`
 
-			// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-			// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-			// Omit to use the secret value without a template.
+			// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 			//
 			//
 			// Example: Bearer ${SECRET}
 			Template *string `json:"template,omitempty"`
 
-			// Type How Render adds the credential to a matching request. For `basic`, the value
-			// after applying `template` must have the form `username:password`. Do not
-			// provide `name`.
+			// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 			Type RestoreSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 		} `json:"injection"`
 
-		// Methods The HTTP methods to match for credential injection.
-		// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-		// normalized to uppercase.
-		// An empty list matches any method.
+		// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 		Methods []string `json:"methods"`
 
-		// Paths The request path patterns to match for credential injection. Each
-		// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-		// `**` for one or more segments. Wildcards must occupy whole segments. For
-		// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-		// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-		// Request query strings do not affect matching.
-		// An empty list matches any path.
+		// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 		Paths []string `json:"paths"`
 
 		// Version Metadata for a credential version. These endpoints do not return secret values.
 		Version *struct {
-			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-			// Matching fingerprints identify equivalent credential configurations within
-			// the same sandbox group. Fingerprints cannot be compared across groups.
+			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 			Fingerprint string `json:"fingerprint"`
 
 			// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -70401,10 +69867,7 @@ type RestoreSandboxGroupCredentialResponse struct {
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r RestoreSandboxGroupCredentialResponse) GetJSON200() *struct {
-	// Domain The destination hostname to match for credential injection. Must
-	// be a public DNS hostname. Render normalizes it to lowercase and matches it
-	// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-	// not supported.
+	// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 	//
 	//
 	// Example: api.render.com
@@ -70413,9 +69876,7 @@ func (r RestoreSandboxGroupCredentialResponse) GetJSON200() *struct {
 	// Enabled Whether this credential is enabled for injection.
 	Enabled bool `json:"enabled"`
 
-	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-	// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-	// `.` and `..` and IDs starting with `rnd-` are reserved.
+	// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 	//
 	//
 	// Example: my-inference-key
@@ -70423,45 +69884,28 @@ func (r RestoreSandboxGroupCredentialResponse) GetJSON200() *struct {
 
 	// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 	Injection struct {
-		// Name The header, cookie, or query parameter to set. Required for `header`,
-		// `cookie`, and `query`. Headers that control routing or connection behavior
-		// cannot be used.
+		// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 		Name *string `json:"name,omitempty"`
 
-		// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-		// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-		// Omit to use the secret value without a template.
+		// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 		//
 		//
 		// Example: Bearer ${SECRET}
 		Template *string `json:"template,omitempty"`
 
-		// Type How Render adds the credential to a matching request. For `basic`, the value
-		// after applying `template` must have the form `username:password`. Do not
-		// provide `name`.
+		// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 		Type RestoreSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 	} `json:"injection"`
 
-	// Methods The HTTP methods to match for credential injection.
-	// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-	// normalized to uppercase.
-	// An empty list matches any method.
+	// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 	Methods []string `json:"methods"`
 
-	// Paths The request path patterns to match for credential injection. Each
-	// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-	// `**` for one or more segments. Wildcards must occupy whole segments. For
-	// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-	// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-	// Request query strings do not affect matching.
-	// An empty list matches any path.
+	// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 	Paths []string `json:"paths"`
 
 	// Version Metadata for a credential version. These endpoints do not return secret values.
 	Version *struct {
-		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-		// Matching fingerprints identify equivalent credential configurations within
-		// the same sandbox group. Fingerprints cannot be compared across groups.
+		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 		Fingerprint string `json:"fingerprint"`
 
 		// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -70562,9 +70006,7 @@ type ListSandboxGroupCredentialVersionsResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *[]struct {
-		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-		// Matching fingerprints identify equivalent credential configurations within
-		// the same sandbox group. Fingerprints cannot be compared across groups.
+		// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 		Fingerprint string `json:"fingerprint"`
 
 		// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -70601,9 +70043,7 @@ type ListSandboxGroupCredentialVersionsResponse struct {
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r ListSandboxGroupCredentialVersionsResponse) GetJSON200() *[]struct {
-	// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-	// Matching fingerprints identify equivalent credential configurations within
-	// the same sandbox group. Fingerprints cannot be compared across groups.
+	// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 	Fingerprint string `json:"fingerprint"`
 
 	// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -70909,11 +70349,7 @@ type RetrieveSandboxSnapshotResponse struct {
 		// Error The reason the snapshot failed. Null unless its status is `failed`.
 		Error *string `json:"error,omitempty"`
 
-		// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or
-		// restored, in ISO 8601 format. Each time you create a sandbox from this
-		// snapshot, Render resets its expiration to `ttlSeconds` seconds after that
-		// use. For snapshots with no expiration (`ttlSeconds: 0`), this is
-		// `9999-12-31T23:59:59Z`.
+		// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or restored, in ISO 8601 format. Each time you create a sandbox from this snapshot, Render resets its expiration to `ttlSeconds` seconds after that use. For snapshots with no expiration (`ttlSeconds: 0`), this is `9999-12-31T23:59:59Z`.
 		ExpiresAt time.Time `json:"expiresAt"`
 
 		// Id The ID of the sandbox snapshot.
@@ -70921,10 +70357,7 @@ type RetrieveSandboxSnapshotResponse struct {
 		// Example: snp-cph1rs3idesc73a2b2mg
 		Id string `json:"id"`
 
-		// Kind The state to capture. A `filesystem` snapshot captures the writable
-		// filesystem and can be restored to any plan. A `runtime` snapshot also
-		// captures memory and CPU state and must be restored to the source sandbox
-		// plan.
+		// Kind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 		Kind RetrieveSandboxSnapshot200JSONResponseBodyKind `json:"kind"`
 
 		// Name The name assigned when the snapshot was created. Cannot be changed. Null if no name was provided.
@@ -70950,9 +70383,7 @@ type RetrieveSandboxSnapshotResponse struct {
 		// Status The snapshot's current status.
 		Status RetrieveSandboxSnapshot200JSONResponseBodyStatus `json:"status"`
 
-		// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means
-		// the snapshot does not expire. If omitted, Render's default snapshot
-		// lifetime applies.
+		// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means the snapshot does not expire. If omitted, Render's default snapshot lifetime applies.
 		TTLSeconds *int `json:"ttlSeconds,omitempty"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
@@ -70981,11 +70412,7 @@ func (r RetrieveSandboxSnapshotResponse) GetJSON200() *struct {
 	// Error The reason the snapshot failed. Null unless its status is `failed`.
 	Error *string `json:"error,omitempty"`
 
-	// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or
-	// restored, in ISO 8601 format. Each time you create a sandbox from this
-	// snapshot, Render resets its expiration to `ttlSeconds` seconds after that
-	// use. For snapshots with no expiration (`ttlSeconds: 0`), this is
-	// `9999-12-31T23:59:59Z`.
+	// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or restored, in ISO 8601 format. Each time you create a sandbox from this snapshot, Render resets its expiration to `ttlSeconds` seconds after that use. For snapshots with no expiration (`ttlSeconds: 0`), this is `9999-12-31T23:59:59Z`.
 	ExpiresAt time.Time `json:"expiresAt"`
 
 	// Id The ID of the sandbox snapshot.
@@ -70993,10 +70420,7 @@ func (r RetrieveSandboxSnapshotResponse) GetJSON200() *struct {
 	// Example: snp-cph1rs3idesc73a2b2mg
 	Id string `json:"id"`
 
-	// Kind The state to capture. A `filesystem` snapshot captures the writable
-	// filesystem and can be restored to any plan. A `runtime` snapshot also
-	// captures memory and CPU state and must be restored to the source sandbox
-	// plan.
+	// Kind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 	Kind RetrieveSandboxSnapshot200JSONResponseBodyKind `json:"kind"`
 
 	// Name The name assigned when the snapshot was created. Cannot be changed. Null if no name was provided.
@@ -71022,9 +70446,7 @@ func (r RetrieveSandboxSnapshotResponse) GetJSON200() *struct {
 	// Status The snapshot's current status.
 	Status RetrieveSandboxSnapshot200JSONResponseBodyStatus `json:"status"`
 
-	// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means
-	// the snapshot does not expire. If omitted, Render's default snapshot
-	// lifetime applies.
+	// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means the snapshot does not expire. If omitted, Render's default snapshot lifetime applies.
 	TTLSeconds *int `json:"ttlSeconds,omitempty"`
 } {
 	return r.JSON200
@@ -71231,12 +70653,9 @@ type CreateSandboxResponse struct {
 			// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 			Default *CreateSandbox201JSONResponseBodyNetworkPolicyDefault `json:"default,omitempty"`
 
-			// Rules Destinations the sandbox may reach, present when `type` is
-			// `allow-list` and absent otherwise. Each domain may be listed once.
+			// Rules Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once.
 			Rules *[]struct {
-				// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-				// `foo.local` does not match `api.foo.local`. Use a separate rule or
-				// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+				// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 				//
 				//
 				// Example: *.bar.local
@@ -71267,9 +70686,7 @@ type CreateSandboxResponse struct {
 		// TerminatedAt The timestamp when the sandbox was terminated, in ISO 8601 format. Null if the sandbox has not been terminated.
 		TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
 
-		// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-		// terminates when this time elapses. If the sandbox is suspended and later
-		// resumed, this timeout restarts. A value of 0 disables the runtime timeout.
+		// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts. A value of 0 disables the runtime timeout.
 		//
 		//
 		// Example: 86400
@@ -71321,12 +70738,9 @@ func (r CreateSandboxResponse) GetJSON201() *struct {
 		// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 		Default *CreateSandbox201JSONResponseBodyNetworkPolicyDefault `json:"default,omitempty"`
 
-		// Rules Destinations the sandbox may reach, present when `type` is
-		// `allow-list` and absent otherwise. Each domain may be listed once.
+		// Rules Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once.
 		Rules *[]struct {
-			// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-			// `foo.local` does not match `api.foo.local`. Use a separate rule or
-			// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+			// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 			//
 			//
 			// Example: *.bar.local
@@ -71357,9 +70771,7 @@ func (r CreateSandboxResponse) GetJSON201() *struct {
 	// TerminatedAt The timestamp when the sandbox was terminated, in ISO 8601 format. Null if the sandbox has not been terminated.
 	TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
 
-	// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-	// terminates when this time elapses. If the sandbox is suspended and later
-	// resumed, this timeout restarts. A value of 0 disables the runtime timeout.
+	// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts. A value of 0 disables the runtime timeout.
 	//
 	//
 	// Example: 86400
@@ -71474,12 +70886,9 @@ type RetrieveSandboxResponse struct {
 			// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 			Default *RetrieveSandbox200JSONResponseBodyNetworkPolicyDefault `json:"default,omitempty"`
 
-			// Rules Destinations the sandbox may reach, present when `type` is
-			// `allow-list` and absent otherwise. Each domain may be listed once.
+			// Rules Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once.
 			Rules *[]struct {
-				// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-				// `foo.local` does not match `api.foo.local`. Use a separate rule or
-				// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+				// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 				//
 				//
 				// Example: *.bar.local
@@ -71510,9 +70919,7 @@ type RetrieveSandboxResponse struct {
 		// TerminatedAt The timestamp when the sandbox was terminated, in ISO 8601 format. Null if the sandbox has not been terminated.
 		TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
 
-		// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-		// terminates when this time elapses. If the sandbox is suspended and later
-		// resumed, this timeout restarts. A value of 0 disables the runtime timeout.
+		// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts. A value of 0 disables the runtime timeout.
 		//
 		//
 		// Example: 86400
@@ -71560,12 +70967,9 @@ func (r RetrieveSandboxResponse) GetJSON200() *struct {
 		// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 		Default *RetrieveSandbox200JSONResponseBodyNetworkPolicyDefault `json:"default,omitempty"`
 
-		// Rules Destinations the sandbox may reach, present when `type` is
-		// `allow-list` and absent otherwise. Each domain may be listed once.
+		// Rules Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once.
 		Rules *[]struct {
-			// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-			// `foo.local` does not match `api.foo.local`. Use a separate rule or
-			// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+			// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 			//
 			//
 			// Example: *.bar.local
@@ -71596,9 +71000,7 @@ func (r RetrieveSandboxResponse) GetJSON200() *struct {
 	// TerminatedAt The timestamp when the sandbox was terminated, in ISO 8601 format. Null if the sandbox has not been terminated.
 	TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
 
-	// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-	// terminates when this time elapses. If the sandbox is suspended and later
-	// resumed, this timeout restarts. A value of 0 disables the runtime timeout.
+	// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts. A value of 0 disables the runtime timeout.
 	//
 	//
 	// Example: 86400
@@ -71779,9 +71181,7 @@ type RetrieveSandboxExecutionResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *struct {
-		// Command The command run in the sandbox, or the target path for a file transfer.
-		// Command text may be redacted or truncated. Omitted if you do not have
-		// permission to view execution commands.
+		// Command The command run in the sandbox, or the target path for a file transfer. Command text may be redacted or truncated. Omitted if you do not have permission to view execution commands.
 		Command *string `json:"command,omitempty"`
 
 		// ExitCode The execution exit code. Omitted until a result is available.
@@ -71838,9 +71238,7 @@ type RetrieveSandboxExecutionResponse struct {
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r RetrieveSandboxExecutionResponse) GetJSON200() *struct {
-	// Command The command run in the sandbox, or the target path for a file transfer.
-	// Command text may be redacted or truncated. Omitted if you do not have
-	// permission to view execution commands.
+	// Command The command run in the sandbox, or the target path for a file transfer. Command text may be redacted or truncated. Omitted if you do not have permission to view execution commands.
 	Command *string `json:"command,omitempty"`
 
 	// ExitCode The execution exit code. Omitted until a result is available.
@@ -72266,11 +71664,7 @@ type CreateSandboxSnapshotResponse struct {
 		// Error The reason the snapshot failed. Null unless its status is `failed`.
 		Error *string `json:"error,omitempty"`
 
-		// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or
-		// restored, in ISO 8601 format. Each time you create a sandbox from this
-		// snapshot, Render resets its expiration to `ttlSeconds` seconds after that
-		// use. For snapshots with no expiration (`ttlSeconds: 0`), this is
-		// `9999-12-31T23:59:59Z`.
+		// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or restored, in ISO 8601 format. Each time you create a sandbox from this snapshot, Render resets its expiration to `ttlSeconds` seconds after that use. For snapshots with no expiration (`ttlSeconds: 0`), this is `9999-12-31T23:59:59Z`.
 		ExpiresAt time.Time `json:"expiresAt"`
 
 		// Id The ID of the sandbox snapshot.
@@ -72278,10 +71672,7 @@ type CreateSandboxSnapshotResponse struct {
 		// Example: snp-cph1rs3idesc73a2b2mg
 		Id string `json:"id"`
 
-		// Kind The state to capture. A `filesystem` snapshot captures the writable
-		// filesystem and can be restored to any plan. A `runtime` snapshot also
-		// captures memory and CPU state and must be restored to the source sandbox
-		// plan.
+		// Kind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 		Kind CreateSandboxSnapshot202JSONResponseBodyKind `json:"kind"`
 
 		// Name The name assigned when the snapshot was created. Cannot be changed. Null if no name was provided.
@@ -72307,9 +71698,7 @@ type CreateSandboxSnapshotResponse struct {
 		// Status The snapshot's current status.
 		Status CreateSandboxSnapshot202JSONResponseBodyStatus `json:"status"`
 
-		// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means
-		// the snapshot does not expire. If omitted, Render's default snapshot
-		// lifetime applies.
+		// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means the snapshot does not expire. If omitted, Render's default snapshot lifetime applies.
 		TTLSeconds *int `json:"ttlSeconds,omitempty"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
@@ -72340,11 +71729,7 @@ func (r CreateSandboxSnapshotResponse) GetJSON202() *struct {
 	// Error The reason the snapshot failed. Null unless its status is `failed`.
 	Error *string `json:"error,omitempty"`
 
-	// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or
-	// restored, in ISO 8601 format. Each time you create a sandbox from this
-	// snapshot, Render resets its expiration to `ttlSeconds` seconds after that
-	// use. For snapshots with no expiration (`ttlSeconds: 0`), this is
-	// `9999-12-31T23:59:59Z`.
+	// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or restored, in ISO 8601 format. Each time you create a sandbox from this snapshot, Render resets its expiration to `ttlSeconds` seconds after that use. For snapshots with no expiration (`ttlSeconds: 0`), this is `9999-12-31T23:59:59Z`.
 	ExpiresAt time.Time `json:"expiresAt"`
 
 	// Id The ID of the sandbox snapshot.
@@ -72352,10 +71737,7 @@ func (r CreateSandboxSnapshotResponse) GetJSON202() *struct {
 	// Example: snp-cph1rs3idesc73a2b2mg
 	Id string `json:"id"`
 
-	// Kind The state to capture. A `filesystem` snapshot captures the writable
-	// filesystem and can be restored to any plan. A `runtime` snapshot also
-	// captures memory and CPU state and must be restored to the source sandbox
-	// plan.
+	// Kind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 	Kind CreateSandboxSnapshot202JSONResponseBodyKind `json:"kind"`
 
 	// Name The name assigned when the snapshot was created. Cannot be changed. Null if no name was provided.
@@ -72381,9 +71763,7 @@ func (r CreateSandboxSnapshotResponse) GetJSON202() *struct {
 	// Status The snapshot's current status.
 	Status CreateSandboxSnapshot202JSONResponseBodyStatus `json:"status"`
 
-	// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means
-	// the snapshot does not expire. If omitted, Render's default snapshot
-	// lifetime applies.
+	// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means the snapshot does not expire. If omitted, Render's default snapshot lifetime applies.
 	TTLSeconds *int `json:"ttlSeconds,omitempty"`
 } {
 	return r.JSON202
@@ -83619,9 +82999,7 @@ func (c *ClientWithResponses) UpdateRegistryCredentialWithResponse(ctx context.C
 
 // ListSandboxGroupsWithResponse List sandbox groups
 //
-// List sandbox groups in a workspace, newest first. Returns up to 20 groups
-// by default, with a maximum of 100. To fetch the next page, pass the last
-// result's cursor as `cursor`. Continue until the response is empty.
+// List sandbox groups in a workspace, newest first. Returns up to 20 groups by default, with a maximum of 100. To fetch the next page, pass the last result's cursor as `cursor`. Continue until the response is empty.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -83681,8 +83059,7 @@ func (c *ClientWithResponses) RetrieveSandboxGroupWithResponse(ctx context.Conte
 
 // UpdateSandboxGroupWithBodyWithResponse Update sandbox group
 //
-// Update a sandbox group's concurrency limit. The response contains the
-// effective limit after applying Render's limit for the workspace.
+// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83697,8 +83074,7 @@ func (c *ClientWithResponses) UpdateSandboxGroupWithBodyWithResponse(ctx context
 
 // UpdateSandboxGroupWithResponse Update sandbox group
 //
-// Update a sandbox group's concurrency limit. The response contains the
-// effective limit after applying Render's limit for the workspace.
+// Update a sandbox group's concurrency limit. The response contains the effective limit after applying Render's limit for the workspace.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83728,14 +83104,9 @@ func (c *ClientWithResponses) ListSandboxBuildsWithResponse(ctx context.Context,
 
 // CreateSandboxBuildWithBodyWithResponse Create sandbox build
 //
-// Start converting an OCI container image into an image that sandboxes can
-// use. New builds run asynchronously. Retrieve the build until its status is
-// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-// creating a sandbox.
+// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 //
-// If the group already has a pending, running, or succeeded build for the same
-// name and image digest, Render returns that build. Retrying a failed build
-// starts a new build.
+// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83750,14 +83121,9 @@ func (c *ClientWithResponses) CreateSandboxBuildWithBodyWithResponse(ctx context
 
 // CreateSandboxBuildWithResponse Create sandbox build
 //
-// Start converting an OCI container image into an image that sandboxes can
-// use. New builds run asynchronously. Retrieve the build until its status is
-// `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when
-// creating a sandbox.
+// Start converting an OCI container image into an image that sandboxes can use. New builds run asynchronously. Retrieve the build until its status is `succeeded` or `failed`. After it succeeds, provide its ID as `buildId` when creating a sandbox.
 //
-// If the group already has a pending, running, or succeeded build for the same
-// name and image digest, Render returns that build. Retrying a failed build
-// starts a new build.
+// If the group already has a pending, running, or succeeded build for the same name and image digest, Render returns that build. Retrying a failed build starts a new build.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83772,9 +83138,7 @@ func (c *ClientWithResponses) CreateSandboxBuildWithResponse(ctx context.Context
 
 // DeleteSandboxBuildWithResponse Delete sandbox build
 //
-// Delete a build of a sandbox image. The build no longer appears in lists
-// and cannot be retrieved or used to create sandboxes, including by image
-// name. Repeated requests to delete the build return HTTP 204.
+// Delete a build of a sandbox image. The build no longer appears in lists and cannot be retrieved or used to create sandboxes, including by image name. Repeated requests to delete the build return HTTP 204.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -83804,9 +83168,7 @@ func (c *ClientWithResponses) RetrieveSandboxBuildWithResponse(ctx context.Conte
 
 // ListSandboxGroupCredentialsWithResponse List sandbox group credentials
 //
-// List credentials in the sandbox group, sorted by credential ID. Returns
-// credential settings and metadata. These endpoints do not return secret values,
-// including to admins.
+// List credentials in the sandbox group, sorted by credential ID. Returns credential settings and metadata. These endpoints do not return secret values, including to admins.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -83821,17 +83183,11 @@ func (c *ClientWithResponses) ListSandboxGroupCredentialsWithResponse(ctx contex
 
 // CreateSandboxGroupCredentialWithBodyWithResponse Create sandbox group credential
 //
-// Configure a credential for injection into matching outbound HTTPS requests
-// from sandboxes in this group. Requires an admin. You assign the credential ID.
+// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 //
-// Each group supports up to 25 credentials. Current credential settings and
-// secret values have a combined serialized size limit of 200 KiB (204800
-// bytes). Render retains the current configuration and three distinct prior
-// configurations per credential, with a total storage limit of 1 MiB including
-// version metadata.
+// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83846,17 +83202,11 @@ func (c *ClientWithResponses) CreateSandboxGroupCredentialWithBodyWithResponse(c
 
 // CreateSandboxGroupCredentialWithResponse Create sandbox group credential
 //
-// Configure a credential for injection into matching outbound HTTPS requests
-// from sandboxes in this group. Requires an admin. You assign the credential ID.
+// Configure a credential for injection into matching outbound HTTPS requests from sandboxes in this group. Requires an admin. You assign the credential ID.
 //
-// Each group supports up to 25 credentials. Current credential settings and
-// secret values have a combined serialized size limit of 200 KiB (204800
-// bytes). Render retains the current configuration and three distinct prior
-// configurations per credential, with a total storage limit of 1 MiB including
-// version metadata.
+// Each group supports up to 25 credentials. Current credential settings and secret values have a combined serialized size limit of 200 KiB (204800 bytes). Render retains the current configuration and three distinct prior configurations per credential, with a total storage limit of 1 MiB including version metadata.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83871,8 +83221,7 @@ func (c *ClientWithResponses) CreateSandboxGroupCredentialWithResponse(ctx conte
 
 // DeleteSandboxGroupCredentialWithResponse Delete sandbox group credential
 //
-// Delete a credential from the sandbox group. Requires an admin. Repeated
-// delete requests are accepted, including if the credential is already absent.
+// Delete a credential from the sandbox group. Requires an admin. Repeated delete requests are accepted, including if the credential is already absent.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -83887,8 +83236,7 @@ func (c *ClientWithResponses) DeleteSandboxGroupCredentialWithResponse(ctx conte
 
 // RetrieveSandboxGroupCredentialWithResponse Retrieve sandbox group credential
 //
-// Retrieve the settings and metadata for a credential in this sandbox group.
-// These endpoints do not return secret values, including to admins.
+// Retrieve the settings and metadata for a credential in this sandbox group. These endpoints do not return secret values, including to admins.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -83903,18 +83251,11 @@ func (c *ClientWithResponses) RetrieveSandboxGroupCredentialWithResponse(ctx con
 
 // UpdateSandboxGroupCredentialWithBodyWithResponse Update sandbox group credential
 //
-// Update a credential. Developers can change `injection`, `methods`, `paths`,
-// and `enabled`. Changing `domain` or `value` requires an admin.
+// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 //
-// Omitted top-level fields keep their current values. Providing `injection`
-// replaces the entire object. Its `template` defaults to `${SECRET}` when
-// omitted. An empty `methods` or `paths` list removes that filter. Providing
-// `value` creates a new version.
-// The combined serialized size of current credential settings and secret
-// values in the group must remain within 200 KiB (204800 bytes).
+// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83929,18 +83270,11 @@ func (c *ClientWithResponses) UpdateSandboxGroupCredentialWithBodyWithResponse(c
 
 // UpdateSandboxGroupCredentialWithResponse Update sandbox group credential
 //
-// Update a credential. Developers can change `injection`, `methods`, `paths`,
-// and `enabled`. Changing `domain` or `value` requires an admin.
+// Update a credential. Developers can change `injection`, `methods`, `paths`, and `enabled`. Changing `domain` or `value` requires an admin.
 //
-// Omitted top-level fields keep their current values. Providing `injection`
-// replaces the entire object. Its `template` defaults to `${SECRET}` when
-// omitted. An empty `methods` or `paths` list removes that filter. Providing
-// `value` creates a new version.
-// The combined serialized size of current credential settings and secret
-// values in the group must remain within 200 KiB (204800 bytes).
+// Omitted top-level fields keep their current values. Providing `injection` replaces the entire object. Its `template` defaults to `${SECRET}` when omitted. An empty `methods` or `paths` list removes that filter. Providing `value` creates a new version. The combined serialized size of current credential settings and secret values in the group must remain within 200 KiB (204800 bytes).
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -83955,18 +83289,11 @@ func (c *ClientWithResponses) UpdateSandboxGroupCredentialWithResponse(ctx conte
 
 // RestoreSandboxGroupCredentialWithBodyWithResponse Restore sandbox credential configuration
 //
-// Restore a retained credential version, including its routing settings,
-// injection settings, and secret value, as a new current version. Requires
-// an admin.
+// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 //
-// The new version has a higher ID, records who restored it and when, and
-// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-// the source version. Render retains the current configuration and the three
-// distinct prior configurations most recently active. Removing an older
-// configuration also removes all versions that refer to it.
+// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // These endpoints do not return secret values.
 //
@@ -83983,18 +83310,11 @@ func (c *ClientWithResponses) RestoreSandboxGroupCredentialWithBodyWithResponse(
 
 // RestoreSandboxGroupCredentialWithResponse Restore sandbox credential configuration
 //
-// Restore a retained credential version, including its routing settings,
-// injection settings, and secret value, as a new current version. Requires
-// an admin.
+// Restore a retained credential version, including its routing settings, injection settings, and secret value, as a new current version. Requires an admin.
 //
-// The new version has a higher ID, records who restored it and when, and
-// identifies the source in `restoredFromVersionId`. Its fingerprint matches
-// the source version. Render retains the current configuration and the three
-// distinct prior configurations most recently active. Removing an older
-// configuration also removes all versions that refer to it.
+// The new version has a higher ID, records who restored it and when, and identifies the source in `restoredFromVersionId`. Its fingerprint matches the source version. Render retains the current configuration and the three distinct prior configurations most recently active. Removing an older configuration also removes all versions that refer to it.
 //
-// The response confirms the configuration was saved. It does not confirm that
-// credential injection is active for a particular sandbox.
+// The response confirms the configuration was saved. It does not confirm that credential injection is active for a particular sandbox.
 //
 // These endpoints do not return secret values.
 //
@@ -84011,13 +83331,9 @@ func (c *ClientWithResponses) RestoreSandboxGroupCredentialWithResponse(ctx cont
 
 // ListSandboxGroupCredentialVersionsWithResponse List sandbox credential versions
 //
-// List retained credential versions, newest version ID first. Versions with
-// identical settings and secret values share a fingerprint.
+// List retained credential versions, newest version ID first. Versions with identical settings and secret values share a fingerprint.
 //
-// Render retains the current configuration and the three distinct prior
-// configurations most recently active. When an older configuration is removed,
-// all versions that refer to it are also removed. These endpoints do not return
-// secret values.
+// Render retains the current configuration and the three distinct prior configurations most recently active. When an older configuration is removed, all versions that refer to it are also removed. These endpoints do not return secret values.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -84032,8 +83348,7 @@ func (c *ClientWithResponses) ListSandboxGroupCredentialVersionsWithResponse(ctx
 
 // ListSandboxSnapshotsWithResponse List sandbox snapshots
 //
-// List snapshots in a sandbox group, newest first. Excludes expired and
-// deleted snapshots.
+// List snapshots in a sandbox group, newest first. Excludes expired and deleted snapshots.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -84048,8 +83363,7 @@ func (c *ClientWithResponses) ListSandboxSnapshotsWithResponse(ctx context.Conte
 
 // DeleteSandboxSnapshotWithResponse Delete sandbox snapshot
 //
-// Delete a snapshot. Sandboxes created from it are not affected. Returns
-// HTTP 204 if the snapshot is already deleted or expired.
+// Delete a snapshot. Sandboxes created from it are not affected. Returns HTTP 204 if the snapshot is already deleted or expired.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -84079,8 +83393,7 @@ func (c *ClientWithResponses) RetrieveSandboxSnapshotWithResponse(ctx context.Co
 
 // ListSandboxesWithResponse List sandboxes
 //
-// List sandboxes in a workspace. Each request must specify one workspace.
-// Sandboxes run in the region of their sandbox group.
+// List sandboxes in a workspace. Each request must specify one workspace. Sandboxes run in the region of their sandbox group.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -84095,9 +83408,7 @@ func (c *ClientWithResponses) ListSandboxesWithResponse(ctx context.Context, par
 
 // CreateSandboxWithBodyWithResponse Create sandbox
 //
-// Create a sandbox and return its initial state. The sandbox might still be
-// starting when the response is returned. To use a saved snapshot or custom
-// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -84112,9 +83423,7 @@ func (c *ClientWithResponses) CreateSandboxWithBodyWithResponse(ctx context.Cont
 
 // CreateSandboxWithResponse Create sandbox
 //
-// Create a sandbox and return its initial state. The sandbox might still be
-// starting when the response is returned. To use a saved snapshot or custom
-// image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
+// Create a sandbox and return its initial state. The sandbox might still be starting when the response is returned. To use a saved snapshot or custom image, provide `snapshotId`, `snapshotName`, `buildId`, or `buildName`.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -84174,14 +83483,9 @@ func (c *ClientWithResponses) RetrieveSandboxExecutionWithResponse(ctx context.C
 
 // ConnectSandboxFilesWithResponse Mint a connect token for a sandbox file transfer
 //
-// Create a short-lived connect token for a file upload or download. Transfer
-// the file directly to or from the URL in the response, using the token as
-// the bearer token. The token authorizes only the specified sandbox, operation,
-// and path. Its expiration time is returned in `expiresAt`.
+// Create a short-lived connect token for a file upload or download. Transfer the file directly to or from the URL in the response, using the token as the bearer token. The token authorizes only the specified sandbox, operation, and path. Its expiration time is returned in `expiresAt`.
 //
-// Use `application/octet-stream` for a single file or `application/x-tar` for
-// a directory archive. For gzip compression, also set `Content-Encoding: gzip`.
-// Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
+// Use `application/octet-stream` for a single file or `application/x-tar` for a directory archive. For gzip compression, also set `Content-Encoding: gzip`. Directory downloads return `application/x-tar` with `Content-Encoding: gzip`.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -84196,9 +83500,7 @@ func (c *ClientWithResponses) ConnectSandboxFilesWithResponse(ctx context.Contex
 
 // ConnectSandboxRunWithResponse Create a connect token for a sandbox run
 //
-// Create a short-lived connect token for a command run in this sandbox.
-// Send the command to the URL in the response, using the token as the bearer
-// token. The token authorizes only the requested operation.
+// Create a short-lived connect token for a command run in this sandbox. Send the command to the URL in the response, using the token as the bearer token. The token authorizes only the requested operation.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -84213,10 +83515,7 @@ func (c *ClientWithResponses) ConnectSandboxRunWithResponse(ctx context.Context,
 
 // CreateSandboxSnapshotWithBodyWithResponse Create sandbox snapshot
 //
-// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-// in `creating` status. Retrieve the snapshot until its status is `available`
-// or `failed`. The sandbox continues running, with a brief pause when capturing
-// a runtime snapshot.
+// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -84231,10 +83530,7 @@ func (c *ClientWithResponses) CreateSandboxSnapshotWithBodyWithResponse(ctx cont
 
 // CreateSandboxSnapshotWithResponse Create sandbox snapshot
 //
-// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot
-// in `creating` status. Retrieve the snapshot until its status is `available`
-// or `failed`. The sandbox continues running, with a brief pause when capturing
-// a runtime snapshot.
+// Capture a snapshot of a running sandbox. Returns HTTP 202 with the snapshot in `creating` status. Retrieve the snapshot until its status is `available` or `failed`. The sandbox continues running, with a brief pause when capturing a runtime snapshot.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -84249,9 +83545,7 @@ func (c *ClientWithResponses) CreateSandboxSnapshotWithResponse(ctx context.Cont
 
 // TerminateSandboxWithResponse Terminate sandbox
 //
-// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the
-// sandbox is already terminated. You can also terminate a sandbox while it
-// is starting (`creating`).
+// Terminate the sandbox with the provided ID. Returns HTTP 204 even if the sandbox is already terminated. You can also terminate a sandbox while it is starting (`creating`).
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -103916,18 +103210,13 @@ func ParseCreateSandboxBuildResponse(rsp *http.Response) (*CreateSandboxBuildRes
 			// CreatedAt The timestamp when the sandbox build was created, in ISO 8601 format.
 			CreatedAt time.Time `json:"createdAt"`
 
-			// FailureCode A machine-readable reason the build failed. Null unless the status is
-			// `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized
-			// codes as `internal_error`.
+			// FailureCode A machine-readable reason the build failed. Null unless the status is `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized codes as `internal_error`.
 			//
 			//
 			// Example: image_pull_failed
 			FailureCode *string `json:"failureCode,omitempty"`
 
-			// FailureReason A description of why the build failed. Null unless the status is `failed`.
-			// May include error text from the image registry. When displaying errors, use
-			// `failureCode` to select the main message and show this value as additional
-			// detail.
+			// FailureReason A description of why the build failed. Null unless the status is `failed`. May include error text from the image registry. When displaying errors, use `failureCode` to select the main message and show this value as additional detail.
 			FailureReason *string `json:"failureReason,omitempty"`
 
 			// FinishedAt The timestamp when the build succeeded or failed, in ISO 8601 format. Null while the build is pending or running.
@@ -104203,18 +103492,13 @@ func ParseRetrieveSandboxBuildResponse(rsp *http.Response) (*RetrieveSandboxBuil
 			// CreatedAt The timestamp when the sandbox build was created, in ISO 8601 format.
 			CreatedAt time.Time `json:"createdAt"`
 
-			// FailureCode A machine-readable reason the build failed. Null unless the status is
-			// `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized
-			// codes as `internal_error`.
+			// FailureCode A machine-readable reason the build failed. Null unless the status is `failed`. See `sandboxBuildFailureCode` for known codes. Treat unrecognized codes as `internal_error`.
 			//
 			//
 			// Example: image_pull_failed
 			FailureCode *string `json:"failureCode,omitempty"`
 
-			// FailureReason A description of why the build failed. Null unless the status is `failed`.
-			// May include error text from the image registry. When displaying errors, use
-			// `failureCode` to select the main message and show this value as additional
-			// detail.
+			// FailureReason A description of why the build failed. Null unless the status is `failed`. May include error text from the image registry. When displaying errors, use `failureCode` to select the main message and show this value as additional detail.
 			FailureReason *string `json:"failureReason,omitempty"`
 
 			// FinishedAt The timestamp when the build succeeded or failed, in ISO 8601 format. Null while the build is pending or running.
@@ -104368,10 +103652,7 @@ func ParseListSandboxGroupCredentialsResponse(rsp *http.Response) (*ListSandboxG
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []struct {
-			// Domain The destination hostname to match for credential injection. Must
-			// be a public DNS hostname. Render normalizes it to lowercase and matches it
-			// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-			// not supported.
+			// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 			//
 			//
 			// Example: api.render.com
@@ -104380,9 +103661,7 @@ func ParseListSandboxGroupCredentialsResponse(rsp *http.Response) (*ListSandboxG
 			// Enabled Whether this credential is enabled for injection.
 			Enabled bool `json:"enabled"`
 
-			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-			// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-			// `.` and `..` and IDs starting with `rnd-` are reserved.
+			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 			//
 			//
 			// Example: my-inference-key
@@ -104390,45 +103669,28 @@ func ParseListSandboxGroupCredentialsResponse(rsp *http.Response) (*ListSandboxG
 
 			// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 			Injection struct {
-				// Name The header, cookie, or query parameter to set. Required for `header`,
-				// `cookie`, and `query`. Headers that control routing or connection behavior
-				// cannot be used.
+				// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 				Name *string `json:"name,omitempty"`
 
-				// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-				// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-				// Omit to use the secret value without a template.
+				// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 				//
 				//
 				// Example: Bearer ${SECRET}
 				Template *string `json:"template,omitempty"`
 
-				// Type How Render adds the credential to a matching request. For `basic`, the value
-				// after applying `template` must have the form `username:password`. Do not
-				// provide `name`.
+				// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 				Type ListSandboxGroupCredentials200JSONResponseBodyInjectionType `json:"type"`
 			} `json:"injection"`
 
-			// Methods The HTTP methods to match for credential injection.
-			// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-			// normalized to uppercase.
-			// An empty list matches any method.
+			// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 			Methods []string `json:"methods"`
 
-			// Paths The request path patterns to match for credential injection. Each
-			// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-			// `**` for one or more segments. Wildcards must occupy whole segments. For
-			// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-			// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-			// Request query strings do not affect matching.
-			// An empty list matches any path.
+			// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 			Paths []string `json:"paths"`
 
 			// Version Metadata for a credential version. These endpoints do not return secret values.
 			Version *struct {
-				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-				// Matching fingerprints identify equivalent credential configurations within
-				// the same sandbox group. Fingerprints cannot be compared across groups.
+				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 				Fingerprint string `json:"fingerprint"`
 
 				// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -104553,10 +103815,7 @@ func ParseCreateSandboxGroupCredentialResponse(rsp *http.Response) (*CreateSandb
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
 		var dest struct {
-			// Domain The destination hostname to match for credential injection. Must
-			// be a public DNS hostname. Render normalizes it to lowercase and matches it
-			// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-			// not supported.
+			// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 			//
 			//
 			// Example: api.render.com
@@ -104565,9 +103824,7 @@ func ParseCreateSandboxGroupCredentialResponse(rsp *http.Response) (*CreateSandb
 			// Enabled Whether this credential is enabled for injection.
 			Enabled bool `json:"enabled"`
 
-			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-			// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-			// `.` and `..` and IDs starting with `rnd-` are reserved.
+			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 			//
 			//
 			// Example: my-inference-key
@@ -104575,45 +103832,28 @@ func ParseCreateSandboxGroupCredentialResponse(rsp *http.Response) (*CreateSandb
 
 			// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 			Injection struct {
-				// Name The header, cookie, or query parameter to set. Required for `header`,
-				// `cookie`, and `query`. Headers that control routing or connection behavior
-				// cannot be used.
+				// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 				Name *string `json:"name,omitempty"`
 
-				// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-				// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-				// Omit to use the secret value without a template.
+				// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 				//
 				//
 				// Example: Bearer ${SECRET}
 				Template *string `json:"template,omitempty"`
 
-				// Type How Render adds the credential to a matching request. For `basic`, the value
-				// after applying `template` must have the form `username:password`. Do not
-				// provide `name`.
+				// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 				Type CreateSandboxGroupCredential201JSONResponseBodyInjectionType `json:"type"`
 			} `json:"injection"`
 
-			// Methods The HTTP methods to match for credential injection.
-			// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-			// normalized to uppercase.
-			// An empty list matches any method.
+			// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 			Methods []string `json:"methods"`
 
-			// Paths The request path patterns to match for credential injection. Each
-			// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-			// `**` for one or more segments. Wildcards must occupy whole segments. For
-			// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-			// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-			// Request query strings do not affect matching.
-			// An empty list matches any path.
+			// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 			Paths []string `json:"paths"`
 
 			// Version Metadata for a credential version. These endpoints do not return secret values.
 			Version *struct {
-				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-				// Matching fingerprints identify equivalent credential configurations within
-				// the same sandbox group. Fingerprints cannot be compared across groups.
+				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 				Fingerprint string `json:"fingerprint"`
 
 				// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -104857,10 +104097,7 @@ func ParseRetrieveSandboxGroupCredentialResponse(rsp *http.Response) (*RetrieveS
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			// Domain The destination hostname to match for credential injection. Must
-			// be a public DNS hostname. Render normalizes it to lowercase and matches it
-			// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-			// not supported.
+			// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 			//
 			//
 			// Example: api.render.com
@@ -104869,9 +104106,7 @@ func ParseRetrieveSandboxGroupCredentialResponse(rsp *http.Response) (*RetrieveS
 			// Enabled Whether this credential is enabled for injection.
 			Enabled bool `json:"enabled"`
 
-			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-			// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-			// `.` and `..` and IDs starting with `rnd-` are reserved.
+			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 			//
 			//
 			// Example: my-inference-key
@@ -104879,45 +104114,28 @@ func ParseRetrieveSandboxGroupCredentialResponse(rsp *http.Response) (*RetrieveS
 
 			// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 			Injection struct {
-				// Name The header, cookie, or query parameter to set. Required for `header`,
-				// `cookie`, and `query`. Headers that control routing or connection behavior
-				// cannot be used.
+				// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 				Name *string `json:"name,omitempty"`
 
-				// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-				// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-				// Omit to use the secret value without a template.
+				// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 				//
 				//
 				// Example: Bearer ${SECRET}
 				Template *string `json:"template,omitempty"`
 
-				// Type How Render adds the credential to a matching request. For `basic`, the value
-				// after applying `template` must have the form `username:password`. Do not
-				// provide `name`.
+				// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 				Type RetrieveSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 			} `json:"injection"`
 
-			// Methods The HTTP methods to match for credential injection.
-			// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-			// normalized to uppercase.
-			// An empty list matches any method.
+			// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 			Methods []string `json:"methods"`
 
-			// Paths The request path patterns to match for credential injection. Each
-			// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-			// `**` for one or more segments. Wildcards must occupy whole segments. For
-			// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-			// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-			// Request query strings do not affect matching.
-			// An empty list matches any path.
+			// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 			Paths []string `json:"paths"`
 
 			// Version Metadata for a credential version. These endpoints do not return secret values.
 			Version *struct {
-				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-				// Matching fingerprints identify equivalent credential configurations within
-				// the same sandbox group. Fingerprints cannot be compared across groups.
+				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 				Fingerprint string `json:"fingerprint"`
 
 				// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -105042,10 +104260,7 @@ func ParseUpdateSandboxGroupCredentialResponse(rsp *http.Response) (*UpdateSandb
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			// Domain The destination hostname to match for credential injection. Must
-			// be a public DNS hostname. Render normalizes it to lowercase and matches it
-			// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-			// not supported.
+			// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 			//
 			//
 			// Example: api.render.com
@@ -105054,9 +104269,7 @@ func ParseUpdateSandboxGroupCredentialResponse(rsp *http.Response) (*UpdateSandb
 			// Enabled Whether this credential is enabled for injection.
 			Enabled bool `json:"enabled"`
 
-			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-			// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-			// `.` and `..` and IDs starting with `rnd-` are reserved.
+			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 			//
 			//
 			// Example: my-inference-key
@@ -105064,45 +104277,28 @@ func ParseUpdateSandboxGroupCredentialResponse(rsp *http.Response) (*UpdateSandb
 
 			// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 			Injection struct {
-				// Name The header, cookie, or query parameter to set. Required for `header`,
-				// `cookie`, and `query`. Headers that control routing or connection behavior
-				// cannot be used.
+				// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 				Name *string `json:"name,omitempty"`
 
-				// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-				// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-				// Omit to use the secret value without a template.
+				// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 				//
 				//
 				// Example: Bearer ${SECRET}
 				Template *string `json:"template,omitempty"`
 
-				// Type How Render adds the credential to a matching request. For `basic`, the value
-				// after applying `template` must have the form `username:password`. Do not
-				// provide `name`.
+				// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 				Type UpdateSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 			} `json:"injection"`
 
-			// Methods The HTTP methods to match for credential injection.
-			// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-			// normalized to uppercase.
-			// An empty list matches any method.
+			// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 			Methods []string `json:"methods"`
 
-			// Paths The request path patterns to match for credential injection. Each
-			// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-			// `**` for one or more segments. Wildcards must occupy whole segments. For
-			// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-			// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-			// Request query strings do not affect matching.
-			// An empty list matches any path.
+			// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 			Paths []string `json:"paths"`
 
 			// Version Metadata for a credential version. These endpoints do not return secret values.
 			Version *struct {
-				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-				// Matching fingerprints identify equivalent credential configurations within
-				// the same sandbox group. Fingerprints cannot be compared across groups.
+				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 				Fingerprint string `json:"fingerprint"`
 
 				// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -105234,10 +104430,7 @@ func ParseRestoreSandboxGroupCredentialResponse(rsp *http.Response) (*RestoreSan
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			// Domain The destination hostname to match for credential injection. Must
-			// be a public DNS hostname. Render normalizes it to lowercase and matches it
-			// exactly. IP addresses, ports, wildcards, and local or internal hostnames are
-			// not supported.
+			// Domain The destination hostname to match for credential injection. Must be a public DNS hostname. Render normalizes it to lowercase and matches it exactly. IP addresses, ports, wildcards, and local or internal hostnames are not supported.
 			//
 			//
 			// Example: api.render.com
@@ -105246,9 +104439,7 @@ func ParseRestoreSandboxGroupCredentialResponse(rsp *http.Response) (*RestoreSan
 			// Enabled Whether this credential is enabled for injection.
 			Enabled bool `json:"enabled"`
 
-			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group.
-			// Use only letters, numbers, periods, underscores, tildes, and hyphens. The names
-			// `.` and `..` and IDs starting with `rnd-` are reserved.
+			// Id The case-sensitive ID you assign to the credential, unique within its sandbox group. Use only letters, numbers, periods, underscores, tildes, and hyphens. The names `.` and `..` and IDs starting with `rnd-` are reserved.
 			//
 			//
 			// Example: my-inference-key
@@ -105256,45 +104447,28 @@ func ParseRestoreSandboxGroupCredentialResponse(rsp *http.Response) (*RestoreSan
 
 			// Injection Settings for injecting the secret value into matching outbound HTTPS requests.
 			Injection struct {
-				// Name The header, cookie, or query parameter to set. Required for `header`,
-				// `cookie`, and `query`. Headers that control routing or connection behavior
-				// cannot be used.
+				// Name The header, cookie, or query parameter to set. Required for `header`, `cookie`, and `query`. Headers that control routing or connection behavior cannot be used.
 				Name *string `json:"name,omitempty"`
 
-				// Template A template containing 1–5 occurrences of `${SECRET}`, such as
-				// `Bearer ${SECRET}`. Render replaces each occurrence with the secret value.
-				// Omit to use the secret value without a template.
+				// Template A template containing 1–5 occurrences of `${SECRET}`, such as `Bearer ${SECRET}`. Render replaces each occurrence with the secret value. Omit to use the secret value without a template.
 				//
 				//
 				// Example: Bearer ${SECRET}
 				Template *string `json:"template,omitempty"`
 
-				// Type How Render adds the credential to a matching request. For `basic`, the value
-				// after applying `template` must have the form `username:password`. Do not
-				// provide `name`.
+				// Type How Render adds the credential to a matching request. For `basic`, the value after applying `template` must have the form `username:password`. Do not provide `name`.
 				Type RestoreSandboxGroupCredential200JSONResponseBodyInjectionType `json:"type"`
 			} `json:"injection"`
 
-			// Methods The HTTP methods to match for credential injection.
-			// Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS,
-			// normalized to uppercase.
-			// An empty list matches any method.
+			// Methods The HTTP methods to match for credential injection. Supported methods are GET, HEAD, POST, PUT, PATCH, DELETE, and OPTIONS, normalized to uppercase. An empty list matches any method.
 			Methods []string `json:"methods"`
 
-			// Paths The request path patterns to match for credential injection. Each
-			// pattern must match the entire absolute path. Use `*` for one nonempty path segment or
-			// `**` for one or more segments. Wildcards must occupy whole segments. For
-			// example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither
-			// matches `/a`. Patterns do not support query strings, fragments, or escaping.
-			// Request query strings do not affect matching.
-			// An empty list matches any path.
+			// Paths The request path patterns to match for credential injection. Each pattern must match the entire absolute path. Use `*` for one nonempty path segment or `**` for one or more segments. Wildcards must occupy whole segments. For example, `/a/*` matches `/a/b`, and `/a/**` also matches `/a/b/c`. Neither matches `/a`. Patterns do not support query strings, fragments, or escaping. Request query strings do not affect matching. An empty list matches any path.
 			Paths []string `json:"paths"`
 
 			// Version Metadata for a credential version. These endpoints do not return secret values.
 			Version *struct {
-				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-				// Matching fingerprints identify equivalent credential configurations within
-				// the same sandbox group. Fingerprints cannot be compared across groups.
+				// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 				Fingerprint string `json:"fingerprint"`
 
 				// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -105426,9 +104600,7 @@ func ParseListSandboxGroupCredentialVersionsResponse(rsp *http.Response) (*ListS
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []struct {
-			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value.
-			// Matching fingerprints identify equivalent credential configurations within
-			// the same sandbox group. Fingerprints cannot be compared across groups.
+			// Fingerprint A fingerprint of the routing settings, injection settings, and secret value. Matching fingerprints identify equivalent credential configurations within the same sandbox group. Fingerprints cannot be compared across groups.
 			Fingerprint string `json:"fingerprint"`
 
 			// Id The ID of the credential version. Each new version receives a higher ID, including versions created by a restore.
@@ -105786,11 +104958,7 @@ func ParseRetrieveSandboxSnapshotResponse(rsp *http.Response) (*RetrieveSandboxS
 			// Error The reason the snapshot failed. Null unless its status is `failed`.
 			Error *string `json:"error,omitempty"`
 
-			// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or
-			// restored, in ISO 8601 format. Each time you create a sandbox from this
-			// snapshot, Render resets its expiration to `ttlSeconds` seconds after that
-			// use. For snapshots with no expiration (`ttlSeconds: 0`), this is
-			// `9999-12-31T23:59:59Z`.
+			// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or restored, in ISO 8601 format. Each time you create a sandbox from this snapshot, Render resets its expiration to `ttlSeconds` seconds after that use. For snapshots with no expiration (`ttlSeconds: 0`), this is `9999-12-31T23:59:59Z`.
 			ExpiresAt time.Time `json:"expiresAt"`
 
 			// Id The ID of the sandbox snapshot.
@@ -105798,10 +104966,7 @@ func ParseRetrieveSandboxSnapshotResponse(rsp *http.Response) (*RetrieveSandboxS
 			// Example: snp-cph1rs3idesc73a2b2mg
 			Id string `json:"id"`
 
-			// Kind The state to capture. A `filesystem` snapshot captures the writable
-			// filesystem and can be restored to any plan. A `runtime` snapshot also
-			// captures memory and CPU state and must be restored to the source sandbox
-			// plan.
+			// Kind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 			Kind RetrieveSandboxSnapshot200JSONResponseBodyKind `json:"kind"`
 
 			// Name The name assigned when the snapshot was created. Cannot be changed. Null if no name was provided.
@@ -105827,9 +104992,7 @@ func ParseRetrieveSandboxSnapshotResponse(rsp *http.Response) (*RetrieveSandboxS
 			// Status The snapshot's current status.
 			Status RetrieveSandboxSnapshot200JSONResponseBodyStatus `json:"status"`
 
-			// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means
-			// the snapshot does not expire. If omitted, Render's default snapshot
-			// lifetime applies.
+			// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means the snapshot does not expire. If omitted, Render's default snapshot lifetime applies.
 			TTLSeconds *int `json:"ttlSeconds,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -106074,12 +105237,9 @@ func ParseCreateSandboxResponse(rsp *http.Response) (*CreateSandboxResponse, err
 				// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 				Default *CreateSandbox201JSONResponseBodyNetworkPolicyDefault `json:"default,omitempty"`
 
-				// Rules Destinations the sandbox may reach, present when `type` is
-				// `allow-list` and absent otherwise. Each domain may be listed once.
+				// Rules Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once.
 				Rules *[]struct {
-					// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-					// `foo.local` does not match `api.foo.local`. Use a separate rule or
-					// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+					// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 					//
 					//
 					// Example: *.bar.local
@@ -106110,9 +105270,7 @@ func ParseCreateSandboxResponse(rsp *http.Response) (*CreateSandboxResponse, err
 			// TerminatedAt The timestamp when the sandbox was terminated, in ISO 8601 format. Null if the sandbox has not been terminated.
 			TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
 
-			// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-			// terminates when this time elapses. If the sandbox is suspended and later
-			// resumed, this timeout restarts. A value of 0 disables the runtime timeout.
+			// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts. A value of 0 disables the runtime timeout.
 			//
 			//
 			// Example: 86400
@@ -106258,12 +105416,9 @@ func ParseRetrieveSandboxResponse(rsp *http.Response) (*RetrieveSandboxResponse,
 				// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 				Default *RetrieveSandbox200JSONResponseBodyNetworkPolicyDefault `json:"default,omitempty"`
 
-				// Rules Destinations the sandbox may reach, present when `type` is
-				// `allow-list` and absent otherwise. Each domain may be listed once.
+				// Rules Destinations the sandbox may reach, present when `type` is `allow-list` and absent otherwise. Each domain may be listed once.
 				Rules *[]struct {
-					// Domain The hostname this rule allows, up to 253 characters. Matching is exact:
-					// `foo.local` does not match `api.foo.local`. Use a separate rule or
-					// `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
+					// Domain The hostname this rule allows, up to 253 characters. Matching is exact: `foo.local` does not match `api.foo.local`. Use a separate rule or `*.foo.local` for subdomains. A wildcard is allowed only as the leftmost label.
 					//
 					//
 					// Example: *.bar.local
@@ -106294,9 +105449,7 @@ func ParseRetrieveSandboxResponse(rsp *http.Response) (*RetrieveSandboxResponse,
 			// TerminatedAt The timestamp when the sandbox was terminated, in ISO 8601 format. Null if the sandbox has not been terminated.
 			TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
 
-			// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox
-			// terminates when this time elapses. If the sandbox is suspended and later
-			// resumed, this timeout restarts. A value of 0 disables the runtime timeout.
+			// TimeoutSeconds The maximum time the sandbox can run continuously, in seconds. The sandbox terminates when this time elapses. If the sandbox is suspended and later resumed, this timeout restarts. A value of 0 disables the runtime timeout.
 			//
 			//
 			// Example: 86400
@@ -106513,9 +105666,7 @@ func ParseRetrieveSandboxExecutionResponse(rsp *http.Response) (*RetrieveSandbox
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			// Command The command run in the sandbox, or the target path for a file transfer.
-			// Command text may be redacted or truncated. Omitted if you do not have
-			// permission to view execution commands.
+			// Command The command run in the sandbox, or the target path for a file transfer. Command text may be redacted or truncated. Omitted if you do not have permission to view execution commands.
 			Command *string `json:"command,omitempty"`
 
 			// ExitCode The execution exit code. Omitted until a result is available.
@@ -106940,11 +106091,7 @@ func ParseCreateSandboxSnapshotResponse(rsp *http.Response) (*CreateSandboxSnaps
 			// Error The reason the snapshot failed. Null unless its status is `failed`.
 			Error *string `json:"error,omitempty"`
 
-			// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or
-			// restored, in ISO 8601 format. Each time you create a sandbox from this
-			// snapshot, Render resets its expiration to `ttlSeconds` seconds after that
-			// use. For snapshots with no expiration (`ttlSeconds: 0`), this is
-			// `9999-12-31T23:59:59Z`.
+			// ExpiresAt The timestamp after which the snapshot can no longer be retrieved or restored, in ISO 8601 format. Each time you create a sandbox from this snapshot, Render resets its expiration to `ttlSeconds` seconds after that use. For snapshots with no expiration (`ttlSeconds: 0`), this is `9999-12-31T23:59:59Z`.
 			ExpiresAt time.Time `json:"expiresAt"`
 
 			// Id The ID of the sandbox snapshot.
@@ -106952,10 +106099,7 @@ func ParseCreateSandboxSnapshotResponse(rsp *http.Response) (*CreateSandboxSnaps
 			// Example: snp-cph1rs3idesc73a2b2mg
 			Id string `json:"id"`
 
-			// Kind The state to capture. A `filesystem` snapshot captures the writable
-			// filesystem and can be restored to any plan. A `runtime` snapshot also
-			// captures memory and CPU state and must be restored to the source sandbox
-			// plan.
+			// Kind The state to capture. A `filesystem` snapshot captures the writable filesystem and can be restored to any plan. A `runtime` snapshot also captures memory and CPU state and must be restored to the source sandbox plan.
 			Kind CreateSandboxSnapshot202JSONResponseBodyKind `json:"kind"`
 
 			// Name The name assigned when the snapshot was created. Cannot be changed. Null if no name was provided.
@@ -106981,9 +106125,7 @@ func ParseCreateSandboxSnapshotResponse(rsp *http.Response) (*CreateSandboxSnaps
 			// Status The snapshot's current status.
 			Status CreateSandboxSnapshot202JSONResponseBodyStatus `json:"status"`
 
-			// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means
-			// the snapshot does not expire. If omitted, Render's default snapshot
-			// lifetime applies.
+			// TTLSeconds The snapshot's lifetime after its last use, in seconds. A value of 0 means the snapshot does not expire. If omitted, Render's default snapshot lifetime applies.
 			TTLSeconds *int `json:"ttlSeconds,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
