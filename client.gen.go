@@ -9414,13 +9414,17 @@ type DockerDetailsPOST struct {
 
 // EnvGroup defines model for envGroup.
 type EnvGroup struct {
-	CreatedAt     time.Time    `json:"createdAt"`
-	EnvVars       []EnvVar     `json:"envVars"`
-	EnvironmentId *string      `json:"environmentId,omitempty"`
-	Id            string       `json:"id"`
-	Name          string       `json:"name"`
-	OwnerId       string       `json:"ownerId"`
-	SecretFiles   []SecretFile `json:"secretFiles"`
+	CreatedAt time.Time `json:"createdAt"`
+
+	// EnvVars Omitted if the caller doesn't have the permission to read the environment group's secret values.
+	EnvVars       *[]EnvVar `json:"envVars,omitempty"`
+	EnvironmentId *string   `json:"environmentId,omitempty"`
+	Id            string    `json:"id"`
+	Name          string    `json:"name"`
+	OwnerId       string    `json:"ownerId"`
+
+	// SecretFiles Omitted if the caller doesn't have the permission to read the environment group's secret values.
+	SecretFiles *[]SecretFile `json:"secretFiles,omitempty"`
 
 	// ServiceLinks List of serviceIds linked to the envGroup
 	ServiceLinks []EnvGroupLink `json:"serviceLinks"`
@@ -13871,7 +13875,8 @@ type ListFlowRunSteps200JSONResponseBodyStepsType string
 // GetFlowRunStepParams defines parameters for GetFlowRunStep.
 type GetFlowRunStepParams struct {
 	// StepKey The SDK's key for the step, as `stepKey` reports it in the step listing. Steps that share a sequence number are told apart by it. Omit it for a step the SDK recorded without one.
-	StepKey *string `form:"stepKey,omitempty" json:"stepKey,omitempty"`
+	StepKey         *string `form:"stepKey,omitempty" json:"stepKey,omitempty"`
+	IncludeAttempts *bool   `form:"includeAttempts,omitempty" json:"includeAttempts,omitempty"`
 }
 
 // GetFlowRunStep200JSONResponseBodyStatus defines parameters for GetFlowRunStep.
@@ -13879,6 +13884,12 @@ type GetFlowRunStep200JSONResponseBodyStatus string
 
 // GetFlowRunStep200JSONResponseBodyType defines parameters for GetFlowRunStep.
 type GetFlowRunStep200JSONResponseBodyType string
+
+// GetFlowRunStepAttemptParams defines parameters for GetFlowRunStepAttempt.
+type GetFlowRunStepAttemptParams struct {
+	// StepKey The SDK's key for the step, as `stepKey` reports it in the step listing. Steps that share a sequence number are told apart by it. Omit it for a step the SDK recorded without one.
+	StepKey *string `form:"stepKey,omitempty" json:"stepKey,omitempty"`
+}
 
 // ListFlowsParams defines parameters for ListFlows.
 type ListFlowsParams struct {
@@ -22163,6 +22174,11 @@ type ClientInterface interface {
 	// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq} (the `GetFlowRunStep` operationId).
 	GetFlowRunStep(ctx context.Context, flowRunId string, stepSeq int, params *GetFlowRunStepParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetFlowRunStepAttempt Retrieve recorded failed step attempt
+	//
+	// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq}/attempts/{attempt} (the `GetFlowRunStepAttempt` operationId).
+	GetFlowRunStepAttempt(ctx context.Context, flowRunId string, stepSeq int, attempt int64, params *GetFlowRunStepAttemptParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListFlows List flows
 	//
 	// List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned.
@@ -25983,6 +25999,21 @@ func (c *Client) ListFlowRunSteps(ctx context.Context, flowRunId string, params 
 // Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq} (the `GetFlowRunStep` operationId).
 func (c *Client) GetFlowRunStep(ctx context.Context, flowRunId string, stepSeq int, params *GetFlowRunStepParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetFlowRunStepRequest(c.Server, flowRunId, stepSeq, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetFlowRunStepAttempt Retrieve recorded failed step attempt
+//
+// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq}/attempts/{attempt} (the `GetFlowRunStepAttempt` operationId).
+func (c *Client) GetFlowRunStepAttempt(ctx context.Context, flowRunId string, stepSeq int, attempt int64, params *GetFlowRunStepAttemptParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetFlowRunStepAttemptRequest(c.Server, flowRunId, stepSeq, attempt, params)
 	if err != nil {
 		return nil, err
 	}
@@ -34086,6 +34117,93 @@ func NewGetFlowRunStepRequest(server string, flowRunId string, stepSeq int, para
 	}
 
 	operationPath := fmt.Sprintf("/flow-runs/%s/steps/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.StepKey != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "stepKey", *params.StepKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.IncludeAttempts != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "includeAttempts", *params.IncludeAttempts, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetFlowRunStepAttemptRequest constructs an http.Request for the GetFlowRunStepAttempt method
+func NewGetFlowRunStepAttemptRequest(server string, flowRunId string, stepSeq int, attempt int64, params *GetFlowRunStepAttemptParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowRunId", flowRunId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "stepSeq", stepSeq, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "integer", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam2 string
+
+	pathParam2, err = runtime.StyleParamWithOptions("simple", false, "attempt", attempt, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "integer", Format: "int64"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/flow-runs/%s/steps/%s/attempts/%s", pathParam0, pathParam1, pathParam2)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -47659,6 +47777,13 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq} (the `GetFlowRunStep` operationId).
 	GetFlowRunStepWithResponse(ctx context.Context, flowRunId string, stepSeq int, params *GetFlowRunStepParams, reqEditors ...RequestEditorFn) (*GetFlowRunStepResponse, error)
 
+	// GetFlowRunStepAttemptWithResponse Retrieve recorded failed step attempt
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq}/attempts/{attempt} (the `GetFlowRunStepAttempt` operationId).
+	GetFlowRunStepAttemptWithResponse(ctx context.Context, flowRunId string, stepSeq int, attempt int64, params *GetFlowRunStepAttemptParams, reqEditors ...RequestEditorFn) (*GetFlowRunStepAttemptResponse, error)
+
 	// ListFlowsWithResponse List flows
 	//
 	// List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned.
@@ -57650,7 +57775,14 @@ type GetFlowRunStepResponse struct {
 		CompletedAt    *time.Time `json:"completedAt,omitempty"`
 
 		// Error Error message if the step failed.
-		Error *string `json:"error,omitempty"`
+		Error          *string `json:"error,omitempty"`
+		FailedAttempts *[]struct {
+			Attempt     int64      `json:"attempt"`
+			CompletedAt time.Time  `json:"completedAt"`
+			FlowAttempt int64      `json:"flowAttempt"`
+			RetryAt     *time.Time `json:"retryAt,omitempty"`
+			StartedAt   time.Time  `json:"startedAt"`
+		} `json:"failedAttempts,omitempty"`
 
 		// Input The step's input. For detached steps, the input of the child task run.
 		Input interface{} `json:"input,omitempty"`
@@ -57704,7 +57836,14 @@ func (r GetFlowRunStepResponse) GetJSON200() *struct {
 	CompletedAt    *time.Time `json:"completedAt,omitempty"`
 
 	// Error Error message if the step failed.
-	Error *string `json:"error,omitempty"`
+	Error          *string `json:"error,omitempty"`
+	FailedAttempts *[]struct {
+		Attempt     int64      `json:"attempt"`
+		CompletedAt time.Time  `json:"completedAt"`
+		FlowAttempt int64      `json:"flowAttempt"`
+		RetryAt     *time.Time `json:"retryAt,omitempty"`
+		StartedAt   time.Time  `json:"startedAt"`
+	} `json:"failedAttempts,omitempty"`
 
 	// Input The step's input. For detached steps, the input of the child task run.
 	Input interface{} `json:"input,omitempty"`
@@ -57792,6 +57931,120 @@ func (r GetFlowRunStepResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r GetFlowRunStepResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+// GetFlowRunStepAttemptResponse429Headers the declared response headers of an HTTP 429 response for GetFlowRunStepAttempt
+type GetFlowRunStepAttemptResponse429Headers struct {
+	RateLimitLimit     *int
+	RateLimitRemaining *int
+	RateLimitReset     *int
+	RetryAfter         *int
+}
+
+type GetFlowRunStepAttemptResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		Attempt     int64      `json:"attempt"`
+		CompletedAt time.Time  `json:"completedAt"`
+		Error       string     `json:"error"`
+		FlowAttempt int64      `json:"flowAttempt"`
+		RetryAt     *time.Time `json:"retryAt,omitempty"`
+		StartedAt   time.Time  `json:"startedAt"`
+	}
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *N400BadRequest
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *N401Unauthorized
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *N403Forbidden
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *N429RateLimit
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *N500InternalServerError
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *N503ServiceUnavailable
+	// Headers429 the parsed response headers for an HTTP 429 response
+	Headers429 *GetFlowRunStepAttemptResponse429Headers
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON200() *struct {
+	Attempt     int64      `json:"attempt"`
+	CompletedAt time.Time  `json:"completedAt"`
+	Error       string     `json:"error"`
+	FlowAttempt int64      `json:"flowAttempt"`
+	RetryAt     *time.Time `json:"retryAt,omitempty"`
+	StartedAt   time.Time  `json:"startedAt"`
+} {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON400() *N400BadRequest {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON401() *N401Unauthorized {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON403() *N403Forbidden {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON429() *N429RateLimit {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON500() *N500InternalServerError {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetFlowRunStepAttemptResponse) GetJSON503() *N503ServiceUnavailable {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r GetFlowRunStepAttemptResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetFlowRunStepAttemptResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetFlowRunStepAttemptResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetFlowRunStepAttemptResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -81188,6 +81441,19 @@ func (c *ClientWithResponses) GetFlowRunStepWithResponse(ctx context.Context, fl
 	return ParseGetFlowRunStepResponse(rsp)
 }
 
+// GetFlowRunStepAttemptWithResponse Retrieve recorded failed step attempt
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /flow-runs/{flowRunId}/steps/{stepSeq}/attempts/{attempt} (the `GetFlowRunStepAttempt` operationId).
+func (c *ClientWithResponses) GetFlowRunStepAttemptWithResponse(ctx context.Context, flowRunId string, stepSeq int, attempt int64, params *GetFlowRunStepAttemptParams, reqEditors ...RequestEditorFn) (*GetFlowRunStepAttemptResponse, error) {
+	rsp, err := c.GetFlowRunStepAttempt(ctx, flowRunId, stepSeq, attempt, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetFlowRunStepAttemptResponse(rsp)
+}
+
 // ListFlowsWithResponse List flows
 //
 // List workflow flows that match the provided filters. If no filters are provided, all flow definitions accessible by the authenticated user are returned.
@@ -92792,7 +93058,14 @@ func ParseGetFlowRunStepResponse(rsp *http.Response) (*GetFlowRunStepResponse, e
 			CompletedAt    *time.Time `json:"completedAt,omitempty"`
 
 			// Error Error message if the step failed.
-			Error *string `json:"error,omitempty"`
+			Error          *string `json:"error,omitempty"`
+			FailedAttempts *[]struct {
+				Attempt     int64      `json:"attempt"`
+				CompletedAt time.Time  `json:"completedAt"`
+				FlowAttempt int64      `json:"flowAttempt"`
+				RetryAt     *time.Time `json:"retryAt,omitempty"`
+				StartedAt   time.Time  `json:"startedAt"`
+			} `json:"failedAttempts,omitempty"`
 
 			// Input The step's input. For detached steps, the input of the child task run.
 			Input interface{} `json:"input,omitempty"`
@@ -92878,6 +93151,122 @@ func ParseGetFlowRunStepResponse(rsp *http.Response) (*GetFlowRunStepResponse, e
 	switch {
 	case rsp.StatusCode == 429:
 		var headers GetFlowRunStepResponse429Headers
+		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitLimit = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Remaining"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Remaining", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitRemaining = &value
+		}
+		if values := rsp.Header.Values("RateLimit-Reset"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Reset", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RateLimitReset = &value
+		}
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers429 = &headers
+	}
+
+	return response, nil
+}
+
+// ParseGetFlowRunStepAttemptResponse parses an HTTP response from a GetFlowRunStepAttemptWithResponse call
+func ParseGetFlowRunStepAttemptResponse(rsp *http.Response) (*GetFlowRunStepAttemptResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetFlowRunStepAttemptResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Attempt     int64      `json:"attempt"`
+			CompletedAt time.Time  `json:"completedAt"`
+			Error       string     `json:"error"`
+			FlowAttempt int64      `json:"flowAttempt"`
+			RetryAt     *time.Time `json:"retryAt,omitempty"`
+			StartedAt   time.Time  `json:"startedAt"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest N400BadRequest
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest N401Unauthorized
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest N403Forbidden
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest N429RateLimit
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest N500InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest N503ServiceUnavailable
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 429:
+		var headers GetFlowRunStepAttemptResponse429Headers
 		if values := rsp.Header.Values("RateLimit-Limit"); len(values) > 0 {
 			var value int
 			if err := runtime.BindStyledParameterWithOptions("simple", "RateLimit-Limit", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {

@@ -2,6 +2,15 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.11.0, 2026-11-17
+
+- Changed `EnvGroup.EnvVars` from `[]EnvVar` to `*[]EnvVar` and `EnvGroup.SecretFiles` from `[]SecretFile` to `*[]SecretFile`. Both are now optional in JSON and omitted when nil. Callers that read or set these fields must change.
+- Added the `GetFlowRunStepAttempt` endpoint, `GET /flow-runs/{flowRunId}/steps/{stepSeq}/attempts/{attempt}`. It adds `(*Client).GetFlowRunStepAttempt`, `(*ClientWithResponses).GetFlowRunStepAttemptWithResponse`, `NewGetFlowRunStepAttemptRequest`, `ParseGetFlowRunStepAttemptResponse`, `GetFlowRunStepAttemptParams` (with `StepKey`), `GetFlowRunStepAttemptResponse` and `GetFlowRunStepAttemptResponse429Headers`.
+- Added `GetFlowRunStepAttempt` to `ClientInterface` and `GetFlowRunStepAttemptWithResponse` to `ClientWithResponsesInterface`. Code that implements these interfaces, such as a mock, must change.
+- Added `GetFlowRunStepParams.IncludeAttempts`, a `*bool` sent as the `includeAttempts` query parameter.
+- Added an optional `FailedAttempts` field to the 200 response of `GetFlowRunStep`. Each entry has `Attempt`, `CompletedAt`, `FlowAttempt`, `RetryAt` and `StartedAt`. This changes the anonymous struct type of `GetFlowRunStepResponse.JSON200` and `GetJSON200`.
+- Generated from spec version 1.0.0.
+
 ## v0.10.1, 2026-11-14
 
 - Added a `build` log filter. `ListLogsParams.Build`, `SubscribeLogsParams.Build` and `ListLogsValuesParams.Build` are `*[]string` fields that filter logs by build ID, such as a service build or a sandbox image build. The generated request builders send it as the `build` query parameter.
