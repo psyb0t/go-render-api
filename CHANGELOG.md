@@ -2,6 +2,12 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.12.0, 2026-11-18
+
+- Changed the `AddResourcesToEnvironment` response from HTTP 200 to HTTP 201. `AddResourcesToEnvironmentResponse.JSON200` and `GetJSON200` are removed and replaced by `JSON201` and `GetJSON201`. `ParseAddResourcesToEnvironmentResponse` now decodes the body only on status 201. Callers that read `JSON200` must change.
+- Added an optional `EnvironmentId` field (`*string`) to `CreateSandboxGroupJSONBody`, and so to `CreateSandboxGroupJSONRequestBody`. It creates the sandbox group in that environment. Creating a group in a protected environment requires an admin.
+- Doc comment only: `EnvironmentId` on the sandbox group response types now says it is null when the group isn't in a project, and that you move a group with `/environments/{environmentId}/resources`.
+
 ## v0.11.0, 2026-11-17
 
 - Changed `EnvGroup.EnvVars` from `[]EnvVar` to `*[]EnvVar` and `EnvGroup.SecretFiles` from `[]SecretFile` to `*[]SecretFile`. Both are now optional in JSON and omitted when nil. Callers that read or set these fields must change.

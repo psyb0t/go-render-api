@@ -10760,7 +10760,7 @@ type SandboxGroupWithCursor struct {
 		// Example: 2026-07-02T18:30:00Z
 		CreatedAt time.Time `json:"createdAt"`
 
-		// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+		// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 		EnvironmentId *string `json:"environmentId,omitempty"`
 
 		// Id The ID of the sandbox group.
@@ -15003,6 +15003,11 @@ type ListSandboxGroupsParams struct {
 
 // CreateSandboxGroupJSONBody defines parameters for CreateSandboxGroup.
 type CreateSandboxGroupJSONBody struct {
+	// EnvironmentId The ID of an environment in the workspace to create the group in. If you omit it, the group isn't in a project. Creating a group in a protected environment requires an admin.
+	//
+	// Example: evm-cph1rs3idesc73a2b2mg
+	EnvironmentId *string `json:"environmentId,omitempty"`
+
 	// Name The sandbox group's name. Must be unique within the workspace.
 	//
 	// Example: CI agents
@@ -56874,8 +56879,8 @@ type AddResourcesToEnvironmentResponse429Headers struct {
 type AddResourcesToEnvironmentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	// JSON200 the response for an HTTP 200 `application/json` response
-	JSON200 *Environment
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *Environment
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *N400BadRequest
 	// JSON401 the response for an HTTP 401 `application/json` response
@@ -56892,9 +56897,9 @@ type AddResourcesToEnvironmentResponse struct {
 	Headers429 *AddResourcesToEnvironmentResponse429Headers
 }
 
-// GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r AddResourcesToEnvironmentResponse) GetJSON200() *Environment {
-	return r.JSON200
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r AddResourcesToEnvironmentResponse) GetJSON201() *Environment {
+	return r.JSON201
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
@@ -67935,7 +67940,7 @@ type CreateSandboxGroupResponse struct {
 		// Example: 2026-07-02T18:30:00Z
 		CreatedAt time.Time `json:"createdAt"`
 
-		// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+		// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 		EnvironmentId *string `json:"environmentId,omitempty"`
 
 		// Id The ID of the sandbox group.
@@ -67996,7 +68001,7 @@ func (r CreateSandboxGroupResponse) GetJSON201() *struct {
 	// Example: 2026-07-02T18:30:00Z
 	CreatedAt time.Time `json:"createdAt"`
 
-	// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+	// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 	EnvironmentId *string `json:"environmentId,omitempty"`
 
 	// Id The ID of the sandbox group.
@@ -68120,7 +68125,7 @@ type RetrieveSandboxGroupResponse struct {
 		// Example: 2026-07-02T18:30:00Z
 		CreatedAt time.Time `json:"createdAt"`
 
-		// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+		// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 		EnvironmentId *string `json:"environmentId,omitempty"`
 
 		// Id The ID of the sandbox group.
@@ -68179,7 +68184,7 @@ func (r RetrieveSandboxGroupResponse) GetJSON200() *struct {
 	// Example: 2026-07-02T18:30:00Z
 	CreatedAt time.Time `json:"createdAt"`
 
-	// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+	// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 	EnvironmentId *string `json:"environmentId,omitempty"`
 
 	// Id The ID of the sandbox group.
@@ -68298,7 +68303,7 @@ type UpdateSandboxGroupResponse struct {
 		// Example: 2026-07-02T18:30:00Z
 		CreatedAt time.Time `json:"createdAt"`
 
-		// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+		// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 		EnvironmentId *string `json:"environmentId,omitempty"`
 
 		// Id The ID of the sandbox group.
@@ -68359,7 +68364,7 @@ func (r UpdateSandboxGroupResponse) GetJSON200() *struct {
 	// Example: 2026-07-02T18:30:00Z
 	CreatedAt time.Time `json:"createdAt"`
 
-	// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+	// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 	EnvironmentId *string `json:"environmentId,omitempty"`
 
 	// Id The ID of the sandbox group.
@@ -92187,12 +92192,12 @@ func ParseAddResourcesToEnvironmentResponse(rsp *http.Response) (*AddResourcesTo
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
 		var dest Environment
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON200 = &dest
+		response.JSON201 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest N400BadRequest
@@ -103037,7 +103042,7 @@ func ParseCreateSandboxGroupResponse(rsp *http.Response) (*CreateSandboxGroupRes
 			// Example: 2026-07-02T18:30:00Z
 			CreatedAt time.Time `json:"createdAt"`
 
-			// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+			// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 			EnvironmentId *string `json:"environmentId,omitempty"`
 
 			// Id The ID of the sandbox group.
@@ -103192,7 +103197,7 @@ func ParseRetrieveSandboxGroupResponse(rsp *http.Response) (*RetrieveSandboxGrou
 			// Example: 2026-07-02T18:30:00Z
 			CreatedAt time.Time `json:"createdAt"`
 
-			// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+			// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 			EnvironmentId *string `json:"environmentId,omitempty"`
 
 			// Id The ID of the sandbox group.
@@ -103340,7 +103345,7 @@ func ParseUpdateSandboxGroupResponse(rsp *http.Response) (*UpdateSandboxGroupRes
 			// Example: 2026-07-02T18:30:00Z
 			CreatedAt time.Time `json:"createdAt"`
 
-			// EnvironmentId The ID of the environment this sandbox group belongs to, if any.
+			// EnvironmentId The ID of the environment that contains this group. Null if the group isn't in a project. To move a group, add it to or remove it from an environment with `/environments/{environmentId}/resources`.
 			EnvironmentId *string `json:"environmentId,omitempty"`
 
 			// Id The ID of the sandbox group.
