@@ -2,6 +2,12 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.13.0, 2026-11-20
+
+- Added the `SuspendSandbox` endpoint, `POST /sandboxes/{sandboxId}/suspend`. It suspends a running sandbox and returns HTTP 202. The next connection resumes the sandbox. It adds `(*Client).SuspendSandbox`, `(*ClientWithResponses).SuspendSandboxWithResponse`, `NewSuspendSandboxRequest`, `ParseSuspendSandboxResponse`, `SuspendSandboxParams` (with an optional `OwnerId`), `SuspendSandboxResponse` and `SuspendSandboxResponse429Headers`.
+- Added `SuspendSandbox` to `ClientInterface` and `SuspendSandboxWithResponse` to `ClientWithResponsesInterface`. Code that implements these interfaces, such as a mock, must change.
+- Generated from spec version 1.0.0.
+
 ## v0.12.0, 2026-11-18
 
 - Changed the `AddResourcesToEnvironment` response from HTTP 200 to HTTP 201. `AddResourcesToEnvironmentResponse.JSON200` and `GetJSON200` are removed and replaced by `JSON201` and `GetJSON201`. `ParseAddResourcesToEnvironmentResponse` now decodes the body only on status 201. Callers that read `JSON200` must change.
