@@ -2,6 +2,15 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.14.0, 2026-11-21
+
+- Changed `Resource` on `ListLogsParams`, `ListLogsValuesParams` and `SubscribeLogsParams` from `[]string` to `*[]string`. It is now optional and omitted when nil, and is required only when `Project` is not set. Callers that read or set these fields must change.
+- Added optional `Project`, `Environment` and `Region` fields (`*string`) to `ListLogsParams`, `ListLogsValuesParams` and `SubscribeLogsParams`. `Project` queries all resources in a project. `Environment` requires `Project`. `Region` requires `Project`.
+- Added the same optional `Project`, `Environment` and `Region` query fields to the params types of the metrics endpoints: `GetCpuParams`, `GetCpuLimitParams`, `GetCpuTargetParams`, `GetMemoryParams`, `GetMemoryLimitParams`, `GetMemoryTargetParams`, `GetInstanceCountParams`, `GetHttpRequestsParams`, `GetHttpLatencyParams`, `GetBandwidthParams`, `GetBandwidthSourcesParams`, `GetActiveConnectionsParams`, `GetDiskUsageParams`, `GetDiskCapacityParams` and `GetReplicationLagParams`. The filter value endpoints `ListApplicationFilterValuesParams`, `ListHttpFilterValuesParams` and `ListPathFilterValuesParams` get them too.
+- Added `JSON404` and `GetJSON404` to the response types of those metrics and filter value endpoints, for example `GetCpuResponse` and `ListPathFilterValuesResponse`.
+- Added the `N400MetricsBadRequest` type, an alias of `Error`.
+- Generated from spec version 1.0.0.
+
 ## v0.13.0, 2026-11-20
 
 - Added the `SuspendSandbox` endpoint, `POST /sandboxes/{sandboxId}/suspend`. It suspends a running sandbox and returns HTTP 202. The next connection resumes the sandbox. It adds `(*Client).SuspendSandbox`, `(*ClientWithResponses).SuspendSandboxWithResponse`, `NewSuspendSandboxRequest`, `ParseSuspendSandboxResponse`, `SuspendSandboxParams` (with an optional `OwnerId`), `SuspendSandboxResponse` and `SuspendSandboxResponse429Headers`.

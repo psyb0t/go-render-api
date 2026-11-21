@@ -12418,6 +12418,9 @@ type WorkflowVersionIdParam = []string
 // N400BadRequest defines model for 400BadRequest.
 type N400BadRequest = Error
 
+// N400MetricsBadRequest defines model for 400MetricsBadRequest.
+type N400MetricsBadRequest = Error
+
 // N400SandboxBuildBadRequest defines model for 400SandboxBuildBadRequest.
 type N400SandboxBuildBadRequest = Error
 
@@ -13960,8 +13963,17 @@ type ListLogsParams struct {
 	// Forward will start with the oldest logs in the time range.
 	Direction *ListLogsParamsDirection `form:"direction,omitempty" json:"direction,omitempty"`
 
-	// Resource Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group.
-	Resource []string `form:"resource" json:"resource"`
+	// Resource Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. Required unless `project` is provided.
+	Resource *[]string `form:"resource,omitempty" json:"resource,omitempty"`
+
+	// Project The ID of a project to return logs for. The query covers the project's services, cron jobs, Postgres databases, and Key Value instances. Combine with `resource` to narrow the query to specific resources in the project.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment in the project to return logs for. Requires `project`.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to return logs for, such as `oregon`. Requires `project`. Required when the project's or environment's resources are in more than one region.
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 
 	// Instance Filter logs by the instance they were emitted from. An instance is the id of a specific running server.
 	Instance *[]string `form:"instance,omitempty" json:"instance,omitempty"`
@@ -14093,8 +14105,17 @@ type SubscribeLogsParams struct {
 	// Forward will start with the oldest logs in the time range.
 	Direction *SubscribeLogsParamsDirection `form:"direction,omitempty" json:"direction,omitempty"`
 
-	// Resource Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group.
-	Resource []string `form:"resource" json:"resource"`
+	// Resource Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. Required unless `project` is provided.
+	Resource *[]string `form:"resource,omitempty" json:"resource,omitempty"`
+
+	// Project The ID of a project to return logs for. The query covers the project's services, cron jobs, Postgres databases, and Key Value instances. Combine with `resource` to narrow the query to specific resources in the project.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment in the project to return logs for. Requires `project`.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to return logs for, such as `oregon`. Requires `project`. Required when the project's or environment's resources are in more than one region.
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 
 	// Instance Filter logs by the instance they were emitted from. An instance is the id of a specific running server.
 	Instance *[]string `form:"instance,omitempty" json:"instance,omitempty"`
@@ -14160,8 +14181,17 @@ type ListLogsValuesParams struct {
 	// Forward will start with the oldest logs in the time range.
 	Direction *ListLogsValuesParamsDirection `form:"direction,omitempty" json:"direction,omitempty"`
 
-	// Resource Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group.
-	Resource []string `form:"resource" json:"resource"`
+	// Resource Filter logs by their resource. A resource is the id of a server, cronjob, job, postgres, redis, workflow, or sandbox group. Required unless `project` is provided.
+	Resource *[]string `form:"resource,omitempty" json:"resource,omitempty"`
+
+	// Project The ID of a project to return logs for. The query covers the project's services, cron jobs, Postgres databases, and Key Value instances. Combine with `resource` to narrow the query to specific resources in the project.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment in the project to return logs for. Requires `project`.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to return logs for, such as `oregon`. Requires `project`. Required when the project's or environment's resources are in more than one region.
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 
 	// Instance Filter logs by the instance they were emitted from. An instance is the id of a specific running server.
 	Instance *[]string `form:"instance,omitempty" json:"instance,omitempty"`
@@ -14267,6 +14297,15 @@ type GetActiveConnectionsParams struct {
 
 	// Resource Resource ID to query. When multiple resource query params are provided, they are ORed together. Resources Postgres ids or Redis ids
 	Resource *string `form:"resource,omitempty" json:"resource,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetBandwidthParams defines parameters for GetBandwidth.
@@ -14283,6 +14322,15 @@ type GetBandwidthParams struct {
 	// Service This parameter is deprecated. Please use `resource` instead
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetBandwidthSourcesParams defines parameters for GetBandwidthSources.
@@ -14299,6 +14347,15 @@ type GetBandwidthSourcesParams struct {
 	// Service This parameter is deprecated. Please use `resource` instead
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetBandwidthSources200JSONResponseBodyDataLabelsTrafficSource defines parameters for GetBandwidthSources.
@@ -14322,11 +14379,20 @@ type GetCpuParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Instance Instance ID to query. When multiple instance ID query params are provided, they are ORed together
 	Instance *string `form:"instance,omitempty" json:"instance,omitempty"`
 
 	// AggregationMethod The aggregation method to apply to multiple time series
 	AggregationMethod *string `form:"aggregationMethod,omitempty" json:"aggregationMethod,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetCpuLimitParams defines parameters for GetCpuLimit.
@@ -14347,8 +14413,17 @@ type GetCpuLimitParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Instance Instance ID to query. When multiple instance ID query params are provided, they are ORed together
 	Instance *string `form:"instance,omitempty" json:"instance,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetCpuTargetParams defines parameters for GetCpuTarget.
@@ -14369,8 +14444,17 @@ type GetCpuTargetParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Instance Instance ID to query. When multiple instance ID query params are provided, they are ORed together
 	Instance *string `form:"instance,omitempty" json:"instance,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetDiskCapacityParams defines parameters for GetDiskCapacity.
@@ -14390,6 +14474,15 @@ type GetDiskCapacityParams struct {
 	// Service This parameter is deprecated. Please use `resource` instead
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetDiskUsageParams defines parameters for GetDiskUsage.
@@ -14409,6 +14502,15 @@ type GetDiskUsageParams struct {
 	// Service This parameter is deprecated. Please use `resource` instead
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // ListApplicationFilterValuesParams defines parameters for ListApplicationFilterValues.
@@ -14428,6 +14530,15 @@ type ListApplicationFilterValuesParams struct {
 	// Service This parameter is deprecated. Please use `resource` instead
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // ListApplicationFilterValues200JSONResponseBodyFilter defines parameters for ListApplicationFilterValues.
@@ -14451,11 +14562,20 @@ type ListHttpFilterValuesParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Host The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together
 	Host *string `form:"host,omitempty" json:"host,omitempty"`
 
 	// StatusCode The status codes of HTTP requests to filter to. When multiple status code query params are provided, they are ORed together
 	StatusCode *string `form:"statusCode,omitempty" json:"statusCode,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // ListHttpFilterValues200JSONResponseBodyFilter defines parameters for ListHttpFilterValues.
@@ -14479,6 +14599,12 @@ type ListPathFilterValuesParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Host The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together
 	Host *string `form:"host,omitempty" json:"host,omitempty"`
 
@@ -14487,6 +14613,9 @@ type ListPathFilterValuesParams struct {
 
 	// Path The paths of HTTP requests to filter to. When multiple path query params are provided, they are ORed together
 	Path *string `form:"path,omitempty" json:"path,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetHttpLatencyParams defines parameters for GetHttpLatency.
@@ -14507,6 +14636,12 @@ type GetHttpLatencyParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Host The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together
 	Host *string `form:"host,omitempty" json:"host,omitempty"`
 
@@ -14515,6 +14650,9 @@ type GetHttpLatencyParams struct {
 
 	// Quantile The quantile of latencies to fetch. When multiple quantile query params are provided, they are ORed together
 	Quantile *float32 `form:"quantile,omitempty" json:"quantile,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetHttpRequestsParams defines parameters for GetHttpRequests.
@@ -14535,6 +14673,12 @@ type GetHttpRequestsParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Host The hosts of HTTP requests to filter to. When multiple host query params are provided, they are ORed together
 	Host *string `form:"host,omitempty" json:"host,omitempty"`
 
@@ -14543,6 +14687,9 @@ type GetHttpRequestsParams struct {
 
 	// AggregateBy The field to aggregate by
 	AggregateBy *string `form:"aggregateBy,omitempty" json:"aggregateBy,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetInstanceCountParams defines parameters for GetInstanceCount.
@@ -14562,6 +14709,15 @@ type GetInstanceCountParams struct {
 	// Service This parameter is deprecated. Please use `resource` instead
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetMemoryParams defines parameters for GetMemory.
@@ -14582,8 +14738,17 @@ type GetMemoryParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Instance Instance ID to query. When multiple instance ID query params are provided, they are ORed together
 	Instance *string `form:"instance,omitempty" json:"instance,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetMemoryLimitParams defines parameters for GetMemoryLimit.
@@ -14604,8 +14769,17 @@ type GetMemoryLimitParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Instance Instance ID to query. When multiple instance ID query params are provided, they are ORed together
 	Instance *string `form:"instance,omitempty" json:"instance,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetMemoryTargetParams defines parameters for GetMemoryTarget.
@@ -14626,8 +14800,17 @@ type GetMemoryTargetParams struct {
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	Service *string `form:"service,omitempty" json:"service,omitempty"`
 
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
 	// Instance Instance ID to query. When multiple instance ID query params are provided, they are ORed together
 	Instance *string `form:"instance,omitempty" json:"instance,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetReplicationLagParams defines parameters for GetReplicationLag.
@@ -14643,6 +14826,15 @@ type GetReplicationLagParams struct {
 
 	// Resource Postgres ID to query. When multiple resource query params are provided, they are ORed together
 	Resource *string `form:"resource,omitempty" json:"resource,omitempty"`
+
+	// Project The ID of a project to query. The query covers the resources in the project that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the project. Only one project can be provided. A project that doesn't exist or that you can't access returns a 404.
+	Project *string `form:"project,omitempty" json:"project,omitempty"`
+
+	// Environment The ID of an environment to query. The query covers the resources in the environment that you can view, so `resource` is optional when this is provided. If `resource` is also provided, the query covers only those resources, and each must belong to the environment. Only one environment can be provided. If `project` is also provided, the environment must belong to that project. An environment that doesn't exist or that you can't access returns a 404.
+	Environment *string `form:"environment,omitempty" json:"environment,omitempty"`
+
+	// Region The region to query when querying by `project` or `environment`. Required when the project's or environment's resources are in more than one region
+	Region *string `form:"region,omitempty" json:"region,omitempty"`
 }
 
 // GetTaskRunsCompletedParams defines parameters for GetTaskRunsCompleted.
@@ -34924,7 +35116,43 @@ func NewListLogsRequest(server string, params *ListLogsParams) (*http.Request, e
 
 		if params.Resource != nil {
 
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource", params.Resource, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource", *params.Resource, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -35522,7 +35750,43 @@ func NewSubscribeLogsRequest(server string, params *SubscribeLogsParams) (*http.
 
 		if params.Resource != nil {
 
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource", params.Resource, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource", *params.Resource, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -35784,7 +36048,43 @@ func NewListLogsValuesRequest(server string, params *ListLogsValuesParams) (*htt
 
 		if params.Resource != nil {
 
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource", params.Resource, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource", *params.Resource, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -36348,6 +36648,42 @@ func NewGetActiveConnectionsRequest(server string, params *GetActiveConnectionsP
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -36438,6 +36774,42 @@ func NewGetBandwidthRequest(server string, params *GetBandwidthParams) (*http.Re
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -36519,6 +36891,42 @@ func NewGetBandwidthSourcesRequest(server string, params *GetBandwidthSourcesPar
 		if params.Service != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "service", *params.Service, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -36630,6 +37038,30 @@ func NewGetCpuRequest(server string, params *GetCpuParams) (*http.Request, error
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Instance != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "instance", *params.Instance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
@@ -36645,6 +37077,18 @@ func NewGetCpuRequest(server string, params *GetCpuParams) (*http.Request, error
 		if params.AggregationMethod != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "aggregationMethod", *params.AggregationMethod, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -36756,9 +37200,45 @@ func NewGetCpuLimitRequest(server string, params *GetCpuLimitParams) (*http.Requ
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Instance != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "instance", *params.Instance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -36870,9 +37350,45 @@ func NewGetCpuTargetRequest(server string, params *GetCpuTargetParams) (*http.Re
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Instance != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "instance", *params.Instance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -36984,6 +37500,42 @@ func NewGetDiskCapacityRequest(server string, params *GetDiskCapacityParams) (*h
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -37077,6 +37629,42 @@ func NewGetDiskUsageRequest(server string, params *GetDiskUsageParams) (*http.Re
 		if params.Service != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "service", *params.Service, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -37188,6 +37776,42 @@ func NewListApplicationFilterValuesRequest(server string, params *ListApplicatio
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -37290,6 +37914,30 @@ func NewListHttpFilterValuesRequest(server string, params *ListHttpFilterValuesP
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Host != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "host", *params.Host, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
@@ -37305,6 +37953,18 @@ func NewListHttpFilterValuesRequest(server string, params *ListHttpFilterValuesP
 		if params.StatusCode != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "statusCode", *params.StatusCode, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -37416,6 +38076,30 @@ func NewListPathFilterValuesRequest(server string, params *ListPathFilterValuesP
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Host != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "host", *params.Host, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
@@ -37443,6 +38127,18 @@ func NewListPathFilterValuesRequest(server string, params *ListPathFilterValuesP
 		if params.Path != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "path", *params.Path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -37554,6 +38250,30 @@ func NewGetHttpLatencyRequest(server string, params *GetHttpLatencyParams) (*htt
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Host != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "host", *params.Host, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
@@ -37581,6 +38301,18 @@ func NewGetHttpLatencyRequest(server string, params *GetHttpLatencyParams) (*htt
 		if params.Quantile != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "quantile", *params.Quantile, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: "float"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -37692,6 +38424,30 @@ func NewGetHttpRequestsRequest(server string, params *GetHttpRequestsParams) (*h
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Host != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "host", *params.Host, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
@@ -37719,6 +38475,18 @@ func NewGetHttpRequestsRequest(server string, params *GetHttpRequestsParams) (*h
 		if params.AggregateBy != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "aggregateBy", *params.AggregateBy, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -37830,6 +38598,42 @@ func NewGetInstanceCountRequest(server string, params *GetInstanceCountParams) (
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -37932,9 +38736,45 @@ func NewGetMemoryRequest(server string, params *GetMemoryParams) (*http.Request,
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Instance != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "instance", *params.Instance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -38046,9 +38886,45 @@ func NewGetMemoryLimitRequest(server string, params *GetMemoryLimitParams) (*htt
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Instance != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "instance", *params.Instance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -38160,9 +39036,45 @@ func NewGetMemoryTargetRequest(server string, params *GetMemoryTargetParams) (*h
 
 		}
 
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.Instance != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "instance", *params.Instance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -38253,6 +39165,42 @@ func NewGetReplicationLagRequest(server string, params *GetReplicationLagParams)
 		if params.Resource != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resource", *params.Resource, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Project != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project", *params.Project, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Environment != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "environment", *params.Environment, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Region != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "region", *params.Region, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -59158,7 +60106,7 @@ type ListLogsResponse struct {
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *Logs200Response
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *Error
 	// JSON401 the response for an HTTP 401 `application/json` response
 	JSON401 *N401Unauthorized
 	// JSON403 the response for an HTTP 403 `application/json` response
@@ -59185,7 +60133,7 @@ func (r ListLogsResponse) GetJSON200() *Logs200Response {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r ListLogsResponse) GetJSON400() *N400BadRequest {
+func (r ListLogsResponse) GetJSON400() *Error {
 	return r.JSON400
 }
 
@@ -60120,7 +61068,7 @@ type SubscribeLogsResponse struct {
 		Timestamp time.Time `json:"timestamp"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *Error
 	// JSON401 the response for an HTTP 401 `application/json` response
 	JSON401 *N401Unauthorized
 	// JSON403 the response for an HTTP 403 `application/json` response
@@ -60163,7 +61111,7 @@ func (r SubscribeLogsResponse) GetJSON101() *struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r SubscribeLogsResponse) GetJSON400() *N400BadRequest {
+func (r SubscribeLogsResponse) GetJSON400() *Error {
 	return r.JSON400
 }
 
@@ -60250,7 +61198,7 @@ type ListLogsValuesResponse struct {
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *LogsValues200Response
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *Error
 	// JSON401 the response for an HTTP 401 `application/json` response
 	JSON401 *N401Unauthorized
 	// JSON403 the response for an HTTP 403 `application/json` response
@@ -60277,7 +61225,7 @@ func (r ListLogsValuesResponse) GetJSON200() *LogsValues200Response {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r ListLogsValuesResponse) GetJSON400() *N400BadRequest {
+func (r ListLogsValuesResponse) GetJSON400() *Error {
 	return r.JSON400
 }
 
@@ -60977,7 +61925,9 @@ type GetActiveConnectionsResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61009,8 +61959,13 @@ func (r GetActiveConnectionsResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetActiveConnectionsResponse) GetJSON400() *N400BadRequest {
+func (r GetActiveConnectionsResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetActiveConnectionsResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61074,7 +62029,9 @@ type GetBandwidthResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61106,8 +62063,13 @@ func (r GetBandwidthResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetBandwidthResponse) GetJSON400() *N400BadRequest {
+func (r GetBandwidthResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetBandwidthResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61168,6 +62130,8 @@ type GetBandwidthSourcesResponse struct {
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *Error
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61197,6 +62161,11 @@ func (r GetBandwidthSourcesResponse) GetJSON200() *struct {
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
 func (r GetBandwidthSourcesResponse) GetJSON400() *Error {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetBandwidthSourcesResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61260,7 +62229,9 @@ type GetCpuResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61292,8 +62263,13 @@ func (r GetCpuResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetCpuResponse) GetJSON400() *N400BadRequest {
+func (r GetCpuResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetCpuResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61357,7 +62333,9 @@ type GetCpuLimitResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61389,8 +62367,13 @@ func (r GetCpuLimitResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetCpuLimitResponse) GetJSON400() *N400BadRequest {
+func (r GetCpuLimitResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetCpuLimitResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61454,7 +62437,9 @@ type GetCpuTargetResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61486,8 +62471,13 @@ func (r GetCpuTargetResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetCpuTargetResponse) GetJSON400() *N400BadRequest {
+func (r GetCpuTargetResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetCpuTargetResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61551,7 +62541,9 @@ type GetDiskCapacityResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61583,8 +62575,13 @@ func (r GetDiskCapacityResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetDiskCapacityResponse) GetJSON400() *N400BadRequest {
+func (r GetDiskCapacityResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetDiskCapacityResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61648,7 +62645,9 @@ type GetDiskUsageResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61680,8 +62679,13 @@ func (r GetDiskUsageResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetDiskUsageResponse) GetJSON400() *N400BadRequest {
+func (r GetDiskUsageResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetDiskUsageResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61727,7 +62731,9 @@ type ListApplicationFilterValuesResponse struct {
 		Values *[]string                                             `json:"values,omitempty"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61741,8 +62747,13 @@ func (r ListApplicationFilterValuesResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r ListApplicationFilterValuesResponse) GetJSON400() *N400BadRequest {
+func (r ListApplicationFilterValuesResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r ListApplicationFilterValuesResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61788,7 +62799,9 @@ type ListHttpFilterValuesResponse struct {
 		Values *[]string                                      `json:"values,omitempty"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61802,8 +62815,13 @@ func (r ListHttpFilterValuesResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r ListHttpFilterValuesResponse) GetJSON400() *N400BadRequest {
+func (r ListHttpFilterValuesResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r ListHttpFilterValuesResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61846,7 +62864,9 @@ type ListPathFilterValuesResponse struct {
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *[]string
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61857,8 +62877,13 @@ func (r ListPathFilterValuesResponse) GetJSON200() *[]string {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r ListPathFilterValuesResponse) GetJSON400() *N400BadRequest {
+func (r ListPathFilterValuesResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r ListPathFilterValuesResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -61922,7 +62947,9 @@ type GetHttpLatencyResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -61954,8 +62981,13 @@ func (r GetHttpLatencyResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetHttpLatencyResponse) GetJSON400() *N400BadRequest {
+func (r GetHttpLatencyResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetHttpLatencyResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -62019,7 +63051,9 @@ type GetHttpRequestsResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -62051,8 +63085,13 @@ func (r GetHttpRequestsResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetHttpRequestsResponse) GetJSON400() *N400BadRequest {
+func (r GetHttpRequestsResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetHttpRequestsResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -62116,7 +63155,9 @@ type GetInstanceCountResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -62148,8 +63189,13 @@ func (r GetInstanceCountResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetInstanceCountResponse) GetJSON400() *N400BadRequest {
+func (r GetInstanceCountResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetInstanceCountResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -62213,7 +63259,9 @@ type GetMemoryResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -62245,8 +63293,13 @@ func (r GetMemoryResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetMemoryResponse) GetJSON400() *N400BadRequest {
+func (r GetMemoryResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetMemoryResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -62310,7 +63363,9 @@ type GetMemoryLimitResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -62342,8 +63397,13 @@ func (r GetMemoryLimitResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetMemoryLimitResponse) GetJSON400() *N400BadRequest {
+func (r GetMemoryLimitResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetMemoryLimitResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -62407,7 +63467,9 @@ type GetMemoryTargetResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -62439,8 +63501,13 @@ func (r GetMemoryTargetResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetMemoryTargetResponse) GetJSON400() *N400BadRequest {
+func (r GetMemoryTargetResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetMemoryTargetResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -62504,7 +63571,9 @@ type GetReplicationLagResponse struct {
 		} `json:"values"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
-	JSON400 *N400BadRequest
+	JSON400 *N400MetricsBadRequest
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *N404NotFound
 	// JSON500 the response for an HTTP 500 `application/json` response
 	JSON500 *N500InternalServerError
 }
@@ -62536,8 +63605,13 @@ func (r GetReplicationLagResponse) GetJSON200() *[]struct {
 }
 
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
-func (r GetReplicationLagResponse) GetJSON400() *N400BadRequest {
+func (r GetReplicationLagResponse) GetJSON400() *N400MetricsBadRequest {
 	return r.JSON400
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r GetReplicationLagResponse) GetJSON404() *N404NotFound {
+	return r.JSON404
 }
 
 // GetJSON500 returns the response for an HTTP 500 `application/json` response
@@ -94622,7 +95696,7 @@ func ParseListLogsResponse(rsp *http.Response) (*ListLogsResponse, error) {
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest Error
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -95617,7 +96691,7 @@ func ParseSubscribeLogsResponse(rsp *http.Response) (*SubscribeLogsResponse, err
 		response.JSON101 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest Error
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -95740,7 +96814,7 @@ func ParseListLogsValuesResponse(rsp *http.Response) (*ListLogsValuesResponse, e
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest Error
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -96448,11 +97522,18 @@ func ParseGetActiveConnectionsResponse(rsp *http.Response) (*GetActiveConnection
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96509,11 +97590,18 @@ func ParseGetBandwidthResponse(rsp *http.Response) (*GetBandwidthResponse, error
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96572,6 +97660,13 @@ func ParseGetBandwidthSourcesResponse(rsp *http.Response) (*GetBandwidthSourcesR
 		}
 		response.JSON400 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -96627,11 +97722,18 @@ func ParseGetCpuResponse(rsp *http.Response) (*GetCpuResponse, error) {
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96688,11 +97790,18 @@ func ParseGetCpuLimitResponse(rsp *http.Response) (*GetCpuLimitResponse, error) 
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96749,11 +97858,18 @@ func ParseGetCpuTargetResponse(rsp *http.Response) (*GetCpuTargetResponse, error
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96810,11 +97926,18 @@ func ParseGetDiskCapacityResponse(rsp *http.Response) (*GetDiskCapacityResponse,
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96871,11 +97994,18 @@ func ParseGetDiskUsageResponse(rsp *http.Response) (*GetDiskUsageResponse, error
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96914,11 +98044,18 @@ func ParseListApplicationFilterValuesResponse(rsp *http.Response) (*ListApplicat
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96957,11 +98094,18 @@ func ParseListHttpFilterValuesResponse(rsp *http.Response) (*ListHttpFilterValue
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -96997,11 +98141,18 @@ func ParseListPathFilterValuesResponse(rsp *http.Response) (*ListPathFilterValue
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -97058,11 +98209,18 @@ func ParseGetHttpLatencyResponse(rsp *http.Response) (*GetHttpLatencyResponse, e
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -97119,11 +98277,18 @@ func ParseGetHttpRequestsResponse(rsp *http.Response) (*GetHttpRequestsResponse,
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -97180,11 +98345,18 @@ func ParseGetInstanceCountResponse(rsp *http.Response) (*GetInstanceCountRespons
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -97241,11 +98413,18 @@ func ParseGetMemoryResponse(rsp *http.Response) (*GetMemoryResponse, error) {
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -97302,11 +98481,18 @@ func ParseGetMemoryLimitResponse(rsp *http.Response) (*GetMemoryLimitResponse, e
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -97363,11 +98549,18 @@ func ParseGetMemoryTargetResponse(rsp *http.Response) (*GetMemoryTargetResponse,
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
@@ -97424,11 +98617,18 @@ func ParseGetReplicationLagResponse(rsp *http.Response) (*GetReplicationLagRespo
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest N400BadRequest
+		var dest N400MetricsBadRequest
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest N404NotFound
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest N500InternalServerError
