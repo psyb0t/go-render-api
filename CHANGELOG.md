@@ -2,6 +2,15 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.15.0, 2026-11-24
+
+- Added an optional `Deploy` field to `TriggerBuildSourceBuildJSONBody` and `TriggerBuildSourceBuildJSONRequestBody`. Its `ServiceScope` picks which linked services the build deploys to, and `ServiceIds` lists the services when the scope is `custom`.
+- Added the `TriggerBuildSourceBuildJSONBodyDeployServiceScope` type with the values `TriggerBuildSourceBuildJSONBodyDeployServiceScopeAutodeployOnly`, `TriggerBuildSourceBuildJSONBodyDeployServiceScopeCustom` and `TriggerBuildSourceBuildJSONBodyDeployServiceScopeNone`.
+- Added `Deploys` (deploy ID and service ID for each deploy the build started) and `SkippedServices` (service ID and reason) to the 201 response body. This changes the anonymous struct type of `TriggerBuildSourceBuildResponse.JSON201` and `GetJSON201`. Code that assigns it to a variable of the old struct type must change.
+- Added the `TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason` type with the values `TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReasonDeploysShutOff` and `TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReasonSuspended`.
+- Doc comment only: the `TriggerBuildSourceBuild` docs now say that by default every linked service with autodeploy on is deployed, and that `deploy.serviceScope` overrides this.
+- Generated from spec version 1.0.0.
+
 ## v0.14.0, 2026-11-21
 
 - Changed `Resource` on `ListLogsParams`, `ListLogsValuesParams` and `SubscribeLogsParams` from `[]string` to `*[]string`. It is now optional and omitted when nil, and is required only when `Project` is not set. Callers that read or set these fields must change.

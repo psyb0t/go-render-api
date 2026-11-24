@@ -4383,6 +4383,27 @@ func (e TriggerBuildSourceBuildJSONBodyClearCache) Valid() bool {
 	}
 }
 
+// Defines values for TriggerBuildSourceBuildJSONBodyDeployServiceScope.
+const (
+	TriggerBuildSourceBuildJSONBodyDeployServiceScopeAutodeployOnly TriggerBuildSourceBuildJSONBodyDeployServiceScope = "autodeploy_only"
+	TriggerBuildSourceBuildJSONBodyDeployServiceScopeCustom         TriggerBuildSourceBuildJSONBodyDeployServiceScope = "custom"
+	TriggerBuildSourceBuildJSONBodyDeployServiceScopeNone           TriggerBuildSourceBuildJSONBodyDeployServiceScope = "none"
+)
+
+// Valid indicates whether the value is a known member of the TriggerBuildSourceBuildJSONBodyDeployServiceScope enum.
+func (e TriggerBuildSourceBuildJSONBodyDeployServiceScope) Valid() bool {
+	switch e {
+	case TriggerBuildSourceBuildJSONBodyDeployServiceScopeAutodeployOnly:
+		return true
+	case TriggerBuildSourceBuildJSONBodyDeployServiceScopeCustom:
+		return true
+	case TriggerBuildSourceBuildJSONBodyDeployServiceScopeNone:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime.
 const (
 	TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntimeDocker TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime = "docker"
@@ -4440,6 +4461,24 @@ func (e TriggerBuildSourceBuild201JSONResponseBodyBuildRunStatus) Valid() bool {
 	case TriggerBuildSourceBuild201JSONResponseBodyBuildRunStatusSucceeded:
 		return true
 	case TriggerBuildSourceBuild201JSONResponseBodyBuildRunStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason.
+const (
+	TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReasonDeploysShutOff TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason = "deploys_shut_off"
+	TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReasonSuspended      TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason = "suspended"
+)
+
+// Valid indicates whether the value is a known member of the TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason enum.
+func (e TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason) Valid() bool {
+	switch e {
+	case TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReasonDeploysShutOff:
+		return true
+	case TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReasonSuspended:
 		return true
 	default:
 		return false
@@ -12761,16 +12800,33 @@ type ListBuildsInBuildSource200JSONResponseBodyBuildBuildRunStatus string
 type TriggerBuildSourceBuildJSONBody struct {
 	// ClearCache If `clear`, Render clears the build source's build cache before building. This can be useful if you're experiencing issues with your build.
 	ClearCache *TriggerBuildSourceBuildJSONBodyClearCache `json:"clearCache,omitempty"`
+	Deploy     *struct {
+		// ServiceIds IDs of the linked services to deploy to. Required when `serviceScope` is `custom`, and not allowed with the other scopes. You must be authorized to trigger a deploy for each service that you include in this list.
+		ServiceIds *[]string `json:"serviceIds,omitempty"`
+
+		// ServiceScope Which linked services the build deploys to:
+		//
+		// - `autodeploy_only`: every linked service with autodeploy on, including services set to deploy after CI checks pass. Services with autodeploy off do not get a deploy.
+		// - `none`: no services. The build runs and deploys nothing.
+		// - `custom`: the linked services in `serviceIds`, regardless of their autodeploy setting.
+		ServiceScope TriggerBuildSourceBuildJSONBodyDeployServiceScope `json:"serviceScope"`
+	} `json:"deploy,omitempty"`
 }
 
 // TriggerBuildSourceBuildJSONBodyClearCache defines parameters for TriggerBuildSourceBuild.
 type TriggerBuildSourceBuildJSONBodyClearCache string
+
+// TriggerBuildSourceBuildJSONBodyDeployServiceScope defines parameters for TriggerBuildSourceBuild.
+type TriggerBuildSourceBuildJSONBodyDeployServiceScope string
 
 // TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime defines parameters for TriggerBuildSourceBuild.
 type TriggerBuildSourceBuild201JSONResponseBodyBuildRunRuntime string
 
 // TriggerBuildSourceBuild201JSONResponseBodyBuildRunStatus defines parameters for TriggerBuildSourceBuild.
 type TriggerBuildSourceBuild201JSONResponseBodyBuildRunStatus string
+
+// TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason defines parameters for TriggerBuildSourceBuild.
+type TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason string
 
 // RetrieveBuildSourceBuild200JSONResponseBodyBuildRunRuntime defines parameters for RetrieveBuildSourceBuild.
 type RetrieveBuildSourceBuild200JSONResponseBodyBuildRunRuntime string
@@ -21717,8 +21773,11 @@ type ClientInterface interface {
 	// TriggerBuildSourceBuildWithBody Trigger a build
 	//
 	// Start a new build of the build source at the current HEAD of its
-	// branch, even if an up-to-date build already exists. Services linked to
-	// the build source with autodeploy enabled are deployed with the result.
+	// branch, even if an up-to-date build already exists.
+	//
+	// By default, all services linked to the build source with autodeploy enabled
+	// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+	// linked services.
 	//
 	// Updating a build source or its build-time environment (env vars,
 	// secret files, env groups) with the REST API does not build it. Call
@@ -21734,8 +21793,11 @@ type ClientInterface interface {
 	// TriggerBuildSourceBuild Trigger a build
 	//
 	// Start a new build of the build source at the current HEAD of its
-	// branch, even if an up-to-date build already exists. Services linked to
-	// the build source with autodeploy enabled are deployed with the result.
+	// branch, even if an up-to-date build already exists.
+	//
+	// By default, all services linked to the build source with autodeploy enabled
+	// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+	// linked services.
 	//
 	// Updating a build source or its build-time environment (env vars,
 	// secret files, env groups) with the REST API does not build it. Call
@@ -24829,8 +24891,11 @@ func (c *Client) ListBuildsInBuildSource(ctx context.Context, buildSourceId stri
 // TriggerBuildSourceBuildWithBody Trigger a build
 //
 // Start a new build of the build source at the current HEAD of its
-// branch, even if an up-to-date build already exists. Services linked to
-// the build source with autodeploy enabled are deployed with the result.
+// branch, even if an up-to-date build already exists.
+//
+// By default, all services linked to the build source with autodeploy enabled
+// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+// linked services.
 //
 // Updating a build source or its build-time environment (env vars,
 // secret files, env groups) with the REST API does not build it. Call
@@ -24856,8 +24921,11 @@ func (c *Client) TriggerBuildSourceBuildWithBody(ctx context.Context, buildSourc
 // TriggerBuildSourceBuild Trigger a build
 //
 // Start a new build of the build source at the current HEAD of its
-// branch, even if an up-to-date build already exists. Services linked to
-// the build source with autodeploy enabled are deployed with the result.
+// branch, even if an up-to-date build already exists.
+//
+// By default, all services linked to the build source with autodeploy enabled
+// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+// linked services.
 //
 // Updating a build source or its build-time environment (env vars,
 // secret files, env groups) with the REST API does not build it. Call
@@ -48087,8 +48155,11 @@ type ClientWithResponsesInterface interface {
 	// TriggerBuildSourceBuildWithBodyWithResponse Trigger a build
 	//
 	// Start a new build of the build source at the current HEAD of its
-	// branch, even if an up-to-date build already exists. Services linked to
-	// the build source with autodeploy enabled are deployed with the result.
+	// branch, even if an up-to-date build already exists.
+	//
+	// By default, all services linked to the build source with autodeploy enabled
+	// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+	// linked services.
 	//
 	// Updating a build source or its build-time environment (env vars,
 	// secret files, env groups) with the REST API does not build it. Call
@@ -48104,8 +48175,11 @@ type ClientWithResponsesInterface interface {
 	// TriggerBuildSourceBuildWithResponse Trigger a build
 	//
 	// Start a new build of the build source at the current HEAD of its
-	// branch, even if an up-to-date build already exists. Services linked to
-	// the build source with autodeploy enabled are deployed with the result.
+	// branch, even if an up-to-date build already exists.
+	//
+	// By default, all services linked to the build source with autodeploy enabled
+	// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+	// linked services.
 	//
 	// Updating a build source or its build-time environment (env vars,
 	// secret files, env groups) with the REST API does not build it. Call
@@ -53087,7 +53161,13 @@ type TriggerBuildSourceBuildResponse struct {
 		} `json:"buildRun,omitempty"`
 		BuildSourceId string    `json:"buildSourceId"`
 		CreatedAt     time.Time `json:"createdAt"`
-		Id            string    `json:"id"`
+
+		// Deploys The deploys that the build started, one for each service.
+		Deploys []struct {
+			DeployId  string `json:"deployId"`
+			ServiceId string `json:"serviceId"`
+		} `json:"deploys"`
+		Id string `json:"id"`
 
 		// Image Present when the build source is currently image-based. Mutually exclusive with `buildRun`.
 		Image *struct {
@@ -53097,6 +53177,16 @@ type TriggerBuildSourceBuildResponse struct {
 			Ref                  *string `json:"ref,omitempty"`
 			RegistryCredentialId *string `json:"registryCredentialId,omitempty"`
 		} `json:"image,omitempty"`
+
+		// SkippedServices Services in `deploy.serviceScope` that did not get a deploy, with the reason for each. The build still runs for the other services. For `autodeploy_only`, suspended services are not listed.
+		SkippedServices []struct {
+			// Reason Why the service did not get a deploy:
+			//
+			// - `suspended`: the service is suspended.
+			// - `deploys_shut_off`: Render has temporarily paused deploys for the service's plan tier.
+			Reason    TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason `json:"reason"`
+			ServiceId string                                                          `json:"serviceId"`
+		} `json:"skippedServices"`
 		UpdatedAt time.Time `json:"updatedAt"`
 	}
 	// JSON400 the response for an HTTP 400 `application/json` response
@@ -53133,7 +53223,13 @@ func (r TriggerBuildSourceBuildResponse) GetJSON201() *struct {
 	} `json:"buildRun,omitempty"`
 	BuildSourceId string    `json:"buildSourceId"`
 	CreatedAt     time.Time `json:"createdAt"`
-	Id            string    `json:"id"`
+
+	// Deploys The deploys that the build started, one for each service.
+	Deploys []struct {
+		DeployId  string `json:"deployId"`
+		ServiceId string `json:"serviceId"`
+	} `json:"deploys"`
+	Id string `json:"id"`
 
 	// Image Present when the build source is currently image-based. Mutually exclusive with `buildRun`.
 	Image *struct {
@@ -53143,6 +53239,16 @@ func (r TriggerBuildSourceBuildResponse) GetJSON201() *struct {
 		Ref                  *string `json:"ref,omitempty"`
 		RegistryCredentialId *string `json:"registryCredentialId,omitempty"`
 	} `json:"image,omitempty"`
+
+	// SkippedServices Services in `deploy.serviceScope` that did not get a deploy, with the reason for each. The build still runs for the other services. For `autodeploy_only`, suspended services are not listed.
+	SkippedServices []struct {
+		// Reason Why the service did not get a deploy:
+		//
+		// - `suspended`: the service is suspended.
+		// - `deploys_shut_off`: Render has temporarily paused deploys for the service's plan tier.
+		Reason    TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason `json:"reason"`
+		ServiceId string                                                          `json:"serviceId"`
+	} `json:"skippedServices"`
 	UpdatedAt time.Time `json:"updatedAt"`
 } {
 	return r.JSON201
@@ -81548,8 +81654,11 @@ func (c *ClientWithResponses) ListBuildsInBuildSourceWithResponse(ctx context.Co
 // TriggerBuildSourceBuildWithBodyWithResponse Trigger a build
 //
 // Start a new build of the build source at the current HEAD of its
-// branch, even if an up-to-date build already exists. Services linked to
-// the build source with autodeploy enabled are deployed with the result.
+// branch, even if an up-to-date build already exists.
+//
+// By default, all services linked to the build source with autodeploy enabled
+// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+// linked services.
 //
 // Updating a build source or its build-time environment (env vars,
 // secret files, env groups) with the REST API does not build it. Call
@@ -81571,8 +81680,11 @@ func (c *ClientWithResponses) TriggerBuildSourceBuildWithBodyWithResponse(ctx co
 // TriggerBuildSourceBuildWithResponse Trigger a build
 //
 // Start a new build of the build source at the current HEAD of its
-// branch, even if an up-to-date build already exists. Services linked to
-// the build source with autodeploy enabled are deployed with the result.
+// branch, even if an up-to-date build already exists.
+//
+// By default, all services linked to the build source with autodeploy enabled
+// will be deployed. Use `deploy.serviceScope` to override this and choose specific
+// linked services.
 //
 // Updating a build source or its build-time environment (env vars,
 // secret files, env groups) with the REST API does not build it. Call
@@ -88274,7 +88386,13 @@ func ParseTriggerBuildSourceBuildResponse(rsp *http.Response) (*TriggerBuildSour
 			} `json:"buildRun,omitempty"`
 			BuildSourceId string    `json:"buildSourceId"`
 			CreatedAt     time.Time `json:"createdAt"`
-			Id            string    `json:"id"`
+
+			// Deploys The deploys that the build started, one for each service.
+			Deploys []struct {
+				DeployId  string `json:"deployId"`
+				ServiceId string `json:"serviceId"`
+			} `json:"deploys"`
+			Id string `json:"id"`
 
 			// Image Present when the build source is currently image-based. Mutually exclusive with `buildRun`.
 			Image *struct {
@@ -88284,6 +88402,16 @@ func ParseTriggerBuildSourceBuildResponse(rsp *http.Response) (*TriggerBuildSour
 				Ref                  *string `json:"ref,omitempty"`
 				RegistryCredentialId *string `json:"registryCredentialId,omitempty"`
 			} `json:"image,omitempty"`
+
+			// SkippedServices Services in `deploy.serviceScope` that did not get a deploy, with the reason for each. The build still runs for the other services. For `autodeploy_only`, suspended services are not listed.
+			SkippedServices []struct {
+				// Reason Why the service did not get a deploy:
+				//
+				// - `suspended`: the service is suspended.
+				// - `deploys_shut_off`: Render has temporarily paused deploys for the service's plan tier.
+				Reason    TriggerBuildSourceBuild201JSONResponseBodySkippedServicesReason `json:"reason"`
+				ServiceId string                                                          `json:"serviceId"`
+			} `json:"skippedServices"`
 			UpdatedAt time.Time `json:"updatedAt"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
